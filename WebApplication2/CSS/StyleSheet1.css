@@ -1,0 +1,20 @@
+﻿/* the below = <body style="background-color:green"> .... </body> in x.html     */
+body {
+  background-color: green;
+}
+
+* { /* everything except those styles defined in other places of this css file*/
+  background-color:antiquewhite;
+}
+
+button{
+  background-color:red;
+  border-color:antiquewhite;
+}
+
+.border{
+  border: 5px orange solid;
+}
+#special{
+  color:blue;
+}
