@@ -1,24 +1,116 @@
-﻿<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+﻿@*<div class="jumbotron">
+      <h1>Welcome to Bing Du's website created using ASP.NET</h1>
+      <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
+      <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+  </div>*@
+@*<div class="row">
+      <div class="col-md-4">
+          <h2>Getting started</h2>
+          <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
+          a broad range of clients, including browsers and mobile devices. ASP.NET Web API
+          is an ideal platform for building RESTful applications on the .NET Framework.</p>
+          <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+      </div>
+      <div class="col-md-4">
+          <h2>Get more libraries</h2>
+          <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+          <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+      </div>
+      <div class="col-md-4">
+          <h2>Web Hosting</h2>
+          <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+          <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+      </div>
+  </div>*@
+
+<div id="di1" ng-controller="DIController">
+  <p>Hello {{name}} {{upper()}} </p>   call js function , {{upper()}}, in HTML 
+
+  <!--Cost: {{cookieCost | currency}}-->          @* filter in HTML *@
+  <!--Cost: {{cookieCost | currency:"%$":4}}-->
+
+<p>
+  message is: <br> Original: {{detail()}} <br>
+  Custom filtered: {{fromCustomFilter}} <br>
+  Custom multi params filtered: {{detail() | multiParams : "healthy" : "good"}}  directly use a customized multi params filter. multiParams is the registered filter name and no need ending it with Filter. Note detail() is the first param of multiParams filter 
+  Custom chained filters: {{detail() | multiParams : "healthy" : "good"  | uppercase }}   use chained filters 
+</p>
+<div>
+  <button ng-click="logoOrPeople()">Logo or People</button>   @* logoOrPeople() calls js function  *@
+  <br>
+  <img ng-src="/Content_Custom/{{imageName}}" />   @* must use ng-src to pair with ng-click. src leads a console error though still show images  *@
+  <br /> from cookieCost: {{cookieCost}}
 </div>
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-        a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-        is an ideal platform for building RESTful applications on the .NET Framework.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-    </div>
 </div>
+
+<div id="id2" ng-controller="DIController">
+  <p>
+    <br />
+    <button ng-click="countOnePerClick()">Count one per click </button>
+    <br />
+    How many times have you clicked on the 'Count one per click' button:  {{counts}}
+  </p>
+</div>
+
+<div id="id3" ng-controller="DIController">
+  <p>
+    <br />
+    <button ng-click="counterFunc()">Counter </button>
+    <br />
+    How many times have you clicked on the 'Counter' button:  {{counter}}
+  </p>
+
+  <p>
+    <br />
+    <button ng-click="counterSetTimeOut()">Counter2: </button>  {{counter2}} <br />
+    <button ng-click="counterSetTimeOut3()">Counter3: </button>  {{counter3}} <br />
+    <button ng-click="counterSetTimeOut4()">Counter4: </button>  {{counter4}} <br />
+  </p>
+  <p>
+    @* 2 way binding: ng-model="x" where x = both user input in HTML input box and x of $scope.x in js*@
+    <input type="text" ng-model="way2bindingJS" /> 2way-binding-HTML input: {{way2bindingJS}} <br />
+
+    <button ng-click="test1Way1TimeFunc()">test1Way1TimeFunc: </button>  {{test1Way1Time}} <br />
+    1way binding-HTML: {{oneWayBindingJS}} <br /> @* 1 way binding*@
+    1time binding-HTML: {{ ::oneTimeBindingJS}} <br /> @* 1 time binding*@
+    @* initial:
+          1way binding-HTML:
+          1time binding-HTML:
+      after clicking test1Way1TimeFunc:
+         1way binding-HTML: 1wayBinding + 1 way 1 time change part: default
+         1time binding-HTML: 1timeBinding + 1 way 1 time change part: default
+      Change way2bindingJS and then click test1Way1TimeFunc:
+         1way binding-HTML: 1wayBinding + 1 way 1 time change part: default123
+         1time binding-HTML: 1timeBinding + 1 way 1 time change part: default
+      as we can see, 1time binding-HTML: only change one time while 1way binding-HTML: can change many time
+    *@
+  </p>
+
+  @* ng-repeat and index: populate a list and get index of element of the list *@
+  <ul>
+    @* right-click on the UI of one item1 and select inspect to review how the loop works *@
+    A simple list of strings ng-repeat loop:
+    <li ng-repeat="item1 in list1"> {{ item1 }}</li>
+    A list of objects ng-repeat loops and index:
+    <li ng-repeat="item2 in list2 ">{{$index}} - Name: {{ item2.name }}   Quantity: {{ item2.quantity}}: </li>
+  </ul>
+  @*ng-model and button to let users add new object to the above object list*@
+  <input type="text" ng-model="newItemName" placeholder="new name" />
+  <input type="text" ng-model="newItemQuantity" placeholder="new quantity" />
+  <button ng-click="addToList()">Add a new item to the list</button>
+
+  @* ng filter: ng-model pair ng-repeat to filter a list based on search *@
+  <br /><br />
+  Type in a member of the below list to filter the list: <input type="text" ng-model="search" />  @* users type in search and ng filter filters the list right away or on fly. *@
+  <ul>
+    <li ng-repeat="item3 in list1 | filter : search">{{ item3 }}</li>
+  </ul>
+
+</div>
+
+
+
+  @section scripts {
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts_Custom/index.cshtml.js"></script>
+  }
