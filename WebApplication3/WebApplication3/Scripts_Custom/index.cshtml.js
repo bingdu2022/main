@@ -2,9 +2,47 @@
 (function () {
   'use strict';
   angular.module('myApp', [])
+
+    //Register a controller
+
+    // Controller's Responsibilities
+    // -- Set up initial state of $scope
+    // -- Add behavior to the $scope. 
+    // -- Do not do bussiness rules, instead, send events to Models and answer states of the events of 
+    // -- Do not share code or state across controllers
+    // What if we need to share variables among multi controllers - use custom services
     .controller('DIController', DIController)   //no ending ; because we have the below filter attribute (.filter(..);)
+
+    //register a custom filter. processFilterFunc can be any name. However, when the registered 'process' is used in a controller, must add Filter to the end of the registered i.e. processFilter
     .filter('process', processFilterFunc)  //register a custom filter. processFilterFunc can be any name. However, when the registered 'process' is used in a controller, must add Filter to the end of the registered i.e. processFilter
-    .filter('multiParams', multiParamsFilter) ; //must regiester here but no need inject it to the below controller since it's used inside HTML.
+    .filter('multiParams', multiParamsFilter)  //must regiester here but no need inject it to the below controller since it's used inside HTML.
+
+    // Register multi controllers in the same model 'myApp':
+    .controller("ParentController", ParentController)  //more controllers under the same module
+    .controller("ChildController", ChildController)
+    .controller("Parent2Controller", Parent2Controller)  //more controllers under the same module
+    .controller("Child2Controller", Child2Controller)
+
+    .controller("ShoppingListAddController", ShoppingListAddController)
+    .controller("ShoppingListShowController", ShoppingListShowController)
+
+    // Register custom services
+
+    // .service('CustomService', CustomService)
+    // -- 1. 'CustomService': use this name to inject it into other services, controllers, etc.
+    // -- 2. CustomService: treated as a Function Constructor
+    // Use SingleTon Design Pattern - equivenent to a shared function
+    // -- 1. restricts object to always having a single instance
+    // --    Each dependent component gets a reference to  the same instance 
+    // --    Multiple controllers injected with a Service will all have access to the same service instance
+    // Lazily Instantiated - 
+    // -- 1. only created if an application component declares it as a dependency
+    // -- 2. it'll never get created if no commponents in your app are dependent on it
+
+    .service("ShoppingListService", ShoppingListService)
+
+    ; // end of Registers of an app module
+
 
   DIController.$inject = ['$scope', '$filter', 'processFilter', '$timeout'];  //for doing minification
   function DIController($scope, $filter, processFilter, $timeout) {       //function DIController(){..}; as the last element for doing minification
@@ -179,8 +217,9 @@
     //Dog("Max2"); 
 
     //Scope Inheritance
-
-
+    //inside or inner ng-controller auto-inherits outter ng-controller
+    //For primative type of scope values, changing inner value doesn't change outter value
+    //For reference type of scope values, changing inner value changes outter value
 
   }; //DIController end
 
@@ -200,6 +239,78 @@
       input = input.replace(target, replace);
       return input;  //return processed input
     };
+  };
+
+  ParentController.$inject = ['$scope'];
+  function ParentController($scope) {  //it's called by <div ng-controller="ParentController"> in index.cshtml
+    $scope.parentValue = 1;
+    $scope.pc = this;
+    $scope.pc.parentValue = 1;
+  };
+
+  ChildController.$inject = ['$scope'];
+  function ChildController($scope) {  //it's called by <div ng-controller="ChildController"> in index.cshtml
+    console.log("$scope.parentValue: ", $scope.parentValue);
+    console.log("Child $scope: ", $scope);
+
+    $scope.parentValue = 5; //it doesn't change ParentController.$scope.parentValue
+    console.log("*** Changed: $scope.parentValue = 5: ");
+    console.log("$scope.paranetValue: ", $scope.parentValue);
+    console.log("$scope.$parent.paranetValue (directly check parent scope): ", $scope.$parent.parentValue);
+    console.log($scope); //can view parentController under [[Prototype]] or  __proto__ of the ChildController's $scope
+
+    console.log("*** before: $scope.pc.parentValue = ",$scope.pc.parentValue);
+    $scope.pc.parentValue = 6; //it changes $scope.pc.parentValue of both ParentController and ChildController
+    console.log("*** after: $scope.pc.parentValue = ", $scope.pc.parentValue);
+    console.log($scope);
+
+  };
+
+  function Parent2Controller() {  //why not $scope here because we directly use the instance of the function as in  var parent = this
+    var parent = this;
+    parent.value = 1;
+  }
+  Child2Controller.$inject = ['$scope']; //no need $scope here but just to view $scope
+  function Child2Controller($scope) {
+    var child = this;
+    child.value = 5;
+    console.log("Child2Controller $scope: ", $scope);
+  }
+
+  ShoppingListAddController.$inject = ["ShoppingListService"];
+  function ShoppingListAddController(ShoppingListService) {
+    var vm = this;
+    vm.itemName = "";
+    vm.itemQuantity = "";
+    vm.addItem = function () {
+      ShoppingListService.addItem(vm.itemName, vm.itemQuantity);
+    };
+  }
+  ShoppingListShowController.$inject = ['ShoppingListService'];
+  function ShoppingListShowController(ShoppingListService) {
+    var vm = this;
+    vm.items = ShoppingListService.getItems();
+    vm.removeItem = function (itemIndex) {
+      ShoppingListService.removeItem(itemIndex);
+    };
+  }
+
+  function ShoppingListService() {
+    var vm = this;
+
+    //List of shopping items
+    var items = [];
+
+    vm.addItem = function (itemName, quantity) {
+      var item = { name: itemName, quantity: quantity };
+      items.push(item);
+    };
+
+    vm.getItems = function () { return items; };
+
+    vm.removeItem = function (itemIndex) {
+      items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
+    }
   };
 
 })();   //the last () is to invoke (function(){...}) 

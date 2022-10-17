@@ -108,7 +108,47 @@
 
 </div>
 
+<div ng-controller="ParentController">
+  <div ng-controller="ChildController">
+    @* see console.log in index.cshtml.js *@
+  </div>
+</div>
 
+@* Inheritance in general is used for code re-use *@
+@* Prototypal inheritance in JS is based on object instances rather than classes*@
+@* -- 1. Property is inherited from parent, looked up through Prototype Chain*@
+@* -- 2. Property is local if it's declared on the child with the same name as the parent, which means they're different*@
+@* $scope is based on prototypal inheritance *@
+@* --1. Child controller's $scope inherits from parent controler's $scope *@
+@* Controller As xxx syntax is to create an instance of the controller (use as function constructor) and name is as xxx *@
+@* --1. so use {{xxx.property}} in HTML and not {{property}} of $scope.property *@
+@* --2. Easier syntax in HTML and JS because no need $scope or no masking occurs *@
+
+@* Use Controller As in HTML to replace $scope *@
+<div ng-controller='Parent2Controller as pc' > @* Note can use single quote (') instead of "" *@
+  Parent2 value: {{pc.value}}
+  <div ng-controller='Child2Controller as cc'>
+    Child2 value: {{cc.value}} -    
+    Parent 2 value inside Child2 div: {{pc.value}}  @* use pc inside Child2 div*@
+  </div>
+
+</div>
+
+<div ng-controller="ShoppingListAddController as itemAdder">
+  <br />
+  <input type="text" ng-model="itemAdder.itemName" placeholder="item name" />
+  <input type="text" ng-model="itemAdder.itemQuantity" placeholder="quantity" />
+  <button ng-click="itemAdder.addItem();"> Add item to shopping list: </button>
+</div>
+<div ng-controller="ShoppingListShowController as showList">
+  <ol>
+    <li ng-repeat="item in showList.items">
+      {{item.quantity}} of {{item.name}}
+      <button ng-click="showList.removeItem($index);">Remove</button>
+    </li>
+  </ol>
+
+</div>
 
   @section scripts {
     <script src="~/Scripts/angular.js"></script>
