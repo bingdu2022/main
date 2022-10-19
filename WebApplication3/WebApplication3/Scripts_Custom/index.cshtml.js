@@ -27,7 +27,7 @@
     .controller("ShoppingListShowController", ShoppingListShowController)
 
     // Register custom services
-
+    .service("ShoppingListService", ShoppingListService)
     // .service('CustomService', CustomService)
     // -- 1. 'CustomService': use this name to inject it into other services, controllers, etc.
     // -- 2. CustomService: treated as a Function Constructor
@@ -39,7 +39,28 @@
     // -- 1. only created if an application component declares it as a dependency
     // -- 2. it'll never get created if no commponents in your app are dependent on it
 
-    .service("ShoppingListService", ShoppingListService)
+    // Register custom services
+    .service('ShoppingList2Service', ShoppingList2Service)
+
+    //Register custom service factory function
+    .factory('ShoppingList2Factory', ShoppingList2Factory)
+    //'ShoppingList2Factory' is what's injected and the latter is actual factory function name.
+    // Two styles:
+    // ... 1. var factory = {...}; return factory; // using object literal approach
+    // ... 2. var factory = function () {...}; return factory; // using function approach
+    // .factory() can produce any type of object or function, including a service but not limited to
+    // .service() is just a more limited factory or one shared function not being changeble.
+
+    //The below will use the above ShoppingList2Service
+    .controller("ShoppingList1Controller", ShoppingList1Controller)
+    .controller("ShoppingList2Controller", ShoppingList2Controller)
+
+    //Register ShoppingList3Controller for service provider
+    .controller("ShoppingList3Controller", ShoppingList3Controller)
+    //Register service provider of ShoppingList3Controller
+    .provider('ShoppingList3Service', ShoppingList3ServiceProvider)
+    .config(Config)
+
 
     ; // end of Registers of an app module
 
@@ -277,6 +298,7 @@
     console.log("Child2Controller $scope: ", $scope);
   }
 
+  //2 related controllers use one service which holds properties/functions to be used by different controllers 
   ShoppingListAddController.$inject = ["ShoppingListService"];
   function ShoppingListAddController(ShoppingListService) {
     var vm = this;
@@ -294,7 +316,8 @@
       ShoppingListService.removeItem(itemIndex);
     };
   }
-
+  //Service - a global function
+  //So, a service can hold properties/functions to be used by different controllers 
   function ShoppingListService() {
     var vm = this;
 
@@ -312,6 +335,138 @@
       items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
     }
   };
+
+  //Custom services with .factory()
+  //note .service() is also a factory but a much more limited.
+  function ShoppingList2Service(maxItems) {
+    var vm = this;
+
+    //List of shopping items
+    var items = [];
+
+    vm.addItem = function (itemName, quantity) {
+      if (maxItems === undefined || items.length < maxItems) {
+        var item = { name: itemName, quantity: quantity };
+        items.push(item);
+      } else {
+        throw new Error("Max items (" + maxItems + ") reached!");
+      }
+    };
+
+    vm.getItems = function () { return items; };
+
+    vm.removeItem = function (itemIndex) {
+      items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
+    }
+  };
+  function ShoppingList2Factory() {
+    var factory = function (maxItems) {
+      return new ShoppingList2Service(maxItems);
+    };
+    return factory;
+  }
+
+  //Use service factory - by ShoppingList1Controller
+  ShoppingList1Controller.$inject = ["ShoppingList2Factory"];
+  function ShoppingList1Controller(ShoppingList2Factory) {
+    var vm = this;
+
+    // Use factory to create new shopping list service
+    var shoppingList = ShoppingList2Factory();  //define an instance of ShoppingList2Service
+
+    vm.items = shoppingList.getItems();
+
+    vm.itemName = "";
+    vm.itemQuantity = "";
+
+    vm.addItem = function () {
+      shoppingList.addItem(vm.itemName, vm.itemQuantity);
+    };
+
+    vm.removeItem = function (itemIndex) { shoppingList.removeItem(itemIndex); };
+
+  }
+
+  //Use service factory - by ShoppingList2Controller
+  ShoppingList2Controller.$inject = ["ShoppingList2Factory"];
+  function ShoppingList2Controller(ShoppingList2Factory) {
+    var vm = this;
+
+    // Use factory to create new shopping list service
+    var shoppingList = ShoppingList2Factory(3);
+
+    vm.items = shoppingList.getItems();
+
+    vm.itemName = "";
+    vm.itemQuantity = "";
+
+    vm.addItem = function () {
+      //try {.;} catch (error) {.};
+      try {
+        shoppingList.addItem(vm.itemName, vm.itemQuantity);
+      } catch (error) { vm.errorMessage = error.message; };
+    };
+
+    vm.removeItem = function (itemIndex) { shoppingList.removeItem(itemIndex); };
+
+  }
+
+  //Provider function
+  // .provider('name',nameProvider); //name is injected and matters and nameProvider doesn't matter
+  // it has:
+  //...1. .config = {..};
+  //...2. .$get = function() {...; return service; };
+  //Register .provider(..) and .config(Config); 
+  //Config is guaranteed to run before any services, factorie, or controllers are created.
+  //Config has default, don't have to do config
+  // .provider() - most verbose, but most flexible
+  // ...Config is created at app bootstrapping
+  // ...       can't inject it with regular components
+  // ...       CAN inject the provider of service with nameProvider
+
+  //Use service provider - by ShoppingList3Controller
+  ShoppingList3Controller.$inject = ["ShoppingList3Service"];
+  function ShoppingList3Controller(ShoppingList3Service) {
+    var vm = this;
+
+    // Use factory to create new shopping list service
+    vm.items = ShoppingList3Service.getItems();
+
+    vm.itemName = "";
+    vm.itemQuantity = "";
+
+    vm.addItem = function () {
+      //try {.;} catch (error) {.};
+      try {
+        ShoppingList3Service.addItem(vm.itemName, vm.itemQuantity);
+      } catch (error) { vm.errorMessage = error.message; };
+    };
+
+    vm.removeItem = function (itemIndex) { ShoppingList3Service.removeItem(itemIndex); };
+
+  }
+  //Below is to dynamically change the defaults of ShoppingList3ServiceProvider
+  Config.$inject = ['ShoppingList3ServiceProvider'];
+  function Config(ShoppingList3ServiceProvider) {
+    ShoppingList3ServiceProvider.detaults.maxItems = 2;
+  }
+
+  //Define service provider function for ShoppingList3Controller:
+  function ShoppingList3ServiceProvider() {
+    var vm = this;
+
+    vm.detaults = { maxItems: 5 };
+
+    vm.$get = function () {
+      //The below is to use the same service that's used for .factory() for ShoppingList2Controller
+      var shoppingList = new ShoppingList2Service(vm.detaults.maxItems);
+      return shoppingList;
+    };
+  }
+
+  //ng-if, ng-show and ng-hide
+
+
 
 })();   //the last () is to invoke (function(){...}) 
 

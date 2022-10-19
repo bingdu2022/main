@@ -24,23 +24,23 @@
   </div>*@
 
 <div id="di1" ng-controller="DIController">
-  <p>Hello {{name}} {{upper()}} </p>   call js function , {{upper()}}, in HTML 
+  <p>Hello {{name}} {{upper()}} </p>   call js function , {{upper()}}, in HTML
 
   <!--Cost: {{cookieCost | currency}}-->          @* filter in HTML *@
   <!--Cost: {{cookieCost | currency:"%$":4}}-->
 
-<p>
-  message is: <br> Original: {{detail()}} <br>
-  Custom filtered: {{fromCustomFilter}} <br>
-  Custom multi params filtered: {{detail() | multiParams : "healthy" : "good"}}  directly use a customized multi params filter. multiParams is the registered filter name and no need ending it with Filter. Note detail() is the first param of multiParams filter 
-  Custom chained filters: {{detail() | multiParams : "healthy" : "good"  | uppercase }}   use chained filters 
-</p>
-<div>
-  <button ng-click="logoOrPeople()">Logo or People</button>   @* logoOrPeople() calls js function  *@
-  <br>
-  <img ng-src="/Content_Custom/{{imageName}}" />   @* must use ng-src to pair with ng-click. src leads a console error though still show images  *@
-  <br /> from cookieCost: {{cookieCost}}
-</div>
+  <p>
+    message is: <br> Original: {{detail()}} <br>
+    Custom filtered: {{fromCustomFilter}} <br>
+    Custom multi params filtered: {{detail() | multiParams : "healthy" : "good"}}  directly use a customized multi params filter. multiParams is the registered filter name and no need ending it with Filter. Note detail() is the first param of multiParams filter
+    Custom chained filters: {{detail() | multiParams : "healthy" : "good"  | uppercase }}   use chained filters
+  </p>
+  <div>
+    <button ng-click="logoOrPeople()">Logo or People</button>   @* logoOrPeople() calls js function  *@
+    <br>
+    <img ng-src="/Content_Custom/{{imageName}}" />   @* must use ng-src to pair with ng-click. src leads a console error though still show images  *@
+    <br /> from cookieCost: {{cookieCost}}
+  </div>
 </div>
 
 <div id="id2" ng-controller="DIController">
@@ -125,10 +125,11 @@
 @* --2. Easier syntax in HTML and JS because no need $scope or no masking occurs *@
 
 @* Use Controller As in HTML to replace $scope *@
-<div ng-controller='Parent2Controller as pc' > @* Note can use single quote (') instead of "" *@
+<div ng-controller='Parent2Controller as pc'>
+  @* Note can use single quote (') instead of "" *@
   Parent2 value: {{pc.value}}
   <div ng-controller='Child2Controller as cc'>
-    Child2 value: {{cc.value}} -    
+    Child2 value: {{cc.value}} -
     Parent 2 value inside Child2 div: {{pc.value}}  @* use pc inside Child2 div*@
   </div>
 
@@ -147,10 +148,65 @@
       <button ng-click="showList.removeItem($index);">Remove</button>
     </li>
   </ol>
-
 </div>
 
-  @section scripts {
-    <script src="~/Scripts/angular.js"></script>
-    <script src="~/Scripts_Custom/index.cshtml.js"></script>
-  }
+@* Use service factory - by ShoppingList1Controller *@
+<div ng-controller="ShoppingList1Controller as itemAdder">
+  <br />
+  (Factory) Shopping List 1:
+  <input type="text" ng-model="itemAdder.itemName" placeholder="item name" />
+  <input type="text" ng-model="itemAdder.itemQuantity" placeholder="quantity" />
+  <button ng-click="itemAdder.addItem();"> Add item to shopping list: </button>
+  <br />
+  <ol>
+    <li ng-repeat="item in itemAdder.items">
+      {{item.quantity}} of {{item.name}}
+      <button ng-click="itemAdder.removeItem($index);">Remove</button>
+    </li>
+  </ol>
+</div>
+
+@* Use service factory - by ShoppingList2Controller *@
+<div ng-controller="ShoppingList2Controller as itemAdder">
+  <br />
+  (Factory) Shopping List 2 (limited to 3 items):
+  <input type="text" ng-model="itemAdder.itemName" placeholder="item name" />
+  <input type="text" ng-model="itemAdder.itemQuantity" placeholder="quantity" />
+  <button ng-click="itemAdder.addItem();"> Add item to shopping list: </button>
+  <br />
+  <ol>
+    <li ng-repeat="item in itemAdder.items">
+      {{item.quantity}} of {{item.name}}
+      <button ng-click="itemAdder.removeItem($index);">Remove</button>
+    </li>
+  </ol>
+  @* Below ng-show says if "itemAdder.errorMessage" is NOT empty string, show div content: Error... *@
+  @* ng-show="itemAdder.errorMessage" can be replaced with ng-hide="!itemAdder.errorMessage" *@
+  <div ng-show="itemAdder.errorMessage" class="error">
+    Error: {{itemAdder.errorMessage}}
+  </div>
+</div>
+
+@* Use service provider - by ShoppingList3Controller *@
+<div ng-controller="ShoppingList3Controller as itemAdder">
+  <br />
+  (Provider) Shopping List 3 (limited to 3 items):
+  <input type="text" ng-model="itemAdder.itemName" placeholder="item name" />
+  <input type="text" ng-model="itemAdder.itemQuantity" placeholder="quantity" />
+  <button ng-click="itemAdder.addItem();"> Add item to shopping list: </button>
+  <br />
+  <ol>
+    <li ng-repeat="item in itemAdder.items">
+      {{item.quantity}} of {{item.name}}
+      <button ng-click="itemAdder.removeItem($index);">Remove</button>
+    </li>
+  </ol>
+  @* Below says if "itemAdder.errorMessage" is not empty, show the error *@
+  @* ng-if takes the whole div out if False while ng-show/hide still keep the div there if False but hide/show. *@
+  <div ng-if="itemAdder.errorMessage" class="error"> Error: {{itemAdder.errorMessage}} </div>
+</div>
+
+@section scripts {
+  <script src="~/Scripts/angular.js"></script>
+  <script src="~/Scripts_Custom/index.cshtml.js"></script>
+}

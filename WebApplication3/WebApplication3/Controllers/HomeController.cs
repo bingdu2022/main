@@ -10,7 +10,14 @@ namespace WebApplication3.Controllers
   {
     public ActionResult Index()
     {
-      ViewBag.Title = "Home Page";
+      ViewBag.Title = "Basic AngularJS vs HTML";
+
+      return View();
+    }
+
+    public ActionResult AdvancedAngularJS()
+    {
+      ViewBag.Title = "Advanced AngularJS vs HTML";
 
       return View();
     }

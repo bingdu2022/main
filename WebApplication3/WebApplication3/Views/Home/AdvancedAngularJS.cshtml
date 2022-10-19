@@ -1,0 +1,24 @@
+﻿
+<h1>Shopping List with a Promise</h1>
+
+<div id="di1" ng-controller="ShoppingListController as ctrl">
+  <h3>Shopping List</h3>
+  <input type="text" ng-model="ctrl.itemName" placeholder="item name" />
+  <input type="text" ng-model="ctrl.itemQuantity" placeholder="quantity" />
+  boxes
+  <button ng-click="ctrl.addItem();">Add Item</button>
+  <div ng-show="ctrl.response.errorMessage" class="error">Error: </div>
+  <ol>
+    <li ng-repeat="item in ctrl.items">
+      {{item.quantity}} boxes of {{item.name}}
+      <button ng-click="ctrl.removeItem($index);">Remove</button>
+    </li>
+  </ol>
+</div>
+
+
+@section scripts {
+  <script src="~/Scripts/angular.js"></script>
+  <script src="~/Scripts_Custom/index.cshtml.js"></script>
+  <script src="~/Scripts_Custom/AdvancedAngularJS.cshtml.js"></script>
+}
