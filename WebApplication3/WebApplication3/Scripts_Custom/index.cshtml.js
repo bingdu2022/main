@@ -411,7 +411,7 @@
 
   }
 
-  //Provider function
+  //Provider function (need to pair with Config) to customize a Service
   // .provider('name',nameProvider); //name is injected and matters and nameProvider doesn't matter
   // it has:
   //...1. .config = {..};
@@ -445,13 +445,13 @@
     vm.removeItem = function (itemIndex) { ShoppingList3Service.removeItem(itemIndex); };
 
   }
+
   //Below is to dynamically change the defaults of ShoppingList3ServiceProvider
-  Config.$inject = ['ShoppingList3ServiceProvider'];
+  Config.$inject = ['ShoppingList3ServiceProvider'];  // pay attention: registered 'ShoppingList3Service' + Provider = ShoppingList3ServiceProvider or it's not the function name ShoppingList3ServiceProvider
   function Config(ShoppingList3ServiceProvider) {
     ShoppingList3ServiceProvider.detaults.maxItems = 2;
   }
-
-  //Define service provider function for ShoppingList3Controller:
+  //Define service provider function working together with Config for ShoppingList3Controller:
   function ShoppingList3ServiceProvider() {
     var vm = this;
 
