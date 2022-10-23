@@ -186,7 +186,7 @@
     Error: {{itemAdder.errorMessage}}
   </div>
   <!--<div ng-hide="!itemAdder.errorMessage" class="error">-->  @* ng-hide = opposite of ng-show *@
-    <!--Error: {{itemAdder.errorMessage}}
+  <!--Error: {{itemAdder.errorMessage}}
   </div>-->
 </div>
 
@@ -208,6 +208,35 @@
   @* ng-if takes the whole div out if False while ng-show/hide still keep the div there if False but hide/show. *@
   <div ng-if="itemAdder.errorMessage" class="error"> Error: {{itemAdder.errorMessage}} </div>
 </div>
+
+@* MVC input form *@
+@* Forms - Weakly Typed: https://www.completecsharptutorial.com/asp-net-mvc5/4-ways-to-create-form-in-asp-net-mvc.php  *@
+<h4 style="color: purple">
+  <b>Id:</b> @ViewBag.Id<br />
+  <b>Name:</b> @ViewBag.Name<br />
+  <b>Quantity:</b> @ViewBag.Quantity
+</h4>
+<h3><b>Forms: Weakly Typed</b></h3>
+
+<form action="Weak_form" method="post">
+  <table>
+    <tr>
+      <td>Enter Id:</td>
+      <td><input type="text" name="txtId" /></td>
+    </tr>
+    <tr>
+      <td>Enter Name:</td>
+      <td><input type="text" name="txtName" /></td>
+    </tr>
+    <tr>
+      <td>Enter Quantity:</td>
+      <td><input type="text" name="txtQuantity" /></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type="submit" value="Submit Form" /></td>
+    </tr>
+  </table>
+</form>
 
 @section scripts {
   <script src="~/Scripts/angular.js"></script>

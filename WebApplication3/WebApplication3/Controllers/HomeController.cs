@@ -21,5 +21,27 @@ namespace WebApplication3.Controllers
 
       return View();
     }
+
+    // POST: Shopping/Weak_form
+    [HttpPost]
+    public ActionResult Weak_form(Int64 txtId, string txtName, double txtQuantity)
+    {
+      // TODO: Add insert logic here
+      ViewBag.Id = txtId;
+      ViewBag.Name = txtName;
+      ViewBag.Quantity = txtQuantity;
+
+      //Using RedirectToAction("Index") below doesn't work with index.cshtml > input type="submit" 
+      return View("Index"); // RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public ActionResult Submit(FormCollection fc)
+    {
+      ViewBag.Id = fc["Id"];
+      ViewBag.Name = fc["Name"];
+      ViewBag.Quantity = fc["Quantity"];
+      return RedirectToAction("Index");
+    }
   }
 }
