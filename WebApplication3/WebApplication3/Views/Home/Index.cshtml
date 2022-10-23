@@ -180,11 +180,14 @@
       <button ng-click="itemAdder.removeItem($index);">Remove</button>
     </li>
   </ol>
-  @* Below ng-show says if "itemAdder.errorMessage" is NOT empty string, show div content: Error... *@
+  @* Below ng-show says if "itemAdder.errorMessage" is NOT empty string (empty = false), show div content: Error... *@
   @* ng-show="itemAdder.errorMessage" can be replaced with ng-hide="!itemAdder.errorMessage" *@
   <div ng-show="itemAdder.errorMessage" class="error">
     Error: {{itemAdder.errorMessage}}
   </div>
+  <!--<div ng-hide="!itemAdder.errorMessage" class="error">-->  @* ng-hide = opposite of ng-show *@
+    <!--Error: {{itemAdder.errorMessage}}
+  </div>-->
 </div>
 
 @* Use service provider - by ShoppingList3Controller *@

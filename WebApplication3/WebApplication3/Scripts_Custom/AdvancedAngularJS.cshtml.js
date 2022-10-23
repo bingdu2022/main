@@ -1,4 +1,6 @@
 ﻿
+//Promise API - a part of New NES6 API
+
   //Asynchronous Behavior with Promises and $q
   //...Difficult to use regular Callbacks tech
   //...Use Promises, which is part of New ES6 API.
@@ -20,7 +22,7 @@
   'use strict';
   angular.module('myApp', [])
 
-    .controller('ShoppingListController', ShoppingListController)   //no ending ; because we have the below filter attribute (.filter(..);)
+    .controller('ShoppingListController', ShoppingListController)   //no ending ; because we have the below filter attribute (.filter(..);) etc.
     .service("ShoppingListService", ShoppingListService)
     .service('WeightLossFilterService', WeightLossFilterService)
 
@@ -48,18 +50,61 @@
     // List of shopping items
     var items = [];
 
+    ////below is a working code but not good strcuture 
+
+    //vm.addItem = function (name, quantity) {
+    //  var promise = WeightLossFilterService.checkName(name);
+    //  promise.then(function (response) {  //if promise gets no errors
+    //    var nextPromise = WeightLossFilterService.checkQuantity(quantity);
+    //    nextPromise.then(function (result) {
+    //      var item = { name: name, quantity: quantity };
+    //      items.push(item);
+    //    }, function (errorResponse) { console.log(errorResponse.message); }); //if nextPromise fails
+    //  }, function (errorResponse) { //if promise fails
+    //    console.log(errorResponse.message);
+    //  });
+    //};
+
+    ////below code is better than the previously commented out
+
+    //vm.addItem = function (name, quantity) {
+    //  var promise = WeightLossFilterService.checkName(name);
+    //  promise
+    //    .then(function (response) { //check the below second item if checkName doesnot hit errors
+    //      return WeightLossFilterService.checkQuantity(quantity);
+    //    })
+    //    .then(function (response) {
+    //      var item = { //come here to prepare item to add it to items after both checkName and checkQuantity hit no errors
+    //        name: name,
+    //        quantity: quantity
+    //      };
+    //      items.push(item);
+    //    })
+    //    .catch(function (errorResponse) {
+    //      console.log(errorResponse.message);
+    //    });
+    //}
+
+    //below is the best because waiting time of checkQuantity = checkName time + checkQuantity time in the above coding
+    //check 2 items in paralell: total time = the needed longest time of the 2 checkings
+    //check quantity doesnot have to wait for a result of checkName in terms of rejected 
     vm.addItem = function (name, quantity) {
-      var promise = WeightLossFilterService.checkName(name);
-      promise.then(function (response) {  //if promise gets no errors
-        var nextPromise = WeightLossFilterService.checkQuantity(quantity);
-        nextPromise.then(function (result) {
-          var item = { name: name, quantity: quantity };
+      var namePromise = WeightLossFilterService.checkName(name);
+      var quantityPromise = WeightLossFilterService.checkQuantity(quantity);
+
+      //check 2 items in paralell
+      $q.all([namePromise, quantityPromise])
+        .then(function (response) {  //only come here if both namePromise and quantityPromise get deferred.resolved results.
+          var item = {
+            name: name,
+            quantity: quantity
+          };
           items.push(item);
-        }, function (errorResponse) { console.log(errorResponse.message); }); //if nextPromise fails
-      }, function (errorResponse) { //if promise fails
-        console.log(errorResponse.message);
-      });
-    };
+        })
+        .catch(function (errorResponse) { //come here right away if one of the 2 checking fails
+          console.log(errorResponse.message);
+        });
+    }
 
     vm.getItems = function () { return items; };
 
@@ -69,7 +114,7 @@
 
   }
 
-  WeightLossFilterService.$inject = ['$q', '$timeout'];
+  WeightLossFilterService.$inject = ['$q', '$timeout']; //$timeout - ng function, so you don't have to call $apply or $digest in using js native setTimeOut
   function WeightLossFilterService($q, $timeout) {
     var vm = this;
 
@@ -81,19 +126,19 @@
         message: ""
       };
 
-      //below $timeout mimic async behavior
+      //below $timeout mimics async behavior
       $timeout(function () {  //Syntax: $timeout(function() {..}, mini seconds);
         //check for item name
         if (name.toLowerCase().indexOf('cookie') === -1) {
-          deferred.resolve(result);
+          deferred.resolve(result);  //meaning a successful result (in this case, it's {message: ""})
         }
         else {
           result.message = "Stay away from cookies, Bing";
-          deferred.reject(result);
+          deferred.reject(result);  //meaning a rejected result (in this case, it's {message: "Stay away from cookies, Bing"})
         };
       }, 2000);
 
-      return deferred.promise;  //go back to caller which will see if it's response (deferred.resolve(.)) or reject
+      return deferred.promise;  //go back to caller which will see if it's response - deferred.resolve(.) or deferred.reject(.)
     };
 
     vm.checkQuantity = function (quantity) {
@@ -111,5 +156,9 @@
       return deferred.promise;
     };
   }
+
+// Ajax with $http Service
+  //Syntax: $http({method: "GET", url: "http://...", params: {param1: "value1"} ... }).then( function success(response){.. // do something with response.data .. }, function error(response){.. //do something with error message ..} );
+  //url is required. If no method, default is GET
 
 })();   //the last () is to invoke (function(){...}) 
