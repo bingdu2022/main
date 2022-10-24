@@ -34,13 +34,16 @@
     .constant('ApiBasePath',"https://...")  //if needed, we can create a constant to be used in multi places
 
     //Directive - extends HTML with dynamic attributes and elements
-    //Directive - in a simple word, replace duplicated codes with template or templateUrl
+    //Directive - in a simple word, replace duplicated codes or lines in HTML with template (or even just meaningful words) or templateUrl that's defined by .directive(...) in js
     //it runs only once, so it can called as initialization of a web app?
     //Register first: .directive('myTag',MyTag)  //'myTag': normalized name that will appear in HTML. MyTab: factory function - returns DDO: Directive Definition Object
     //Then create a function: MyTag.$inject=[..] function myTag(..){var ddo = {..}; return ddo;}
     //Use it in HTML: use tag: <my-tag></my-tag>  // Note not myTag but have to be my-tag which will look for the registered .directive('myTag'...) in js which then looks for MyTag function.
     .directive('listItemDesc', ListItemDesc)
-    .directive('inputItem',InputItem)
+    .directive('inputItem', InputItem)
+
+    //Directive - another property: restrict
+    //In var ddo = {..}, if no restrict: '..', it defaults to restrict: 'AE' where A-attribute and E-element 
 
 
     ; // end of Registers of an app module
@@ -242,6 +245,9 @@
   //Directive of 'inputItem'
   function InputItem() {
     var ddo = {
+      //restrict example:
+      restrict: "AE",  // this line can be omitted since it's by default
+
       //because the below is a 'BIG' string with " etc special symbols, so we use templateURL:
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem.html'  //note can't use /Views/Home/ because customized staff is not allowed to save under it due to security reasons
     };
