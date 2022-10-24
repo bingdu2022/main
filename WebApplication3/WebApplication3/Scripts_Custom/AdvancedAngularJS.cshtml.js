@@ -1,5 +1,10 @@
 ﻿
-//Promise API - a part of New NES6 API
+(function () {
+  'use strict';
+  angular.module('myApp', [])
+
+
+  //Promise API - a part of New NES6 API
 
   //Asynchronous Behavior with Promises and $q
   //...Difficult to use regular Callbacks tech
@@ -18,13 +23,17 @@
   // $q.all ([promise1, promise2]).then( function (result) {...})
   // .catch( function (error){...});
 
-(function () {
-  'use strict';
-  angular.module('myApp', [])
 
     .controller('ShoppingListController', ShoppingListController)   //no ending ; because we have the below filter attribute (.filter(..);) etc.
     .service("ShoppingListService", ShoppingListService)
     .service('WeightLossFilterService', WeightLossFilterService)
+
+    //$http
+
+    .controller('MenuCategoriesController', MenuCategoriesController)
+    .service('MenuCategoriesService', MenuCategoriesService)
+    .constant('ApiBasePath',"https://...")  //if needed, we can create a constant to be used in multi places
+
 
     ; // end of Registers of an app module
 
@@ -160,5 +169,57 @@
 // Ajax with $http Service
   //Syntax: $http({method: "GET", url: "http://...", params: {param1: "value1"} ... }).then( function success(response){.. // do something with response.data .. }, function error(response){.. //do something with error message ..} );
   //url is required. If no method, default is GET
+  //response.data holds the server data response:
+  //... if JSON, auto-gets transformed into a JS object
+  //module.constant can be used as an injectable constant
+
+  MenuCategoriesController.$inject = ['MenuCategoriesService'];
+  function MenuCategoriesController(MenuCategoriesService) {
+    var vm = this;
+    var promise = MenuCategoriesService.getMenuCategories();  //getMenuCategories() is a $http call, so it gets a promise return
+    promise.then(function (response) {
+      vm.categories = response.data;   // =List: [{id:x, name:y, quantity:z}, {...}] from ShoppingController API and it's a JSON literal
+    })
+      .catch(function (response) {
+        console.log("Something went wrong!")
+      })
+
+    vm.logMenuItem = function (Id) {
+      var promise = MenuCategoriesService.getMenuForCategory(Id);
+      promise.then(function (response) {
+        console.log(response.data);
+      })
+        .catch(function (error) {
+          console.log(error);
+        })
+    }
+  }
+  MenuCategoriesService.$inject = ['$http','ApiBasePath']  //ApiBasePath shows a way to use a constant though it is not used in the function 
+  function MenuCategoriesService($http, ApiBasePath) {
+    var vm = this;
+    vm.getMenuCategories = function () {
+      var response = $http({
+        method: "GET",
+        url: ("/api/Shopping") //(or "https://localhost:44374/api/Shopping") Note 1: () can be removed if just a string. Note 2: ../api/... generates a result of List: [{id:x, name:y, quantity:z}, {...}] from ShoppingController API
+      });
+      return response;  //response is a promise response, so the caller will use promise.then(...) to handle its result.
+    }
+
+    //Get one item of ShoppingList
+    vm.getMenuForCategory = function (Id) {
+      var response = $http({ url: "/api/Shopping/" + Id });  //the default is method: "GET"
+      ////Above = below
+      //var response = $http({
+      //  method: "GET",
+      //  url: ("/api/Shopping"),
+      //  params: {Id: Id}
+      //});
+
+      return response;
+    }
+  }
+
+  //Provide http links of Shopping.id
+
 
 })();   //the last () is to invoke (function(){...}) 

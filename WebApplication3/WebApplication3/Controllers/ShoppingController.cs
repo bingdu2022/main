@@ -37,6 +37,12 @@ namespace WebApplication3.Controllers
       return Shopping.GetShoppingNameList(shoppingList);
     }
 
+    /// <summary>
+    /// Searches one item in ShoppingList by both name and quantity
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="quantity"></param>
+    /// <returns>one item</returns>
     // Customized GET: api/Shopping/SearchItemByNameQuantity with parameters of default string type and needed-naming-type int type
     [Route("api/Shopping/SearchItemByNameQuantity/{name}/{quantity:int}")] 
     [HttpGet]

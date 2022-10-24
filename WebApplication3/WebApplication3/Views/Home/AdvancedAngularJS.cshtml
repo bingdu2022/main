@@ -14,7 +14,19 @@
       <button ng-click="ctrl.removeItem($index);">Remove</button>
     </li>
   </ol>
+
+  @* $http service call *@
+  <div ng-controller="MenuCategoriesController as menu" >
+    <h3>List of Menu Categories</h3>
+    <ul>
+      <li ng-repeat="item in menu.categories">
+        (<a href="" ng-click="menu.logMenuItem(item.Id)">{{item.Id}}</a>) 
+        {{item.Name}} with the quantity of {{item.Quantity}} 
+      </li>
+    </ul>
+  </div>
 </div>
+
 
 
 @section scripts {
