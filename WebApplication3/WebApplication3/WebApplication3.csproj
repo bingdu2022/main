@@ -990,6 +990,7 @@
     <Content Include="Scripts\test-bundles\angular-sanitize.js" />
     <Content Include="Scripts\test-bundles\angular-touch.js" />
     <Content Include="Scripts_Custom\AdvancedAngularJS.cshtml.js" />
+    <Content Include="Scripts_Custom\AdvancedAngularJS_InputItem.html" />
     <Content Include="Scripts_Custom\index.cshtml.js" />
     <Content Include="Views\Home\AdvancedAngularJS.cshtml" />
     <Content Include="Web.config" />

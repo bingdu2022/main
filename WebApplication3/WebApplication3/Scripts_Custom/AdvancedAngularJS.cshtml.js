@@ -23,16 +23,24 @@
   // $q.all ([promise1, promise2]).then( function (result) {...})
   // .catch( function (error){...});
 
-
+    //Asynchronous Behavior with Promises and $q
     .controller('ShoppingListController', ShoppingListController)   //no ending ; because we have the below filter attribute (.filter(..);) etc.
     .service("ShoppingListService", ShoppingListService)
     .service('WeightLossFilterService', WeightLossFilterService)
 
-    //$http
-
+    //$http - API calls
     .controller('MenuCategoriesController', MenuCategoriesController)
     .service('MenuCategoriesService', MenuCategoriesService)
     .constant('ApiBasePath',"https://...")  //if needed, we can create a constant to be used in multi places
+
+    //Directive - extends HTML with dynamic attributes and elements
+    //Directive - in a simple word, replace duplicated codes with template or templateUrl
+    //it runs only once, so it can called as initialization of a web app?
+    //Register first: .directive('myTag',MyTag)  //'myTag': normalized name that will appear in HTML. MyTab: factory function - returns DDO: Directive Definition Object
+    //Then create a function: MyTag.$inject=[..] function myTag(..){var ddo = {..}; return ddo;}
+    //Use it in HTML: use tag: <my-tag></my-tag>  // Note not myTag but have to be my-tag which will look for the registered .directive('myTag'...) in js which then looks for MyTag function.
+    .directive('listItemDesc', ListItemDesc)
+    .directive('inputItem',InputItem)
 
 
     ; // end of Registers of an app module
@@ -173,6 +181,7 @@
   //... if JSON, auto-gets transformed into a JS object
   //module.constant can be used as an injectable constant
 
+  // controllers to process results of $http calls
   MenuCategoriesController.$inject = ['MenuCategoriesService'];
   function MenuCategoriesController(MenuCategoriesService) {
     var vm = this;
@@ -194,9 +203,11 @@
         })
     }
   }
+  //Do $http API calls of /api/Shopping
   MenuCategoriesService.$inject = ['$http','ApiBasePath']  //ApiBasePath shows a way to use a constant though it is not used in the function 
   function MenuCategoriesService($http, ApiBasePath) {
     var vm = this;
+    //Call (server root path)/api/Shopping = something like https://localhost:44374/api/Shopping
     vm.getMenuCategories = function () {
       var response = $http({
         method: "GET",
@@ -205,7 +216,7 @@
       return response;  //response is a promise response, so the caller will use promise.then(...) to handle its result.
     }
 
-    //Get one item of ShoppingList
+    //Get one item of ShoppingList by Shopping.id over an API call
     vm.getMenuForCategory = function (Id) {
       var response = $http({ url: "/api/Shopping/" + Id });  //the default is method: "GET"
       ////Above = below
@@ -219,7 +230,25 @@
     }
   }
 
-  //Provide http links of Shopping.id
+  //Directive - extends HTML with dynamic attributes and elements
+  function ListItemDesc() {
+    var ddo = {
+      // how angularJS knows item of the below: item is defined in ng-repeat of HTML that is inside the scope of the ng-controller of HTML 
+      template: '{{item.quantity}} boxes of {{item.name}}' //{{ ...}} of HTML occurs multi times, so define it here to use it in multi places of HTML
+    };
+    return ddo;
+  }
+
+  //Directive of 'inputItem'
+  function InputItem() {
+    var ddo = {
+      //because the below is a 'BIG' string with " etc special symbols, so we use templateURL:
+      templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem.html'  //note can't use /Views/Home/ because customized staff is not allowed to save under it due to security reasons
+    };
+    return ddo;
+  }
+
+
 
 
 })();   //the last () is to invoke (function(){...}) 

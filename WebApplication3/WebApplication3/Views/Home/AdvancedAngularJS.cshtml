@@ -3,6 +3,7 @@
 
 <div id="di1" ng-controller="ShoppingListController as ctrl">
   <h3>Shopping List</h3>
+  @* below up to next 5 Lines (to <div ng-show..) can be replaced with <input-Item></input-Item>  *@
   <input type="text" ng-model="ctrl.itemName" placeholder="item name" />
   <input type="text" ng-model="ctrl.itemQuantity" placeholder="quantity" />
   boxes
@@ -10,21 +11,35 @@
   <div ng-show="ctrl.response.errorMessage" class="error">Error: </div>
   <ol>
     <li ng-repeat="item in ctrl.items">
-      {{item.quantity}} boxes of {{item.name}}
+      @* below is for {{item.Name}} with the quantity of {{item.Quantity}} *@
+      <list-item-desc></list-item-desc>    @* list-item-desc is normalized from .directive('listItemDesc',..) of js (AdvancedAngularJS.cshtml.js) *@
       <button ng-click="ctrl.removeItem($index);">Remove</button>
     </li>
   </ol>
 
   @* $http service call *@
-  <div ng-controller="MenuCategoriesController as menu" >
+  <div ng-controller="MenuCategoriesController as menu">
     <h3>List of Menu Categories</h3>
     <ul>
       <li ng-repeat="item in menu.categories">
-        (<a href="" ng-click="menu.logMenuItem(item.Id)">{{item.Id}}</a>) 
-        {{item.Name}} with the quantity of {{item.Quantity}} 
+        (<a href=" " ng-click="menu.logMenuItem(item.Id)">{{item.Id}}</a>)
+        {{item.Name}} with the quantity of {{item.Quantity}}
       </li>
     </ul>
   </div>
+</div>
+
+@* below is a slightly modified copy of the above *@
+<div id="di2" ng-controller="ShoppingListController as ctrl">
+  <h3>Shopping List 2</h3>
+  <input-Item></input-Item>  @* input-Item is normalized from .directive('inputItem',..) of js (AdvancedAngularJS.cshtml.js) *@
+  <ol>
+    <li ng-repeat="item in ctrl.items">
+      <list-item-desc></list-item-desc>   @* list-item-desc is normalized from .directive('listItemDesc',..) of js (AdvancedAngularJS.cshtml.js) *@
+      <button ng-click="ctrl.removeItem($index);">Remove</button>
+    </li>
+  </ol>
+
 </div>
 
 
