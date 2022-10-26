@@ -42,6 +42,45 @@
 
 </div>
 
+@* .directive(..) Attribute Isolate = or @ *@
+<div id="di3" ng-controller="ShoppingListController as ctrl1">
+  @*<h3>Shopping List 3</h3>*@
+  <input type="text" ng-model="ctrl1.itemName" placeholder="item name" />
+  <input type="text" ng-model="ctrl1.itemQuantity" placeholder="quantity" />
+  boxes
+  <button ng-click="ctrl1.addItem();">Add Item</button>
+  <div ng-show="ctrl1.response.errorMessage" class="error">Error: </div>
+  <shopping-list my-ctrl="ctrl1" title="{{ctrl1.title}}"></shopping-list>  @* use .directive(..) with isolate scope my-ctrl from 'myCtrl' of ddo *@
+</div>
+@* below is a copy of the above for testing Directive Isolate *@
+<div id="di4" ng-controller="ShoppingList2Controller as ctrl2">
+  @*<h3>Shopping List 4</h3>*@
+  <input type="text" ng-model="ctrl2.itemName" placeholder="item name" />
+  <input type="text" ng-model="ctrl2.itemQuantity" placeholder="quantity" />
+  boxes
+  <button ng-click="ctrl2.addItem();">Add Item</button>
+  <shopping-list my-ctrl="ctrl2" title="Shopping List 4 (Limited to 3 items)"></shopping-list>  @* use .directive(..) with isolate scope *@
+  <div ng-if="ctrl2.errorMessage" class="error"> Error: {{ctrl2.errorMessage}} </div>
+</div>
+
+@* below is for a controller inside of Directive *@
+<br />
+<div id="di6" ng-controller="ShoppingList2Controller as ctrl3">
+  @*<h3>Shopping List 5</h3>*@
+  <input type="text" ng-model="ctrl3.itemName" placeholder="item name" />
+  <input type="text" ng-model="ctrl3.itemQuantity" placeholder="quantity" />
+  boxes
+  <button ng-click="ctrl3.addItem();">Add Item</button>
+  @*below items="ctrl3.items" is the key which is different from <shopping-list my-ctrl="ctrl2" ...> *@
+  <shopping-list3 items="ctrl3.items" title="Shopping List 5 (Limited to 3 items)"></shopping-list3>  @* use .directive(..) with isolate scope and a controller inside of it *@
+
+  @* below error comes from shopping-list3, so should be handled inside shopping-list3 which leads to a request of placing a controller inside a directive *@
+  @*<div ng-if="ctrl3.errorMessage" class="error"> Error: {{ctrl3.errorMessage}} </div>*@
+
+</div>
+
+
+
 
 
 @section scripts {

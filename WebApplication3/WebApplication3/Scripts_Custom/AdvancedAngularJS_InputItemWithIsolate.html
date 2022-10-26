@@ -1,0 +1,7 @@
+﻿<h3>{{title}}</h3>
+<ol>
+  <li ng-repeat="item in ctrl.items">  <!--not ctrl1.items-->
+    {{item.quantity}} boxes of {{item.name}}
+    <button ng-click="ctrl.removeItem($index);">Remove</button>
+  </li>
+</ol>

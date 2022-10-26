@@ -45,6 +45,14 @@
     //Directive - another property: restrict
     //In var ddo = {..}, if no restrict: '..', it defaults to restrict: 'AE' where A-attribute and E-element 
 
+    // .directive(..) Attribute Isolate = or @ 
+    .directive('shoppingList', ShoppingList)
+    // Register controller and service for testing .directive(..)
+    .controller('ShoppingList2Controller', ShoppingList2Controller) 
+    .service('ShoppingList2Service', ShoppingList2Service)
+
+    // .directive(..) - contoller inside of it
+    .directive('shoppingList3', ShoppingList3Directive)
 
     ; // end of Registers of an app module
 
@@ -55,12 +63,20 @@
     vm.items = ShoppingListService.getItems();
     vm.itemName = "";
     vm.itemQuantity = "";
+    var originalTitle = "Shopping List 3";
+    vm.title = originalTitle + " (" + vm.items.length + " items)";
 
     vm.addItem = function () {
-      ShoppingListService.addItem(vm.itemName, vm.itemQuantity);
+      ShoppingListService.addItem(vm.itemName, vm.itemQuantity); //After doing .addItem, it seems doing ShoppingListService.getItems() here can't get updated vm.items
+      var currentItems = ShoppingListService.getItems().length + 1; //+1: because ShoppingListService.addItem mimics 'deferred' or is a promise, here is slow one step
+      vm.title = originalTitle + " (" + currentItems + " items)"; 
     };
 
-    vm.removeItem = function (itemIndex) { ShoppingListService.removeItem(itemIndex); };
+    vm.removeItem = function (itemIndex) {
+      ShoppingListService.removeItem(itemIndex);
+      vm.items = ShoppingListService.getItems();
+      vm.title = originalTitle + " (" + vm.items.length + " items)";
+    };
 
   }; //ShoppingListController end
 
@@ -247,6 +263,8 @@
     var ddo = {
       //restrict example:
       restrict: "AE",  // this line can be omitted since it's by default
+      //Best practice: use 'A' for attribute when directive has no content and only extends the behavior for the host element
+      //               use 'E' for element when directive has content along with possible behavior    
 
       //because the below is a 'BIG' string with " etc special symbols, so we use templateURL:
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem.html'  //note can't use /Views/Home/ because customized staff is not allowed to save under it due to security reasons
@@ -254,6 +272,114 @@
     return ddo;
   }
 
+  // .directive(..) Attribute Isolate = or @
+  //Bidiractional binding = is such that directive scope property change affects the bound property and visa versa
+  //DOM attribute value binding @ always results in directive property being a string
+  function ShoppingList() {
+    var ddo = {
+      templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItemWithIsolate.html'  //note can't use /Views/Home/ because customized staff is not allowed to save under it due to security reasons
+      , scope: {ctrl: '=myCtrl', title: '@title'}  //DOM attribute value binding @ always results in directive property being a string
+    };
+    return ddo;
+  }
+
+  // for Directive
+  function ShoppingList2Service() {
+    var vm = this;
+
+    //List of shopping items
+    var items = [];
+    var maxItems = 3; //limit to max of 3 items
+
+    vm.addItem = function (itemName, quantity) {
+      if (maxItems === undefined || items.length < maxItems) {
+        var item = { name: itemName, quantity: quantity };
+        items.push(item);
+      } else {
+        throw new Error("Max items (" + maxItems + ") reached!");
+      }
+    };
+
+    vm.getItems = function () { return items; };
+
+    vm.removeItem = function (itemIndex) {
+      items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
+    }
+  };
+  // for Directive
+  ShoppingList2Controller.$inject = ["ShoppingList2Service"];
+  function ShoppingList2Controller(ShoppingList2Service) {
+    var vm = this;
+
+    vm.items = ShoppingList2Service.getItems();
+
+    vm.itemName = "";
+    vm.itemQuantity = "";
+
+    vm.addItem = function () {
+      //try {.;} catch (error) {.};
+      try {
+        ShoppingList2Service.addItem(vm.itemName, vm.itemQuantity);
+      } catch (error) { vm.errorMessage = error.message; };
+    };
+
+    vm.removeItem = function (itemIndex) {
+      ShoppingList2Service.removeItem(itemIndex);
+      vm.errorMessage = ""; //in case Remove occurs after Error: Max items (3) reached!
+    };
+
+  }
+
+  //How the below works:
+  //...1. In angularJS, under Module, register .directive('shoppingList3', ShoppingList3Directive)
+  //...2. In HTML (AdvancedAngularJS.cshtml), write <shopping-list3 items="ctrl3.items" ..., where assign ctrl3.items to the items inside shopping-list3
+  //...3. Copy the original HTML content of the shopping-list3 position into an HTML file (AdvancedAngularJS_InputItem_controller.html)
+  //...4. Inside AdvancedAngularJS_InputItem_controller.html, check errors by ng-if="ctrl.cookiesInList()"
+  //...5. In angularJS, create DDO with the url of shopping-list3 content over templateUrl and defining a controller which will handle errors
+  //...6. In angularJS, Create the DDO's controller of handling errors
+  //Directive with its own controllers
+  //Create a DDO with a controller inside it
+  function ShoppingList3Directive() {  //which is registered as .directive('shoppingList3',...)
+    var ddo = {
+      templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_controller.html',
+      scope: {
+        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // for passing in a string
+      },
+
+      controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.
+      controllerAs: 'ctrl',  //ctrl will be used (ie. ctrl.items or ctrl.title etc) in AdvancedAngularJS_InputItem_controller.html 
+      //we can define ShoppingList3DirectiveController under module and reference it here by changinge the above two lines into one:
+      //controller: 'ShoppingList3DirectiveController as ctrl';
+      //the ShoppingList3DirectiveController under module can be used not only for the directive but for other places as well if needed.
+
+      bindToController: true //bind scope{.params.} to ctrl
+    };
+    return ddo;
+  };
+  //define the controller of the DDO or ShoppingList3Directive
+  function ShoppingList3DirectiveController() {
+    var vm = this;
+
+    vm.cookiesInList = function () {
+      for (var i = 0; i < vm.items.length; i++) {   //items is bound to the items of ShoppingList3Directive()
+        var name = vm.items[i].name;
+        if (name.toLowerCase().indexOf("cookie") !== -1) {
+          vm.errorMessage = "Warning: cookies detected!";
+          return true;
+        };
+      };
+      vm.errorMessage = "";
+      return false;
+    }
+
+    vm.removeItem = function (itemIndex) {
+      vm.items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
+      vm.errorMessage = ""; //in case Remove occurs after Error: Max items (3) reached!
+    }
+
+  };
+ 
 
 
 
