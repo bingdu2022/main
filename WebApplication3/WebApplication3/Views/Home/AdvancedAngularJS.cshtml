@@ -103,11 +103,9 @@
   <button ng-click="ctrl5.addItem();">Add Item</button>
   @*below items="ctrl5.items" is the key which is different from <shopping-list my-ctrl="ctrl2" ...> *@
   <shopping-list5 id="list5" items="ctrl5.items" title="{{ctrl5.title}}">
-    @*<span class="warning">cshtml-Warning! {{ctrl5.warning}}</span>*@
-
-    <div>
-      @* this div for error is placed here under ctrl5 in the main cshtml but its display is controlled by both ShoppingList5DirectiveLink and the <div class="error2" ng-transclude></div> of AdvancedAngularJS_InputItem_transclude.html  *@
-      @* below are not displayed by default coded in Site.css:.error2 > display: none *@
+    <div> @* this outter div is mapped to div of shoppingList5>AdvancedAngularJS_InputItem_transclude.html  *@
+      @* the content below of the outter div for error messages is placed here under ctrl5 in the main cshtml and in ctrl5 but their display is controlled by DDO: both ShoppingList5DirectiveLink and the <div class="error2" ng-transclude></div> of AdvancedAngularJS_InputItem_transclude.html  *@
+      @* below are not displayed by default controlled in Site.css:.error2 > display: none *@
       <div class="title">Oh, the horror!</div>
       <div>{{ctrl5.warning}}</div>
     </div>
