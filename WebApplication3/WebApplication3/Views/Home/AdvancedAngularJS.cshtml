@@ -72,14 +72,49 @@
   boxes
   <button ng-click="ctrl3.addItem();">Add Item</button>
   @*below items="ctrl3.items" is the key which is different from <shopping-list my-ctrl="ctrl2" ...> *@
-  <shopping-list3 items="ctrl3.items" title="Shopping List 5 (Limited to 3 items)"></shopping-list3>  @* use .directive(..) with isolate scope and a controller inside of it *@
+  <shopping-list3 items="ctrl3.items" title="{{ctrl3.title}}"></shopping-list3>  @* use .directive(..) with isolate scope and a controller inside of it *@
 
   @* below error comes from shopping-list3, so should be handled inside shopping-list3 which leads to a request of placing a controller inside a directive *@
   @*<div ng-if="ctrl3.errorMessage" class="error"> Error: {{ctrl3.errorMessage}} </div>*@
 
 </div>
 
+@* below is for Directive: link *@
+<br />
+<div id="di7" ng-controller="ShoppingList2Controller as ctrl3">
+  <input type="text" ng-model="ctrl3.itemName" placeholder="item name" />
+  <input type="text" ng-model="ctrl3.itemQuantity" placeholder="quantity" />
+  boxes
+  <button ng-click="ctrl3.addItem();">Add Item</button>
+  @*below items="ctrl3.items" is the key which is different from <shopping-list my-ctrl="ctrl2" ...> *@
+  <shopping-list4 items="ctrl3.items" title="{{ctrl3.title}}"></shopping-list4>  @* use .directive(..) with link *@
 
+  @* below error comes from shopping-list3, so should be handled inside shopping-list3 which leads to a request of placing a controller inside a directive *@
+  @*<div ng-if="ctrl3.errorMessage" class="error"> Error: {{ctrl3.errorMessage}} </div>*@
+
+</div>
+
+@* below is for Directive: transclude *@
+<br />
+<div id="di8" ng-controller="ShoppingList5Controller as ctrl5">
+  <input type="text" ng-model="ctrl5.itemName" placeholder="item name" />
+  <input type="text" ng-model="ctrl5.itemQuantity" placeholder="quantity" />
+  boxes
+  <button ng-click="ctrl5.addItem();">Add Item</button>
+  @*below items="ctrl5.items" is the key which is different from <shopping-list my-ctrl="ctrl2" ...> *@
+  <shopping-list5 id="list5" items="ctrl5.items" title="{{ctrl5.title}}">
+    @*<span class="warning">cshtml-Warning! {{ctrl5.warning}}</span>*@
+
+    <div>
+      @* this div for error is placed here under ctrl5 in the main cshtml but its display is controlled by both ShoppingList5DirectiveLink and the <div class="error2" ng-transclude></div> of AdvancedAngularJS_InputItem_transclude.html  *@
+      @* below are not displayed by default coded in Site.css:.error2 > display: none *@
+      <div class="title">Oh, the horror!</div>
+      <div>{{ctrl5.warning}}</div>
+    </div>
+  </shopping-list5>  @* use .directive(..) with transclude *@
+
+
+</div>
 
 
 

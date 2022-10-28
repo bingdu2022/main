@@ -54,6 +54,15 @@
     // .directive(..) - contoller inside of it
     .directive('shoppingList3', ShoppingList3Directive)
 
+    // .directive(..) - link: LinkFunction
+    .directive('shoppingList4', ShoppingList4Directive)
+
+    // .directive(..) - transclude
+    .directive('shoppingList5', ShoppingList5Directive)
+    // Register controller and service for testing .directive(..) transclude
+    .controller('ShoppingList5Controller', ShoppingList5Controller)
+    .service('ShoppingList5Service', ShoppingList5Service)
+
     ; // end of Registers of an app module
 
   ShoppingListController.$inject = ['ShoppingListService'];
@@ -249,7 +258,7 @@
     }
   }
 
-  //Directive - extends HTML with dynamic attributes and elements
+  //DDO: Directive - extends HTML with dynamic attributes and elements
   function ListItemDesc() {
     var ddo = {
       // how angularJS knows item of the below: item is defined in ng-repeat of HTML that is inside the scope of the ng-controller of HTML 
@@ -272,7 +281,7 @@
     return ddo;
   }
 
-  // .directive(..) Attribute Isolate = or @
+  //DDO: .directive(..) Attribute Isolate = or @
   //Bidiractional binding = is such that directive scope property change affects the bound property and visa versa
   //DOM attribute value binding @ always results in directive property being a string
   function ShoppingList() {
@@ -312,6 +321,7 @@
     var vm = this;
 
     vm.items = ShoppingList2Service.getItems();
+    vm.title = "Shopping List 5(Limited to 3 items)";
 
     vm.itemName = "";
     vm.itemQuantity = "";
@@ -380,6 +390,211 @@
 
   };
  
+  //DDO: Directive APIs and '&' (video: 7:50-7:55)
+  //The goal is to let the parent controller (ShoppingList2Controller) remove an item of a list which is displayed in a directive by passing remove method as delegate
+  //... didn't practice coding here.
+
+
+  //DOM manipulation is usually done inside of the link function over DDO
+  //DDO: Declare link function inside .directive: var ddo={ scope:{..}, link: LinkFunction, ..templateUrl: '..' }; return ddo; }
+  //The purpose of using 'link' here is to display/remove a warning message in a different way
+  function ShoppingList4Directive() {  //which is registered as .directive('shoppingList4',...)
+    var ddo = {
+      templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_link.html',
+      scope: {
+        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // for a passing-in string
+      },
+
+      controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.
+      controllerAs: 'ctrl',  //ctrl will be used (ie. ctrl.items or ctrl.title etc) in AdvancedAngularJS_InputItem_controller.html 
+      //we can define ShoppingList3DirectiveController under module and reference it here by changinge the above two lines into one:
+      //controller: 'ShoppingList3DirectiveController as ctrl';
+      //the ShoppingList3DirectiveController under module can be used not only for the directive but for other places as well if needed.
+
+      bindToController: true, //bind scope{.params.} to ctrl
+      link: ShoppingList4DirectiveLink
+    };
+    return ddo;
+  };
+  //below is to serve ShoppingList4Directive
+  function ShoppingList4DirectiveLink(scope,element,attrs,controller) {
+    // scope = $scope but why not use $scope is because here scope is pass-in parameter and not $inject parameter. 
+    console.log("link scope is: ", scope);  // = $scope or $$.. $parent . $root . ctrl: ShoppingList3DirectiveController .. [[Prototype:]] Object
+    console.log("Controller instance is: ", controller); // = ShoppingList3DirectiveController
+    console.log("Element is: ", element);  // = jQuery.fn.init(1): shopping-list4
+    scope.$watch('ctrl.cookiesInList()', function (newValue, oldValue) {
+      console.log("newValue: ", newValue);
+      console.log("oldValue", oldValue);
+      if (newValue === true) {
+        displayCookieWarning();
+      }
+      else {
+        removeCookieWarning();
+      }
+
+    });
+
+    function displayCookieWarning() {
+      ////Use angular jqLite
+      //var warningElem = element.find("div"); // element = shopping-list4 > AdvancedAngularJS_InputItem_link.html which has one div
+      //warningElem.css('display', 'block');
+      ////Except for .find and .css, there are lots of other methods of jqLite
+      ////the methods can be found over console.log("Element is: ", element)
+
+      //the above shows errors instantly and the below shows errors slowlly
+
+      //If jQuery included before Angular
+      var warningElem2 = element.find("div.error3");
+      warningElem2.slideDown(1900) //900 mini seconds
+
+    }
+
+    function removeCookieWarning() {
+      ////Use Angular jqLite
+      //var warningElem = element.find("div"); // element = shopping-list4 > AdvancedAngularJS_InputItem_link.html which has one div
+      //warningElem.css('display', 'none');
+
+      //the above shows errors instantly and the below shows errors slowlly
+
+      //If jQuery included before Angular
+      var warningElem2 = element.find("div.error3");
+      warningElem2.slideUp(1900) //500 mini seconds
+
+
+    }
+
+  }
+
+
+  //DDO: transclude: let error messages stay in the main HTML and have DDO to control its display or hiding
+  //The goal is use different error messages in different places of HTML but these messages use the same DDO to control their show/hide etc behaviors.
+
+  //How it works: (in short: the main HTML holds the error messages; DDO processes error, find their messages of the main HTML and show/hide the messages.)
+  //...1. In angularJS, under Module, register .directive('shoppingList5', ShoppingList5Directive)
+  //...2. In the main HTML (AdvancedAngularJS.cshtml), write <shopping-list5 items="ctrl5.items" ..., where assign ctrl5.items to the items of shopping-list5 or shoppingList5
+  //...3. Copy the original HTML content (displying a list and checking errors etc.) of the shopping-list5's position into a helper HTML file (AdvancedAngularJS_InputItem_transclude.html)
+  //...4. Inside AdvancedAngularJS_InputItem_transclude.html, set up <div class="error2" ng-transclude></div>
+  //...5. In angularJS, create DDO with the url of shopping-list5 content over templateUrl and defining a controller which will handle errors
+  //...6. In angularJS, Create the DDO's controller of handling errors
+
+  //<div ng-transclude><div> - insert evaluated wrapped content into element marked with ng-transclude 
+  function ShoppingList5Directive() {  //which is registered as .directive('ShoppingList5',...)
+    var ddo = {
+      templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_transclude.html',
+      scope: {
+        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // for a passing-in string
+      },
+
+      controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.
+      controllerAs: 'ctrl',  //ctrl will be used (ie. ctrl.items or ctrl.title etc) in AdvancedAngularJS_InputItem_controller.html 
+      //we can define ShoppingList3DirectiveController under module and reference it here by changinge the above two lines into one:
+      //controller: 'ShoppingList3DirectiveController as ctrl';
+      //the ShoppingList3DirectiveController under module can be used not only for the directive but for other places as well if needed.
+
+      bindToController: true, //bind scope{.params.} to ctrl
+      link: ShoppingList5DirectiveLink,
+      transclude: true 
+    };
+    return ddo;
+  };
+  //below is to serve ShoppingList5Directive
+  function ShoppingList5DirectiveLink(scope, element, attrs, controller) {
+    // scope = $scope but why not use $scope is because here scope is pass-in parameter and not $inject parameter. 
+    console.log("link scope is: ", scope);  // = $scope or $$.. $parent . $root . ctrl: ShoppingList3DirectiveController .. [[Prototype:]] Object
+    console.log("Controller instance is: ", controller); // = ShoppingList3DirectiveController
+    console.log("Element is: ", element);  // = jQuery.fn.init(1): shopping-list4
+    scope.$watch('ctrl.cookiesInList()', function (newValue, oldValue) {
+      console.log("newValue: ", newValue);
+      console.log("oldValue", oldValue);
+      if (newValue === true) {
+        displayCookieWarning();
+      }
+      else {
+        removeCookieWarning();
+      }
+
+    });
+
+    function displayCookieWarning() {
+      ////Use angular jqLite
+      //var warningElem = element.find("div"); // element = shopping-list4 > AdvancedAngularJS_InputItem_transclude.html which has one div
+      //warningElem.css('display', 'block');
+      ////Except for .find and .css, there are lots of other methods of jqLite
+      ////the methods can be found over console.log("Element is: ", element)
+
+      //the above shows errors instantly and the below shows errors slowlly
+
+      //If jQuery included before Angular
+      var warningElem2 = element.find("div.error2");
+      warningElem2.slideDown(1900) //900 mini seconds
+
+    }
+
+    function removeCookieWarning() {
+      ////Use Angular jqLite
+      //var warningElem = element.find("div"); // element = shopping-list4 > AdvancedAngularJS_InputItem_link.html which has one div
+      //warningElem.css('display', 'none');
+
+      //the above shows errors instantly and the below shows errors slowlly
+
+      //If jQuery included before Angular
+      var warningElem2 = element.find("div.error2");
+      warningElem2.slideUp(1900) //500 mini seconds
+
+    }
+
+  }
+  // for Directive
+  function ShoppingList5Service() {
+    var vm = this;
+
+    //List of shopping items
+    var items = [];
+    var maxItems = 3; //limit to max of 3 items
+
+    vm.addItem = function (itemName, quantity) {
+      if (maxItems === undefined || items.length < maxItems) {
+        var item = { name: itemName, quantity: quantity };
+        items.push(item);
+      } else {
+        throw new Error("Max items (" + maxItems + ") reached!");
+      }
+    };
+
+    vm.getItems = function () { return items; };
+
+    vm.removeItem = function (itemIndex) {
+      items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
+    }
+  };
+  // for Directive
+  ShoppingList5Controller.$inject = ["ShoppingList5Service"];
+  function ShoppingList5Controller(ShoppingList5Service) {
+    var vm = this;
+
+    vm.items = ShoppingList5Service.getItems();
+    vm.title = "Transclude_ShoppingList (Limited to 3 items)";
+    vm.warning = "Warning from ShoppingList5Controller: Cookie detected!";
+
+    vm.itemName = "";
+    vm.itemQuantity = "";
+
+    vm.addItem = function () {
+      //try {.;} catch (error) {.};
+      try {
+        ShoppingList5Service.addItem(vm.itemName, vm.itemQuantity);
+      } catch (error) { vm.errorMessage = error.message; };
+    };
+
+    vm.removeItem = function (itemIndex) {
+      ShoppingList5Service.removeItem(itemIndex);
+      vm.errorMessage = ""; //in case Remove occurs after Error: Max items (3) reached!
+    };
+
+  }
+
 
 
 

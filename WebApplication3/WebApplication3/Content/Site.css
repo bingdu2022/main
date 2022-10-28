@@ -17,3 +17,15 @@ textarea {
 }
 
 .error { color: red;}
+.error2 {
+  color: red;
+  font-weight: bold;
+  display: none;
+}
+
+.warning{font-style: italic;}
+
+#list1, #list2{float: left;}
+#list2{margin-left: 20px;}
+
+.title{background-color: lightsteelblue;}

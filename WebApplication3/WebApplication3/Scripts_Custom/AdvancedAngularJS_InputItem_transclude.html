@@ -1,0 +1,10 @@
+﻿<!--below is part of ShoppingList3DirectiveController-->
+<h3>{{ctrl.title}}</h3>
+<ol>
+  <li ng-repeat="item in ctrl.items">
+    <!--not ctrl1.items-->
+    {{item.quantity}} boxes of {{item.name}}
+    <button ng-click="ctrl.removeItem($index);">Remove</button>
+  </li>
+</ol>
+<div class="error2" ng-transclude></div>
