@@ -22,6 +22,13 @@ namespace WebApplication3.Controllers
       return View();
     }
 
+    public ActionResult SinglePage_AngularJS()
+    {
+      ViewBag.Title = "SinglePage AngularJS vs HTML";
+
+      return View();
+    }
+
     // POST: Shopping/Weak_form
     [HttpPost]
     public ActionResult Weak_form(Int64 txtId, string txtName, double txtQuantity)

@@ -1,0 +1,9 @@
+﻿<!--below is part of listComponent associated to ShoppingListComponentController-->
+<h3>{{$ctrl.myTitle}}</h3>  <!--mapped to myTitle of .component('listComponent',{..}), which looks for the passing-in title based on @title -->
+<ol>
+  <li ng-repeat="item in $ctrl.items">
+    {{item.quantity}} boxes of {{item.name}}
+    <button ng-click="$ctrl.removeItem($index);">Remove</button>  <!--$ctrl.removeItem($index) = '$ctrl.removeItem = function (itemIndex)' of ListComponentController-->
+  </li>
+</ol>
+<div class="error_inList2">CSS-ListEventController-control Warning: Cookie Detected!</div> 

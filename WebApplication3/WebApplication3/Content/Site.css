@@ -28,4 +28,19 @@ textarea {
 #list1, #list2{float: left;}
 #list2{margin-left: 20px;}
 
+/*#listComponentArea, #listEventArea {
+  float:left;
+  margin-left: 20px;
+}*/
+
 .title{background-color: lightsteelblue;}
+
+.error_inList {
+  color: red;
+  font-weight: bold;
+}
+.error_inList2 {
+  color: red;
+  font-weight: bold;
+  display:none;
+}
