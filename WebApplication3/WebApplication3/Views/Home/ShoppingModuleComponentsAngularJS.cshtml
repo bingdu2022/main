@@ -1,0 +1,34 @@
+﻿@*How to make this div to be inserted into the body of _Layout.cshtml as the 'Module Components AngularJS' tab of the MVC web application:
+  1. Create Views/Home/ShoppingModuleComponentsAngularJS.cshtml
+  2. In \Views\Shared\_Layout.cshtml, add <li>@Html.ActionLink("Module Components AngularJS", "ShoppingModuleComponentsAngularJS", "Home", new { area = "" }, null)</li>
+  3. In \Controllers\HomeController.cs, add
+      public ActionResult ShoppingModuleComponentsAngularJS()
+      {
+        ViewBag.Title = "Module Components AngularJS vs HTML";
+        return View();
+      }
+
+*@
+
+<h1>Shopping List with Components</h1>
+
+<shopping-simple></shopping-simple>
+<shopping-spinner></shopping-spinner>
+
+<!--<loading-spinner></loading-spinner>-->  @* it's at the same level as other top div *@
+
+<br />
+
+@section scripts {
+  <script src="~/Scripts/angular.js"></script>
+  <script src="~/src/spinner/spinner.module.js"></script>
+  <script src="~/src/shopping/shopping.module.js"></script>
+  <script src="~/src/spinner/spinner.component.js"></script>
+  <script src="~/src/shopping/shopping-simple.component.js"></script>
+  <script src="~/src/shopping/shopping-spinner.component.js"></script>
+  <script src="~/src/shopping/shopping-list.component.js"></script>
+  @*<script src="~/src/shopping/shopping-list-spinner-event.component.js"></script>*@
+
+  @*<script src="~/src/shopping/ShoppingModuleComponentsAngularJS.cshtml.js"></script>*@
+  @*<script src="~/src/shopping/shopping-list.component.js"></script>*@
+}

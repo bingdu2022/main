@@ -29,6 +29,13 @@ namespace WebApplication3.Controllers
       return View();
     }
 
+    public ActionResult ShoppingModuleComponentsAngularJS()
+    {
+      ViewBag.Title = "Shopping Module Components AngularJS";
+      return View();
+    }
+     
+
     // POST: Shopping/Weak_form
     [HttpPost]
     public ActionResult Weak_form(Int64 txtId, string txtName, double txtQuantity)

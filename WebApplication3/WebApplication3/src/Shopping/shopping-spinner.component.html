@@ -1,0 +1,40 @@
+﻿<!--@*How to make this div to be inserted into the body of _Layout.cshtml as the 'Module Components AngularJS' tab of the MVC web application:
+  1. Create Views/Home/Module_Components_AngularJS.cshtml
+  2. In \Views\Shared\_Layout.cshtml, add <li>@Html.ActionLink("Module Components AngularJS", "Module_Components_AngularJS", "Home", new { area = "" }, null)</li>
+  3. In \Controllers\HomeController.cs, add
+      public ActionResult Module_Components_AngularJS()
+      {
+        ViewBag.Title = "Module Components AngularJS vs HTML";
+        return View();
+      }
+*@-->
+
+<div id="listEventArea" ng-controller="ShoppingListController as ctrl">
+  <h4>List Event and Spinner Area ///////////////////////</h4>
+  <input type="text" ng-model="ctrl.itemName" placeholder="item name" />
+  <input type="text" ng-model="ctrl.itemQuantity" placeholder="quantity" />
+  boxes
+  <button ng-click="ctrl.addItem();">Add Item</button>
+
+  <ol>
+    <li ng-repeat="item in ctrl.items">
+      {{item.quantity}} boxes of {{item.name}}
+      <button ng-click="ctrl.removeItem($index);">Remove</button>  <!--$ctrl.removeItem($index) = '$ctrl.removeItem = function (itemIndex)' of ListComponentController-->
+    </li>
+  </ol>
+
+  <!--<shopping-list-spinner items="ctrl.items" title="{{ctrl.title}}"
+                         on-remove="ctrl.removeItem(index)">-->
+  <!-- here on-remove=".." is a callback func: 1. get index value from listComponent > ListComponentController: $ctrl.removeItem. 2. call SinglePage_MainController: ctrl.removeItem(index)-->
+  <!--</shopping-list-spinner>-->
+
+</div>
+<br />
+<!--
+  @*
+@section scripts {
+    <script src="src/shopping/shopping-spinner.component.js"></script>
+    <script src="src/shopping/shopping-list-spinner-event.component.js"></script>
+  }
+*@
+-->
