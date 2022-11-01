@@ -168,7 +168,6 @@
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Components\ListEvent.html" />
-    <Content Include="Components\List.js" />
     <Content Include="Components\List.html" />
     <Content Include="Components\spinner.html" />
     <Content Include="src\Shopping\shopping-list-spinner-event.component.html" />
@@ -1002,7 +1001,6 @@
     <Content Include="Scripts\test-bundles\angular-route.js" />
     <Content Include="Scripts\test-bundles\angular-sanitize.js" />
     <Content Include="Scripts\test-bundles\angular-touch.js" />
-    <Content Include="Scripts_Custom\Module_Components_AngularJS.cshtml.js" />
     <Content Include="Scripts_Custom\SinglePage_AngularJS.cshtml.js" />
     <Content Include="src\Shopping\shopping-list.component.html" />
     <Content Include="src\Shopping\shopping-list.component.js" />

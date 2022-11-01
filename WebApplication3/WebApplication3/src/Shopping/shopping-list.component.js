@@ -8,12 +8,12 @@
 
     //shoppingList register start
 
-    // shoppingList: defines bindings between shopping-list.html and its parent Module_Components_AngularJS.cshtml
+    // shoppingList: defines bindings between shopping-list.html and its parent ShoppingModuleComponentsAngularJS.cshtml
     //Components: how the below .component(...) works: 
-    //..1. inserts shopping-list.html into the main Module_Components_AngularJS.cshtml. 
-    //..2. (shopping-list) does myTitle which is passed in from SinglePage_MainController.title of the main Module_Components_AngularJS.cshtml in the binding help of myTitle:'@title'
-    //..3. (shopping-list) adds users' input one item (name,quantiry) to a shopping-list (over ng-repeat="item in $ctrl.items") of items which is part of Module_Components_AngularJS.cshtml
-    //..4. (shopping-list) calls Module_Components_AngularJS.cshtml.removeItem(index) (over "$ctrl.removeItem($index);") in the binding help of onRemove
+    //..1. inserts shopping-list.html into the main ShoppingModuleComponentsAngularJS.cshtml. 
+    //..2. (shopping-list) does myTitle which is passed in from SinglePage_MainController.title of the main ShoppingModuleComponentsAngularJS.cshtml in the binding help of myTitle:'@title'
+    //..3. (shopping-list) adds users' input one item (name,quantiry) to a shopping-list (over ng-repeat="item in $ctrl.items") of items which is part of ShoppingModuleComponentsAngularJS.cshtml
+    //..4. (shopping-list) calls ShoppingModuleComponentsAngularJS.cshtml.removeItem(index) (over "$ctrl.removeItem($index);") in the binding help of onRemove
     //..5. (shopping-list) examining if or not the key cookie exists (over ng-if="$ctrl.cookiesInList()) by simply calling ListComponentController.cookiesInList
     .component('shoppingList', {  //1. shoppingList will match <shopping-list-component ...items="val.." myTitle="@.." on-remove="parentFunction(myArg)"> ... </shopping-list-component> of the main HTML; 2. {.}: a simple config object and NOT a function.
       templateUrl: '/src/shopping/shopping-list.component.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
@@ -32,7 +32,7 @@
   function ListComponentController($element) {
     var $ctrl = this;
 
-    //We don't want the below occurs in our main Module_Components_AngularJS.cshtml. In other word, the title used in main HTML shouldn't come from this ListComponentController
+    //We don't want the below occurs in our main ShoppingModuleComponentsAngularJS.cshtml. In other word, the title used in main HTML shouldn't come from this ListComponentController
     //$ctrl.title = "Title(no cookie) from shoppingList-ListComponentController"
 
     $ctrl.cookiesInList = function () {
@@ -51,7 +51,7 @@
     //..3. the below $ctrl.removeItem is just used to determine index = itemIndex
     //..4. after #3 gets index = itemIndex, webpage does SinglePage_MainController: SinglePage_MainService.removeItem(itemIndex) > SinglePage_MainService():items.splice(itemIndex, 1)
     $ctrl.removeItem = function (itemIndex) {
-      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of Module_Components_AngularJS.cshtml
+      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of ShoppingModuleComponentsAngularJS.cshtml
     };
 
     //other useful methods
