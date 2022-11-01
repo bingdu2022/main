@@ -23,18 +23,14 @@
     </li>
   </ol>
 
-  <!--<shopping-list-spinner items="ctrl.items" title="{{ctrl.title}}"
-                         on-remove="ctrl.removeItem(index)">-->
-  <!-- here on-remove=".." is a callback func: 1. get index value from listComponent > ListComponentController: $ctrl.removeItem. 2. call SinglePage_MainController: ctrl.removeItem(index)-->
-  <!--</shopping-list-spinner>-->
+  <shopping-list-spinner items="ctrl.items" title="{{ctrl.title}}"
+                         on-remove="ctrl.removeItem(index)">
+    <!--*here on-remove=".." is a callback func: 1. get index value from listComponent > ListComponentController: $ctrl.removeItem. 2. call SinglePage_MainController: ctrl.removeItem(index)* -->
+  </shopping-list-spinner>
 
 </div>
+
+<loading-spinner></loading-spinner> this comes from shopping-spinner.component.html   <!--*it's at the same level as other top div* -->
+
 <br />
-<!--
-  @*
-@section scripts {
-    <script src="src/shopping/shopping-spinner.component.js"></script>
-    <script src="src/shopping/shopping-list-spinner-event.component.js"></script>
-  }
-*@
--->
+

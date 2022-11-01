@@ -4,5 +4,5 @@
 
 (function () {
   'use strict';
-  angular.module('myApp', ['Spinner']); // []); //, 'myApp' module depends on 'Spinner' module
+  angular.module('Spinner', []); // an independent module
 })();   //the last () is to invoke (function(){...}) 

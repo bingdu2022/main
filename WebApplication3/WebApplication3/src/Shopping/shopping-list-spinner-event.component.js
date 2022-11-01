@@ -1,7 +1,7 @@
 ﻿
 (function () {
   'use strict';
-  angular.module('myApp',['Spinner'])  
+  angular.module('myApp') //,['Spinner'])  
 
     ////////////////////////shoppingListSpinner register start
 
