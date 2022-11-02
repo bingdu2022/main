@@ -1,4 +1,9 @@
-﻿//main coding architecture:
+﻿//this shopping-spinner.component.js does
+//..1. Replace <shopping-simple></shopping-simple> of ShoppingModuleComponentsAngularJS.cshtml with shopping-spinner.component.html
+//..2. Register/create ShoppingListController to support angular bindings in shopping-spinner.component.html
+
+
+//main coding architecture:
 //One module (or more independent or dependent modules)
 
 //One module with many components:
@@ -41,7 +46,7 @@
 
 (function () {
   'use strict';
-  angular.module('myApp') //, ['Spinner'])  //define an independent module: 'myApp' which is used in the MVC main web page: _Layout.cshtml
+  angular.module('myApp') //define an independent module: 'myApp' which is used in the MVC main web page: _Layout.cshtml
 
     ////////////////////////shoppingSpinner register start
     //Asynchronous Behavior with Promises and $q
@@ -49,7 +54,9 @@
     .service("ShoppingListService", ShoppingListService)
     .service('WeightLossFilterService', WeightLossFilterService)  //which has Asynchronous Behavior with Promises and $q
 
-    .component('shoppingSpinner', {  //1. listComponent will match <list-component ...items="val.." myTitle="@.." on-remove="parentFunction(myArg)"> ... </list-component> of the main HTML; 2. {.}: a simple config object and NOT a function.
+
+    //the below says: Replace <shopping-simple></shopping-simple> of ShoppingModuleComponentsAngularJS.cshtml with shopping-spinner.component.html
+    .component('shoppingSpinner', {  //1. 'shoppingSpinner' will match <shopping-spinner></shopping-spinner> of ShoppingModuleComponentsAngularJS.cshtml; 2. {.}: a simple config object and NOT a function.
       templateUrl: '/src/shopping/shopping-spinner.component.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
     })
     ////////////////////////shoppingSpinner register end
