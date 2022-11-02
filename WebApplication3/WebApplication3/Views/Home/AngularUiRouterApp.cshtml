@@ -1,0 +1,41 @@
+﻿@*How to make this div or this cshtml to be inserted into the body of _Layout.cshtml as the 'AngularUiRouterApp' tab of the MVC web application:
+  1. Create Views/Home/AngularUiRouterApp.cshtml
+  2. In \Views\Shared\_Layout.cshtml, add <li>@Html.ActionLink("Angular Ui Router App", "AngularUiRouterApp", "Home", new { area = "" }, null)</li>
+  3. In \Controllers\HomeController.cs, add
+      public ActionResult AngularUiRouterApp()
+      {
+        ViewBag.Title = "Angular Ui Router App";
+        return View();
+      }
+
+*@
+<br />
+<br />
+<br />
+<br />
+<br />
+<h1>Angular Ui Router App</h1>
+<div>
+  <div class="tabs">
+
+  </div>
+
+  <ui-view></ui-view>
+
+  <br />
+
+</div>
+
+@section scripts {
+  <script src="~/Scripts/angular.js"></script>
+  <script src="~/Scripts/angular-ui-router.min.js"></script>
+
+  <script src="~/src/Ui_Router/angular-ui-router-app.module.js"></script>
+  <script src="~/src/spinner/spinner.module.js"></script>
+  <script src="~/src/shopping/shopping.module.js"></script>
+  <script src="~/src/myApp.module.js"></script>
+
+  @*<script src="~/src/Ui_Router/angular-ui-router.module.js"></script>*@
+  <script src="~/src/Ui_Router/angular-ui-router-app.js"></script>
+
+}

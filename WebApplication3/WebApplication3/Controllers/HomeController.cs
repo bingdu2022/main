@@ -34,7 +34,13 @@ namespace WebApplication3.Controllers
       ViewBag.Title = "Shopping Module Components AngularJS";
       return View();
     }
-     
+
+    public ActionResult AngularUiRouterApp()
+    {
+      ViewBag.Title = "Angular Ui Router App";
+      return View();
+    }
+
 
     // POST: Shopping/Weak_form
     [HttpPost]

@@ -170,6 +170,8 @@
     <Content Include="Components\ListEvent.html" />
     <Content Include="Components\List.html" />
     <Content Include="Components\spinner.html" />
+    <Content Include="Scripts\angular-ui-router.min.js" />
+    <Content Include="src\myApp.module.js" />
     <Content Include="src\Shopping\shopping-list-spinner-event.component.html" />
     <Content Include="src\Shopping\shopping-list-spinner-event.component.js" />
     <Content Include="src\Shopping\shopping-simple.component.html" />
@@ -248,6 +250,7 @@
     <Content Include="Scripts\angular-cookies.min.js.map" />
     <Content Include="Scripts\angular-aria.min.js.map" />
     <Content Include="Scripts\angular-animate.min.js.map" />
+    <Content Include="Scripts\angular-ui-router.min.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
@@ -1011,6 +1014,8 @@
     <Content Include="Scripts_Custom\AdvancedAngularJS_InputItemWithIsolate.html" />
     <Content Include="Scripts_Custom\AdvancedAngularJS_InputItem.html" />
     <Content Include="Scripts_Custom\index.cshtml.js" />
+    <Content Include="src\Ui_Router\angular-ui-router-app.module.js" />
+    <Content Include="src\Ui_Router\angular-ui-router-app.js" />
     <Content Include="Views\Home\AdvancedAngularJS.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -1030,6 +1035,7 @@
     <Content Include="Views\Home\SinglePage_AngularJS.cshtml" />
     <Content Include="Views\Home\ShoppingModuleComponentsAngularJS.cshtml" />
     <Content Include="src\Shopping\shopping-spinner.component.html" />
+    <Content Include="Views\Home\AngularUiRouterApp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

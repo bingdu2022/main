@@ -8,6 +8,5 @@
 
 (function () {
   'use strict';
-  angular.module('shopping', []); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
-//  angular.module('myApp', ['Spinner','ui.router']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
+  angular.module('myApp', ['Spinner','shopping','ui.router','urApp']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
 })();   //the last () is to invoke (function(){...}) 
