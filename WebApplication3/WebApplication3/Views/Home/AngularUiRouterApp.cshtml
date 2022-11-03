@@ -7,8 +7,10 @@
         ViewBag.Title = "Angular Ui Router App";
         return View();
       }
-
 *@
+
+@*IMPORTANT: ui-router seemingly only works when its ng-app='..' is placed in the main web cshtml or _Layout.cshtml*@
+
 <br />
 <br />
 <br />
@@ -28,14 +30,16 @@
 
 @section scripts {
   <script src="~/Scripts/angular.js"></script>
-  <script src="~/Scripts/angular-ui-router.min.js"></script>
+  <script src="~/Scripts/angular-ui-router.min.js"></script>  @*IMPORTANT: ui-router seemingly only works when its ng-app='..' is placed in the main web cshtml or _Layout.cshtml*@
+
+  @*below works but commented out - search //Multi-Dependencies of the sln. to see reasons
+    <script src="~/src/Ui_Router/angular-ui-router-app.module.js"></script>
+    <script src="~/src/spinner/spinner.module.js"></script>
+    <script src="~/src/shopping/shopping.module.js"></script>
+    <script src="~/src/myApp.module.js"></script>*@
 
   <script src="~/src/Ui_Router/angular-ui-router-app.module.js"></script>
-  <script src="~/src/spinner/spinner.module.js"></script>
-  <script src="~/src/shopping/shopping.module.js"></script>
-  <script src="~/src/myApp.module.js"></script>
 
-  @*<script src="~/src/Ui_Router/angular-ui-router.module.js"></script>*@
   <script src="~/src/Ui_Router/angular-ui-router-app.js"></script>
 
 }

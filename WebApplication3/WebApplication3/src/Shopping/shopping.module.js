@@ -8,6 +8,9 @@
 
 (function () {
   'use strict';
-  angular.module('shopping', []); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
-//  angular.module('myApp', ['Spinner','ui.router']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
+
+    ////below works but commented out - search //Multi-Dependencies of the sln. to see reasons
+  //angular.module('shopping', []); // an independent module
+
+  angular.module('myApp', ['Spinner']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
 })();   //the last () is to invoke (function(){...}) 

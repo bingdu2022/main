@@ -8,5 +8,18 @@
 
 (function () {
   'use strict';
-  angular.module('myApp', ['Spinner','shopping','ui.router','urApp']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
-})();   //the last () is to invoke (function(){...}) 
+
+  //Multi-Dependencies
+  //1. shopping depends on Spinner. 2. urApp depends on ui.router 3. ui.router must relates to ng-app that is placed in the main web page or <html ng-app="myApp"> of _Layout.cshtml
+  //4. 1-3 lead to the below module registering which works but may not be good: because both ShoppingModuleComponentsAngularJS.cshtml and AngularUiRouterApp.cshtml
+  //have to have all the 'Spinner','shopping','ui.router','urApp' module js scripts where 'Spinner' and 'shopping' are not related to 'ui.router' and 'urApp'
+  //As a result, the below is commented out and replace it with a new way.
+
+  //angular.module('myApp', ['Spinner','shopping','ui.router','urApp']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' etc. modules
+
+  angular.module('myApp', []); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 
+  //2. 'myApp' module will be replaced by the 'myApp' of other independent cshtml web pages under Views/Home folder
+  //3. this module can be ignored based on #2.
+  //4. It implies the main module name of all the web pages under View/Home folder should be 'myApp'.
+
+})();   //the last () is to invoke (function(){...})
