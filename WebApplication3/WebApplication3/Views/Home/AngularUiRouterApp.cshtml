@@ -19,11 +19,15 @@
 <h1>Angular Ui Router App</h1>
 <div>
   <div class="tabs">
-
+    @*below is to create clickable tabs and users can click on them to change state-based UI defined by <ui-view></ui-view>*@ 
+    <a ui-sref="tab1" ui-sref-active="activeTab">Tab 1</a>  @*looking for the name of the state in angular-ui-router-app.js*@
+    <a ui-sref="tab2" ui-sref-active="activeTab">Tab 2</a>
+    <button ui-sref="tab2">Tab 2</button>  @*can also make it look like a button*@
   </div>
 
-  <ui-view></ui-view>
-
+  @*below is a placeholder for state-based UI*@
+  <ui-view></ui-view>   @*it'll be replaced by the state content of angular-ui-router-app.js, i.e. https://localhost:44374/Home/AngularUiRouterApp#!/tab2 where tab2 is the name of a state*@
+  @* switch bewteen web pages by doing Alt + left or right arrow key = in web app coding language, we say: change a state of a web page *@
   <br />
 
 </div>

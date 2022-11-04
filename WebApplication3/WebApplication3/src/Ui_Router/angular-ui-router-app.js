@@ -8,7 +8,7 @@
   RoutesConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
   function RoutesConfig($stateProvider, $urlRouterProvider) {  // Must these two providers. Provider will config $state and $urlRouter services
     // Reirect to tab 1 if no other URL matches
-     $urlRouterProvider.otherwise('/tab1');
+     $urlRouterProvider.otherwise('/tab1');  //it means come to /tab1 if users enter an invalid name i.e. /xyz etc.
 
     // Set up Ui states
     $stateProvider
@@ -19,7 +19,7 @@
 
       .state('tab2', {
         url: '/tab2',
-        template: '<div> This is Tab 2 content </div>'
+        templateUrl: '/src/Ui_Router/html-table.html'
       })
     ;
   }
