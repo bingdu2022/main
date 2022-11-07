@@ -41,6 +41,12 @@ namespace WebApplication3.Controllers
       return View();
     }
 
+    public ActionResult HtmlCssJs_InHtmlBody()
+    {
+      ViewBag.Title = "Html CSS JS";
+      return View();
+    }
+
 
     // POST: Shopping/Weak_form
     [HttpPost]

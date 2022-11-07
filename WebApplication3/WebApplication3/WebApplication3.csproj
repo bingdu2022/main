@@ -171,6 +171,8 @@
     <Content Include="Components\List.html" />
     <Content Include="Components\spinner.html" />
     <Content Include="Scripts\angular-ui-router.min.js" />
+    <Content Include="src\Html_CSS_JS\a-html-page.html" />
+    <Content Include="src\Html_CSS_JS\HtmlCssJs_InHtmlBody.cshtml.js" />
     <Content Include="src\myApp.module.js" />
     <Content Include="src\Shopping\shopping-list-spinner-event.component.html" />
     <Content Include="src\Shopping\shopping-list-spinner-event.component.js" />
@@ -1016,6 +1018,7 @@
     <Content Include="Scripts_Custom\index.cshtml.js" />
     <Content Include="src\Ui_Router\angular-ui-router-app.module.js" />
     <Content Include="src\Ui_Router\angular-ui-router-app.js" />
+    <Content Include="src\Ui_Router\html-table.html" />
     <Content Include="Views\Home\AdvancedAngularJS.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -1036,6 +1039,8 @@
     <Content Include="Views\Home\ShoppingModuleComponentsAngularJS.cshtml" />
     <Content Include="src\Shopping\shopping-spinner.component.html" />
     <Content Include="Views\Home\AngularUiRouterApp.cshtml" />
+    <Content Include="Views\Home\HtmlCssJs_InHtmlBody.cshtml" />
+    <Content Include="Views\Home\HtmlJs_InHtmlBody.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

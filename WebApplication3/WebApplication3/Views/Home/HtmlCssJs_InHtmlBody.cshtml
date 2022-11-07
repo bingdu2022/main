@@ -1,0 +1,220 @@
+﻿<p>
+  Make this 'body' to show up (replace @*@RenderBody*@ of _Layout.cshtml) and clickable:
+  Show up: In HomController.cs, add public ActionResult HtmlCssJs_InHtmlBody() {..}
+  Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML CSS JS", "HtmlCssJs_InHtmlBody", "Home", new { area = "" }, null)</li>*@
+</p>
+
+<!--I've learned HTML-CSS-JS from Chailin: https://www.facebook.com/CourseraWebDev/ -->
+<!--Block-level (ie. div) elements  Inline (ie. span) elements
+  ..render to begin on a new line   ..render on the same line
+  ..contain inline or other block   ..only other inline elements
+  ..HTML5: flow content             ..HTML5: phrasing content-->
+<div id="top"></div>
+<div>*** DIV (division) 1: Most (block) generic element in HTML body</div>
+<div>*** DIV 2: Following right after div 1</div>
+<span>**SPAN 1: Second generic (or most inline) element and following right after div 2</span>
+<div>
+  *** DIV 3: following right after span 1
+  <span>** SPAN 2: inside div 3</span>
+  Continue (or outside span 2) content of div 3
+</div>
+
+<br />
+<h1>h1 heading or main heading</h1>
+<h3>h3 heading</h3>
+<h6>h6 or smallest heading</h6>
+<h2>Below dispalys how semantic elements show a meaningful structure</h2>
+
+<header>
+  header element - xxx. Usually logo, tag line, avgivation etc.
+  <nav>nav (short for navigation) element - links to different parts of the web site</nav>
+</header>
+
+<section id="sec1">
+  Section 1
+  <article>Article 1</article>
+</section>
+
+<section id="sec2">
+  Section 2 ....
+</section>
+
+<aside>
+  aside tag: info related ot the main topic
+</aside>
+
+<footer>
+  Bing Copyright 2022
+  Note _Layout.cshtml has a footer too for the main web page
+</footer>
+
+<h2>Basic HTML coding</h2>
+<h3>ul-li to do unordered lists:</h3>
+<div>
+  <ul>
+    <li>li 1</li>
+    <li>li 2</li>
+    <li>
+      li 3
+      <ul>
+        under li 3, ul-li sturure:
+        <li>li 3 - li1</li>
+        <li>li 3 - li2</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<h3>ol-li to do ordered lists:</h3>
+<div>
+  ol-li list structure:
+  <ol>
+    <li>li 1</li>
+    <li>li 2</li>
+    <li>
+      li 3
+      <ol>
+        <li>li 3 - li1</li>
+        <li>li 3 - li2</li>
+      </ol>
+    </li>
+  </ol>
+</div>
+<h4>
+  3 special characters @* < > & should always be avoided or Escape: *@
+  and other html entities:
+</h4>
+<p> &lt; &gt; &amp; </p>
+<p> &copy; Copyright; no&nbsp;break&nbsp;phrase </p> @* other specials or entity references*@
+
+<h3>a href for hyper link</h3>
+<a href="~/src/Html_CSS_JS/a-html-page.html" title="This is a link">Linking to an intenal html. Only the content of its body is displayed here because it's an MVC web app.</a>
+<a href="~/src/Html_CSS_JS/a-html-page.html" title="This is a block link>">
+  <div>DIV (block in an inline) Linking to a web page, which means the a tag can contain flowing and phrasing tags</div>
+</a>
+<a href="https://github.com/bingdu2022/main" target="_blank" title="Go to an external link">
+  Link to an external site: Bing's github'  @* target="_blank" means open the link in a new tab *@
+</a>
+<div>
+  <h4> <a href="#sec1">#section 1: #.. (ie. #sec1) points to a place of this web page.</a> </h4>
+  <p>
+    <a name="sec2">('a name= ..' is Depreciated - do not use, which used to be similar to #.., i.e. #sec2, pointing to the seciont 2 of this webpage</a>
+  </p>
+  <p>Back to top: <a href="#top">Back to Top</a></p>
+</div>
+
+<h3>Display Images</h3>
+<p>
+  <img src="~/images/fall_trees_scene.jpg" width="400" height="235" alt="Picture with a quote" />
+  &quot; This comes from /images/fall_trees_scene.jpg &quot;
+</p>
+<p>
+  <img src="https://th.bing.com/th/id/R.787f491e861809d6f344a60987c50f41?rik=CT74J2PCw0FpLw&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f0%2f43%2fnx7Aes.jpg&ehk=ijB3dxEmsw%2bHU1VqYECPnXLtCpWZGYgbNMAFe2Ea7bs%3d&risl=&pid=ImgRaw&r=0" width="450" height="300" />
+  <br /> This comes from an external link.
+</p>
+
+<h3>CSS: CSS ZEN GARDEN</h3>
+<a href="http://www.csszengarden.com/" target="_blank">CSS ZEN GARDEN</a>
+<h4 style="color:green;font-size:36px;text-align:center">Anatomy of a CSS Rule: Here in h4 tag use 'color:green;font-size:36px;text-align:center'</h4>
+<p style="color:red; font-size:20px; width:300px;">element select (i.e. p{..} in css): Here in element p tag, use style'color:red; font-size:20px; width:300px;'</p>
+<h4 class="classblue">class selector (i.e. .classname{..}): : Except for use element p etc selectors for all the selector in HTML to apply the same css styles, here in h4, use .classname selector (i.e. class='classblue') to do css style to any places with Attribute class='classblue' after defining .classblue{color:blue;} in xxx.css file.  </h4>
+<h3 id="id_h3">
+  id selector (i.e. #idvalue, the least used since only one id exists): write #id_h3{color:darkgray;font-weight:bold;background-color:blanchedalmond;opacity: .6;font-family:'Times New Roman', Times, serif;}
+  in xxx.css file to apply the style for a tag with id='id_h3'
+</h3>
+<p>share styles: i.e. div, .id_h3{color:blue;} in .css file means both div and id='id_h3' share the same style</p>
+<h3 style="font-size:20px;color:brown"> combine selectors, i.e. element with class: p.big{...} i.e. here uses h3 style="font-size:20px;color:brown". It means every p tag that has class='big' use the defined style. </h3>
+<h3 style="color:blueviolet"> child selectors, i.e. article > p {color: blueviolet} or article > .classname {color...} . Here uses h3 style="color:blueviolet". It means all the p tags that are DIRECTLY inside article ..p../p .../article use the defined style. </h3>
+<h4 style="color:cadetblue">descendant selector, i.e. article p {color:cadetblue} or .classname p {color:..}: Here uses h4 style="color:cadetblue". It means all the p tags that are inside (at any level) article../article use the defined style </h4>
+<h3 style="color:burlywood">Pseudo class selector, i.e. :link, :visited, :hover, :active, :nth-child(..). {color:burlywood} or .classname p {color:..}: Here uses h3 style="color:burlywood". It means all the p tags that are inside (at any level) article../article use the defined style </h3>
+<pseudo_section>
+  Pseudo_section style pseudo_section li {list-style: none;  color: burlywood;}
+  <h4>and here(h4) to show below links use pseudo_section a:link, a:visited {...}</h4>
+  <h4><a href="/src/Ui_Router/html-table.html" target="_blank">A local table html link to use pseudo class selector to style</a> </h4>
+  <ul>
+    <li>
+      <h4><a href="/src/Ui_Router/html-table.html" target="_blank">A local table html link to use pseudo class selector to style</a> </h4>
+    </li>
+    <li>
+      <h4><a href="/src/Ui_Router/html-table.html" target="_blank">A local table html link to use pseudo class selector to style</a> </h4>
+    </li>
+    <li>
+      Here (not a href) shows pseudo_section li:nth-child(3) {color:blue;}
+    </li>
+  </ul>
+</pseudo_section>
+<pseudo_list>
+  <div>div1</div>
+  <div>div2</div>
+  <div>
+    div3. You can hover here for : pseudo_list div:nth-child(3):hover{
+    background-color:antiquewhite;cursor:pointer;}
+    <br />But simple/readable is better than complicated/tricky
+  </div>
+  <div>div4</div>
+  <div>div5</div>
+  <div>div6</div>
+</pseudo_list>
+<p style="text-align:center;">This (inline style: p style="text-align:center;" /p) is the least used because you have to copy it everywhere that use the same style. So, try to avoid it as much as possible or just for quick tests.
+  <br /> In reality, always use an external scc file to hold the styles.
+</p>
+<p>
+  <h4 style="font-weight:bold;">Conflict style resolution: </h4>
+  origin: last declaration winds
+  <br /> merge: different styles from different sources for a target are merged
+  <br /> inheritance: a style in an earlier palce passes onto later places
+  <br /> specifity: most specific selector combination wins - style='..' - ID - class/pseudo-class/attribute (i.e. div #myParag {..}) - # of elements (i.e. div p {..})
+  <br /><span style="color:green !important;font-weight:bolder;" > p{color:green !important;} can overwrite all other styles defined for p due to the key word: !important. </span>
+</p>
+<pseudo_text_style style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                   text-indent:each-line;
+                   list-style:square;
+                   color: #0000ff;
+                   font-style:italic;
+                   font-size: 14px;
+                   font-weight:bold;
+                   text-transform:capitalize;
+
+                   ">
+  <h3> Text Styles: </h3>
+  <li>Use more than one fonts in case users have different font installation in their computers:   style="font-family:'Franklin Gothic Medium', 'Arial Narrow', ..  </li>
+  <ul>
+    <li>Use color: #0000ff; (instead of color: blue;) may be best?  </li>
+    <li>text-transform:capitalize;  </li>
+  </ul>
+  <h4 style="color:orangered;">Relative font size:</h4>
+  <p style="font-size: 120%;">font-size: 120%</p>
+  <div style="font-size: 2em;">font-size: 2em; which means 2 times of the current or default font size</div>
+  <div style="font-size: .5em;">font-size: .5em; which means 1/2 times of the current or default font size</div>
+</pseudo_text_style>
+<h4>Box Model: I'm making a box with borders, paddings and background color:</h4>
+<p>Lecture 19 of https://www.youtube.com/watch?v=s5Rp-amDZrE&list=PLo1XKu0OLOyECVtZytSG6aeEgirbYNTbt&index=22&ab_channel=Learnskills</p>
+<div style="background-color:aqua;padding:10px 10px 10px 10px;border: 5px solid black;
+margin: 20px;width:400px;
+height:60px;overflow:auto;
+">
+  <div style="background-color:antiquewhite;">
+    <span style="font-weight:bolder;">Overflow to havea scroll bar:</span>  My div has style="background-color:aqua;padding:10px 10px 10px 10px;border: 5px solid black;
+    margin: 20px;width:400px;height:60px;overflow:scroll;"
+  </div>
+</div>
+<h3>Background proptery</h3>
+<div style="width: 300px; height: 100px; background: url('/images/loading.gif') no-repeat top center; background-color: khaki; "
+>
+</div>
+<h3>Position elements by floating, which can produce very flexible layouts:</h3>
+<float_elements style="background-color: #00ffff;">
+  <div style="background-color: #00ffff;">
+    I'm directly in div and after p1 and p2, where p1 'floats' to right..
+    <p style="background-color:lightblue; width: 50px;height:50px;border:1px solid black;float:right;">p1</p>
+    <p style="background-color:lightcoral; width: 50px;height:50px;border:1px solid black;">p2</p>
+  </div>
+</float_elements>
+<float_elements_2columns style="background-color: #00ffff;">
+  <div style="background-color: #00ffff;">
+    <p>Create 2 columns tables by using floating elements where I'm directly in div and before p1 and p2, where p1 'floats' to right..</p>
+    <p style="padding:5px; background-color: lightblue; width: 50%; height: 50px; border: 1px solid black; float: right;">p1</p>
+    <p style="padding:5px; background-color: lightcoral; width: 50%; height: 50px; border: 1px solid black; ">p2</p>
+  </div>
+</float_elements_2columns>
+
+
