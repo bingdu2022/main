@@ -1039,7 +1039,7 @@
     <Content Include="Views\Home\ShoppingModuleComponentsAngularJS.cshtml" />
     <Content Include="src\Shopping\shopping-spinner.component.html" />
     <Content Include="Views\Home\AngularUiRouterApp.cshtml" />
-    <Content Include="Views\Home\HtmlCssJs_InHtmlBody.cshtml" />
+    <Content Include="Views\Home\HtmlCss_InHtmlBody.cshtml" />
     <Content Include="Views\Home\HtmlJs_InHtmlBody.cshtml" />
   </ItemGroup>
   <ItemGroup>

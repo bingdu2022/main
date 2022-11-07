@@ -41,9 +41,9 @@ namespace WebApplication3.Controllers
       return View();
     }
 
-    public ActionResult HtmlCssJs_InHtmlBody()
+    public ActionResult HtmlCss_InHtmlBody()
     {
-      ViewBag.Title = "Html CSS JS";
+      ViewBag.Title = "Html CSS";
       return View();
     }
 
