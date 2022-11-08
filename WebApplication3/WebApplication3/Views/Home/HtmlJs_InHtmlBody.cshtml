@@ -1,6 +1,149 @@
-﻿
+﻿<p>
+  Make this 'body' to show up (replace @*@RenderBody*@ of _Layout.cshtml) and clickable:
+  Show up: In HomController.cs, add public ActionResult HtmlJs_InHtmlBody() {..}
+  Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML JS", "HtmlJs_InHtmlBody", "Home", new { area = "" }, null)</li>*@
+</p>
+
+<h1>HTML JS</h1>
+
+<section1 id="section1">
+  <h3>onClick, querySelector, getItemById:</h3>
+  <p>
+    Say hello to <input id="input1" type="text" />
+    <button onclick="sayHello();">Say it!</button>
+    <div id="div1"></div>
+    <div id="div2"></div>
+  </p>
+  <div></div>
+</section1>
+
+<section2>
+  <h3>Unobstrusive Event handler:</h3>
+  <p>
+    Say hello to <input type="text" placeholder="anything" />
+    <button>Say it!</button>
+    <div></div>
+  </p>
+</section2>
+
+<section3>
+  <h3>Directly link a function to onClick of a button:</h3>
+  <p>
+    Say hello to <input type="text" placeholder="anything" />
+    <button>Say it!</button>
+    <div></div>
+  </p>
+</section3>
+
+<section4>
+  <h3>//DOMContentLoaded: adds event handlers before any images, css or other scripts :</h3>
+  <p>
+    Say hello to <input type="text" placeholder="anything" />
+    <button>Say it!</button>
+    <div></div>
+  </p>
+</section4>
+
+<section5>
+  <h3>//Use event of event handlers:</h3>
+  <p>
+    Say hello to <input type="text" placeholder="anything" />
+    <button>Say it!</button>
+    <div></div>
+  </p>
+</section5>
+
+<section6>
+  <h3>HTTP (HyperText Transfer Protocol) Basics</h3>
+  <h4>Based on request/response stateless protocol:</h4>
+  <ul>
+    <li>Client opens connecion to server.</li>
+    <li>Client sends HTTP request for a resource.</li>
+    <li>Server sends HTTP resonse to the client (w/resource).</li>
+    <li>Client closes connection to server.</li>
+  </ul>
+  <h4>URN: Uniform Resource Name</h4>
+  <ul>
+    <li>Uniquely identifies resource or name of resource.</li>
+    <li>Does not tell us how to get the rsource.</li>
+  </ul>
+  <p>I.e. HTML/../Bing/Du</p>
+  <h4>URI: Uniform Resource Identifier</h4>
+  <ul>
+    <li>Uniquely identifies resource or location of resource.</li>
+    <li>Does not necessarily tell us how to get the rsource.</li>
+  </ul>
+  <p>I.e. HTML/../index.html</p>
+  <h4>URL: Uniform Resource Locator</h4>
+  <li>Form of URI that provides info on how to get resource.</li>
+  <p>http;//www...../index.html</p>
+
+</section6>
+
+<section7>
+  <h3>HTTP Request Structure (GET) </h3>
+  <ul>
+    <li>GET URI Query, i.e. GET /index.html?name=xxx</li>
+    <li>POST URI Header request, i.e. POST /index.html HTTP/1.1 Host: xxx Accept-Charset: utf-8 firstName=Bing ...</li>
+  </ul>
+  <h3>HTTP Response Structure (GET) </h3>
+  <ul>
+    <li>(HTTP version) HTTP/1.1 (status)200 (explaination to status) OK</li>
+    <li>404 Not Found: server can't find the requested resource.'</li>
+    <li>403 Forbidden: unauthenticated client tried to access a secure resource.</li>
+    <li>500 Internal Server Error: some unhandled error was raised on the server.</li>
+  </ul>
+</section7>
+
+<section8>
+  <h3>Ajax Basics: Asynchronous Javascript And XML</h3>
+  <ul>
+    <li>While Ajax started with XML, very few apps use it nowadays.</li>
+    <li>Instead, plain text(at times as html) and JSON are used.</li>
+    <li>Traditional: request for a page with a few changes but server returns the whole page regardless more a less changes.</li>
+    <li>Ajax: request for a few changes and server returns the few changes or not the whole page. </li>
+    <li>Asynchronous instruction returns right away but the actual execution is done in a separate thread or process.</li>
+    <li>JS engine is synchronous for, in parallel 1. Event queue. 2. HTML rendering. 3. webGL. 4. HTTP requestor (asynchronous)</li>
+  </ul>
+  <h4>Ajax process: js code lines, ... , make Ajax request to server, js code line ..., Handle server response (callback function), ...</h4>
+</section8>
+
+<section9>
+  <h3>Do an Ajax call to the server which will add a name stored in a txt file below the button:</h3>
+  <p>
+    <button>Say Hello to someone on the server!</button>
+    <div></div>
+  </p>
+</section9>
+
+<section10>
+  <h3>JSON: JavaScript Object Notation. It's just a string and not an object.</h3>
+  <p>Lightweight data-interchange format. Simple textual representation of data. 
+  Easy for humans to read and write. Easy for machines to parse and generate.
+  Completely independent of any language.
+  Slightly different from JS object literal syntax: property names must be in double quotes and string values must be in double quotes.
+  </p>
+  <h4>Example:</h4>
+  <p>{"s":"a", "IsOk":false, "x": 2}</p>
+  <h3>Convert JSON to string and back to JSON: (JSON is just a string and not an object)</h3>
+  <ul>
+    <li>Convert JSON string to obj: var obj = JSON.parse(jsonString);</li>
+    <li>Convert obj to JSON string: var str = JSON.stringify(obj);</li>
+  </ul>
+</section10>
+
+<section11>
+  <h3>Do an Ajax call to the server which will add an JSON info below the button:</h3>
+  <p>
+    <button>Get someone's json info from the server!</button>
+    <div></div>
+  </p>
+</section11>
+
+
 @section scripts
   {
-  <script src="~/src/Html_CSS_JS/HtmlJs_InHtmlBody.cshtml.js"</script>
+  <script src="~/src/Html_JS/ajax-utils.js"></script>  @*it's prior to the below line which will use the ajax-utils.js'*@
+  <script src="~/src/Html_JS/HtmlJs_InHtmlBody.cshtml.js"></script>
 }
 

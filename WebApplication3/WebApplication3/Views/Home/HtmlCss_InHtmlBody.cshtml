@@ -87,8 +87,8 @@
 <p> &copy; Copyright; no&nbsp;break&nbsp;phrase </p> @* other specials or entity references*@
 
 <h3>a href for hyper link</h3>
-<a href="~/src/Html_CSS_JS/a-html-page.html" title="This is a link">Linking to an intenal html. Only the content of its body is displayed here because it's an MVC web app.</a>
-<a href="~/src/Html_CSS_JS/a-html-page.html" title="This is a block link>">
+<a href="~/src/Html_CSS/a-html-page.html" title="This is a link">Linking to an intenal html. Only the content of its body is displayed here because it's an MVC web app.</a>
+<a href="~/src/Html_CSS/a-html-page.html" title="This is a block link>">
   <div>DIV (block in an inline) Linking to a web page, which means the a tag can contain flowing and phrasing tags</div>
 </a>
 <a href="https://github.com/bingdu2022/main" target="_blank" title="Go to an external link">
@@ -116,9 +116,11 @@
 <a href="http://www.csszengarden.com/" target="_blank">CSS ZEN GARDEN</a>
 <h4 style="color:green;font-size:36px;text-align:center">Anatomy of a CSS Rule: Here in h4 tag use 'color:green;font-size:36px;text-align:center'</h4>
 <p style="color:red; font-size:20px; width:300px;">element select (i.e. p{..} in css): Here in element p tag, use style'color:red; font-size:20px; width:300px;'</p>
-<h4 class="classblue">class selector (i.e. .classname{..}): : Except for use element p etc selectors for all the selector in HTML to apply the same css styles, here in h4, use .classname selector (i.e. class='classblue') to do css style to any places with Attribute class='classblue' after defining .classblue{color:blue;} in xxx.css file.  </h4>
-<h3 id="id_h3">
-  id selector (i.e. #idvalue, the least used since only one id exists): write #id_h3{color:darkgray;font-weight:bold;background-color:blanchedalmond;opacity: .6;font-family:'Times New Roman', Times, serif;}
+<h4 class="classblue" style="color:red;font-weight:bold;">
+  dot (.) or class selector:
+ (i.e. .classname{..}): : Except for use element p etc selectors for all the selector in HTML to apply the same css styles, here in h4, use .classname selector (i.e. class='classblue') to do css style to any places with Attribute class='classblue' after defining .classblue{color:blue;} in xxx.css file.  </h4>
+<h3 id="id_h3" style="color:red;font-weight:bold;">
+  # or id selector (i.e. #idvalue, the least used since only one id exists): write #id_h3{color:darkgray;font-weight:bold;background-color:blanchedalmond;opacity: .6;font-family:'Times New Roman', Times, serif;}
   in xxx.css file to apply the style for a tag with id='id_h3'
 </h3>
 <p>share styles: i.e. div, .id_h3{color:blue;} in .css file means both div and id='id_h3' share the same style</p>
