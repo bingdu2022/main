@@ -53,6 +53,12 @@ namespace WebApplication3.Controllers
       return View();
     }
 
+    public ActionResult HtmlJs_DynamicViews_InBody()
+    {
+      ViewBag.Title = "Html Js Dynamic Views In Body";
+      return View();
+    }
+       
 
     // POST: Shopping/Weak_form
     [HttpPost]

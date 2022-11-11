@@ -131,3 +131,19 @@ document.addEventListener("DOMContentLoaded",
       });
   }
 )
+
+
+//// below is moved to /src/Html_JS/custom_layout.cshtml.js
+
+//// Hide the second top bar when mouse clicks on the web page body. It does not work 
+////jQuery function starts with $ as in the below.
+//$(function () { // Same as document.addEventListener("DOMContentLoaded",...)
+//  // Same as document.querySelector('.navbar-toggle').addEventListener('..)
+//  $('.navbar-toggle').blur(function (event) {
+//    var screenWidth = window.innerWidth;
+//    if (screenWidth < 768) {
+//      $(".navbar-collapse collapse").collapse('hide');
+//      //alert("This input field has lost its focus.");
+//    }
+//  })
+//})

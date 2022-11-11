@@ -118,10 +118,11 @@
 
 <section10>
   <h3>JSON: JavaScript Object Notation. It's just a string and not an object.</h3>
-  <p>Lightweight data-interchange format. Simple textual representation of data. 
-  Easy for humans to read and write. Easy for machines to parse and generate.
-  Completely independent of any language.
-  Slightly different from JS object literal syntax: property names must be in double quotes and string values must be in double quotes.
+  <p>
+    Lightweight data-interchange format. Simple textual representation of data.
+    Easy for humans to read and write. Easy for machines to parse and generate.
+    Completely independent of any language.
+    Slightly different from JS object literal syntax: property names must be in double quotes and string values must be in double quotes.
   </p>
   <h4>Example:</h4>
   <p>{"s":"a", "IsOk":false, "x": 2}</p>
@@ -140,10 +141,16 @@
   </p>
 </section11>
 
+<section12>
+  <h3>Dynamically load views: heavely rely on ajax.</h3>
+  <p>SPA: single page application.</p>
+</section12>
 
 @section scripts
   {
   <script src="~/src/Html_JS/ajax-utils.js"></script>  @*it's prior to the below line which will use the ajax-utils.js'*@
   <script src="~/src/Html_JS/HtmlJs_InHtmlBody.cshtml.js"></script>
+  <script src="~/src/Html_JS/custom_layout.cshtml.js"></script>  @* this js works for this HtmlJs_InHtmlBody.cshtml since it's here.*@
+
 }
 
