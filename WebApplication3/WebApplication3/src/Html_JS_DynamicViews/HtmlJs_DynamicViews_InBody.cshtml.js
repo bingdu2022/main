@@ -1,10 +1,17 @@
 ﻿// The final web page is dynamically built with _Layout.cshtml + view000, view100s or view200s based on the array of objects (view100s-json-data-on-server.json and view200s-json-data-on-server.json) using Ajax
 // Video: 'Chaikin-USING JAVASCRIPT TO BUILD WEB APPLICATIONS - Document Object Model, Ajax.mp4'
 
+// The coding design of this main js:
+// Code (function (global){..})(window); which is auto loaded/executed along with the web page.
+// ..1. (function (global...)) contains document.addEventListener("DOMContentLoaded",..) which first loads view000
+// ..2. (function (global...)) contains several methods, i.e. insertHtml(), $dc.xxx etc.
+// ..3. onclick='..' of cshtml/html can call js/ajax functions: $dc.loadView000(), $dc.loadView100s(), $dc.loadView200s() to get files (html and json data) from server
+// From users' perspective, after the web page is loaded, they can click on buttons or href links to see view000, view100s or view200s.
+
 (function (global) {
   var dc = {};
   // Video 2:00
-  var HtmlView000 = "/src/Html_JS_DynamicViews/view000.html" // Video 1:33
+  var view000 = "/src/Html_JS_DynamicViews/view000.html" // Video 1:33
 
   var allViewsUrl = "/src/Html_JS_DynamicViews/view100s-json-data-on-server.json";  // an array of objects. Video 1:40
   var view100sTitleHtml = "/src/Html_JS_DynamicViews/view100s-title.html";
@@ -21,7 +28,7 @@
   };
 
   // Show loading icon inside element identified by 'selector'.
-  // It happens before loading view100s and then is replaced by view100s. Its purpose is to show users with a 'waiting' icon before showing view100s
+  // It happens before loading view000 and then is replaced by view000. Its purpose is to show users with a 'waiting' icon before showing view100s
   var showLoading = function (selector) {
     var html = "<div class='text-center'>";
     html += "<img src='/images/loading.gif'></div>";
@@ -37,12 +44,12 @@
 
   // On page load (before images, CSS ...)
   document.addEventListener("DOMContentLoaded", function (event) {
-    // On first load, show HtmlPage1
+    // On first load, show view000
     showLoading("#main-content");
 
     $ajaxUtils.sendGetRequest(  // Use /src/Html_JS/ajax-utils.js
-      HtmlView000,  // $ajaxUtils.sendGetRequest is trying to get HtmlView000 Asychronouslly
-      function (responseText) {  // Does the below if $ajaxUtils.sendGetRequest successfully gets HtmlView000 from server
+      view000,  // $ajaxUtils.sendGetRequest is trying to get view000 Asychronouslly
+      function (responseText) {  // Does the below if $ajaxUtils.sendGetRequest successfully gets view000 from server. Here responseText is just a symbol or can be replaced with view000 or any variable.
         document.querySelector('#main-content').innerHTML = responseText;  // Based on the third arg (false), response.responseText is an HTML or a string
       },
       false  // Don't want to convert it to JSON or just whatever is passed in or html here, so the above response.responseText is an HTML or a string
@@ -52,7 +59,7 @@
   // Load view000
   dc.loadView000 = function () {
     showLoading("#main-content");
-    $ajaxUtils.sendGetRequest(HtmlView000,function (HtmlView000) {document.querySelector('#main-content').innerHTML = HtmlView000;},false);
+    $ajaxUtils.sendGetRequest(view000,function (view000) {document.querySelector('#main-content').innerHTML = view000;},false);
   };
 
   // Load the view100s views
@@ -192,7 +199,7 @@
     return finalHtml;
   }
 
-  // Remove the class 'active' from the default ("HTML JS DynamicViews") to switch to another page
+  // todo: Remove the class 'active' from the default ("HTML JS DynamicViews") to switch to another page
   var switchMenuToActive = function () {
     // Remove 'active' from the default
     var classes = document.querySelector('#nav-js').className;  //look for <li id="nav-js"..> of _Layout.cshtml to find 'active' element
