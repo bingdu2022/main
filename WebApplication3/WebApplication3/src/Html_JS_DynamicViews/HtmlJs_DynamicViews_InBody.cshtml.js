@@ -6,7 +6,16 @@
 // ..1. (function (global...)) contains document.addEventListener("DOMContentLoaded",..) which first loads view000
 // ..2. (function (global...)) contains several methods, i.e. insertHtml(), $dc.xxx etc.
 // ..3. onclick='..' of cshtml/html can call js/ajax functions: $dc.loadView000(), $dc.loadView100s(), $dc.loadView200s() to get files (html and json data) from server
+// ..4. onclick='..' can pass in a parameter that is used by a local variable _lastName.
+// ..5. use _lastName to loop/modify the ajax-read-in json object
 // From users' perspective, after the web page is loaded, they can click on buttons or href links to see view000, view100s or view200s.
+
+// Use view200s-json-data-on-server.json as an example,
+// var obj = view100sView200s[i];   //view200s-json-data-on-server.json = [{.},{.} . ], so it's an array with object elements
+// if (obj['view100s'].lastName === _lastName) {  // it tells we can use object['attributeName'].value to access the value of an object key or attribute
+
+// A strange issue: not colored texts in \WebApplication3\src\Html_JS\custom_layout.cshtml.js
+// Fix: change custom_layout.cshtml.js to custom_lay1out.cshtml.js makes the colors reappear. The colors are still there after Reverse the change
 
 (function (global) {
   var dc = {};
@@ -157,10 +166,10 @@
     // Note view100sView200s is an JSON object = view200s-json-data-on-server.json
     var tempJson;
     for (var i = 0; i < view100sView200s.length; i++) {
-      var obj = view100sView200s[i];
+      var obj = view100sView200s[i];   //view200s-json-data-on-server.json = [{.},{.} . ], so it's an array with object elements
       console.log(view100sView200s[i]);
       console.log(obj);
-      if (obj['view100s'].lastName === _lastName) {
+      if (obj['view100s'].lastName === _lastName) {  // it tells we can use object['attributeName'].value to access the value of an object key or attribute
         tempJson = obj;
         break;
       }

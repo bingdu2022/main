@@ -1,6 +1,7 @@
 ﻿// the  $('.navbar-toggle').blur(...) seems not working though it can work for other elements i.e. hide section1 etc.
 // Hide the second top bar when mouse clicks on the web page body. It does not work
-//jQuery function starts with $ as in the below.
+// jQuery function starts with $ as in the below.
+
 $(function () { // Same as document.addEventListener("DOMContentLoaded",...)
 
   // Same as document.querySelector('.navbar-toggle').addEventListener('..)
