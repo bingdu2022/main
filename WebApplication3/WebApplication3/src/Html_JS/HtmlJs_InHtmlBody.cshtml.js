@@ -103,8 +103,8 @@ document.addEventListener("DOMContentLoaded",
       .addEventListener('click', function () {
 
         // Ajac call to server to get the name, which equals to the result of https://localhost:44374/src/Html_js/data-on-server.txt
-        $ajaxUtils.sendGetRequest("/src/Html_JS/data-on-server.txt", function (request) { //it's strange to use (request) and not (response) here
-          var name = request.responseText;
+        $ajaxUtils.sendGetRequest("/src/Html_JS/data-on-server.txt", function (responseText) { //it's strange to use (request) and not (response) here
+          var name = responseText;
           // Below will not immediately get the expected result if it's placed outside of this $ajaxUtils.sendGetRequest(..) which is an asynchronous call
           document.querySelector(section + ' div').innerHTML = "<h3>Hello " + name + "!</h3>";
         }, false);  //false is the third arg for returning a non-json data.

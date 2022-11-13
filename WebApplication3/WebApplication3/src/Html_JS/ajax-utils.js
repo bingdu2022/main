@@ -44,7 +44,7 @@
       if (isJsonResponse) {
         responseHandler(JSON.parse(request.responseText))
       } else {
-        responseHandler(request);
+        responseHandler(request.responseText);
       }
     };
   }
