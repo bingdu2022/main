@@ -1,16 +1,16 @@
 ﻿<!--Video: 1:31:19  -->
 <div><h3 class="text-center">Html View000</h3></div>
-<div class='view000-img'><img src='/images/fall_trees_scene.jpg' width="300" height="240" alt="pic of trees"
-                              class="img-responsive visible-xs"></div>
-<div id="view00-images" class="row">
+
+<section class='row'>
+  <div class='col-md-4 col-sm-6 col-xs-12'>
+    <a href="#" onclick="$dc.loadView100s();">
+      <img src='/images/fall_trees_scene.jpg' width="200" height="200" alt="pic of trees" class="img-responsive">  <!--img is clickable inside a href-->
+      <div id="view100s-image"><span>View100s-image</span></div>
+    </a>
+  </div> 
+
   <div class="col-md-4 col-sm-6 col-xs-12">
-    <a href="#" onclick="$dc.loadView100s();"><div id="view100s-image"><span>View100s-image</span></div></a>
-  </div>
-  <div class="col-md-4 col-sm-6 col-xs-12">
+    <img src='/images/winter.jpg' width="200" height="200" alt="pic of trees" class="img-responsive">   <!--img is NOT clickable due to outside of a href-->
     <a href="#" onclick="$dc.loadView200s('SP');"><div id="special-image"><span>special-image</span></div></a>
   </div>
-
-</div>
-<!--// Other parts will be inserted here from "/src/Html_JS_SynamicViews/...-->
-
-
+</section>

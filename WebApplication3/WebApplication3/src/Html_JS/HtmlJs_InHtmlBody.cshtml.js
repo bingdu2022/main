@@ -94,6 +94,8 @@ function sayHello5_2(event) {
   }
 }
 
+//AJAX is an acronym that stands for Asynchronous JavaScript and XML
+//When using AJAX, there is no need to update the entire page every time, as only its specific part is updated.
 //Event handling for Ajax call which will call a tool of /src/Html_JS/ajax-untils.js
 document.addEventListener("DOMContentLoaded",
   function (event) {
