@@ -1,6 +1,7 @@
 ﻿//AJAX is an acronym that stands for Asynchronous JavaScript and XML
 //When using AJAX, there is no need to update the entire page every time, as only its specific part is updated.
 //onclick='..' of cshtml/html can call js/ajax functions: $dc.xxx() to get files (html or json data) from server and update parts of the web page.
+//(function (global){..})(window); acts as Initialize and also holds onclick functions to be used by onclick of cshtml/html 
 
 // The final web page is dynamically built with _Layout.cshtml + view000, view100s or view200s based on the array of objects (view100s-json-data-on-server.json and view200s-json-data-on-server.json) using Ajax
 // Video: 'Chaikin-USING JAVASCRIPT TO BUILD WEB APPLICATIONS - Document Object Model, Ajax.mp4'

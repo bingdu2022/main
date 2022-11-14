@@ -1,6 +1,14 @@
-﻿console.log(document.getElementById("section1"));
+﻿// JS vs Html
+
+// DOM: the HTML DOM is an Object Model for HTML. It defines: When a web page is loaded, the browser creates 
+// a D ocument O bject M odel of the page. When you want to access HTML elements with JavaScript, 
+// you have to find the elements first. The easiest way to find an HTML element in the DOM, is by using the element id.
+
+console.log(document.getElementById("section1"));
 console.log(document instanceof HTMLDocument);
 
+// Method 1 that clicking button calls its js to update DOM: the button is NOT directly linked to this function, so can't use 'this.'
+// <button onclick="sayHello();" of cshtml/html calls the below function to update the web page (cshtml) - done on the client side or front end.
 function sayHello() {
   this.textContent = "Said"; //this line doesn't work for this method
   var input1 = document.getElementById("input1").value;
@@ -14,7 +22,8 @@ function sayHello() {
   }
 }
 
-// Unobstrusive event binding
+// Method 2 that clicking button calls its js to update DOM: the button is directly linked to this function, so can use 'this.'
+// Unobstrusive event binding: users' clicking on a button of cshtml/html calls the below function to update DOM
 document.querySelector('section2 button') //must be exactly like this to make this.textContent = "Said" work
   .addEventListener("click", sayHello2);  //Note not 'onClick'. only one button (with click) in <section2 .../>
 function sayHello2(event) {
@@ -29,7 +38,8 @@ function sayHello2(event) {
   }
 }
 
-// Directly link a function to onClick of a button:
+// Method 3 that clicking button calls its js to update DOM: the button is directly linked to this function, so can use 'this.'
+// Directly link a function to onClick of a button: users' clicking on a button of cshtml/html calls the below function to update DOM
 var i = 3;
 document.querySelector("section" + i +" button").onclick = sayHello3;
 function sayHello3(event) {
@@ -44,6 +54,7 @@ function sayHello3(event) {
   }
 }
 
+// Method 4 that clicking button calls its js to update DOM:
 // DOMContentLoaded: adds event handlers before any images, css or other scripts 
 // Therefore, there is no need to add this script at the end of this HtmlJs_InHtmlBody.cshtml.js
 document.addEventListener("DOMContentLoaded",
@@ -104,7 +115,7 @@ document.addEventListener("DOMContentLoaded",
     document.querySelector(section + ' button')
       .addEventListener('click', function () {
 
-        // Ajac call to server to get the name, which equals to the result of https://localhost:44374/src/Html_js/data-on-server.txt
+        // Ajac call to server to get the name data, which equals to the result of https://localhost:44374/src/Html_js/data-on-server.txt
         $ajaxUtils.sendGetRequest("/src/Html_JS/data-on-server.txt", function (responseText) { //it's strange to use (request) and not (response) here
           var name = responseText;
           // Below will not immediately get the expected result if it's placed outside of this $ajaxUtils.sendGetRequest(..) which is an asynchronous call
@@ -115,6 +126,9 @@ document.addEventListener("DOMContentLoaded",
   }
 )
 
+// 1. Users click an HTML button. 2. the button event listener in the js does an ajax call. 3. the call gets the data from server. 
+// 4. the js finds DOM element and displays the data in the innerHTML of the element.
+
 //Event handling for Ajax call which will call a tool of /src/Html_JS/ajax-untils.js
 document.addEventListener("DOMContentLoaded",
   function (event) {
@@ -123,7 +137,7 @@ document.addEventListener("DOMContentLoaded",
     document.querySelector(section + ' button')
       .addEventListener('click', function () {
 
-        // Ajac call to server to get the name, which equals to the result of https://localhost:44374/src/Html_js/json-data-on-server.json
+        // Ajax call to server to get the name, which equals to the result of https://localhost:44374/src/Html_js/json-data-on-server.json
         $ajaxUtils.sendGetRequest("/src/Html_JS/json-data-on-server.json", function (request) { //it's strange to use (request) and not (response) here
           var name = request;
           // Below will not immediately get the expected result if it's placed outside of this $ajaxUtils.sendGetRequest(..) which is an asynchronous call
@@ -134,10 +148,9 @@ document.addEventListener("DOMContentLoaded",
   }
 )
 
-
 //// below is moved to /src/Html_JS/custom_layout.cshtml.js
 
-//// Hide the second top bar when mouse clicks on the web page body. It does not work 
+//// Hide the second top bar when mouse clicks on the web page body. It or the below does not work here. 
 ////jQuery function starts with $ as in the below.
 //$(function () { // Same as document.addEventListener("DOMContentLoaded",...)
 //  // Same as document.querySelector('.navbar-toggle').addEventListener('..)

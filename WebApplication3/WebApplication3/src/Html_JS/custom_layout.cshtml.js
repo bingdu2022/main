@@ -1,7 +1,10 @@
-﻿// the  $('.navbar-toggle').blur(...) seems not working though it can work for other elements i.e. hide section1 etc.
-// Hide the second top bar when mouse clicks on the web page body. It does not work
-// jQuery function starts with $ as in the below.
+﻿// jQuery vs document.addEventListener
 
+// jQuery function starts with $ as in the below.
+// How to do a mouse move event listener when the mouse moves over the whole body area 
+
+// The  $('.navbar-toggle').blur(...):
+// Hides the second top bar when mouse first clicks on the top bar button and then on anywhere of the web page body.
 $(function () { // Same as document.addEventListener("DOMContentLoaded",...)
 
   // Same as document.querySelector('.navbar-toggle').addEventListener('..)
@@ -13,7 +16,8 @@ $(function () { // Same as document.addEventListener("DOMContentLoaded",...)
       //$(".nav navbar - nav").hide();    //this line DOES NOT work
       //$(".navbar-collapse collapse").collapse();    //this line DOES NOT work
       //$(".collapse").collapse();    //this line DOES NOT work
-      $(".navbar-collapse").collapse("hide");    
+
+      $(".navbar-collapse").collapse("hide");      //this line works
 
       //$("section1").hide();   //this line works
 
@@ -22,6 +26,7 @@ $(function () { // Same as document.addEventListener("DOMContentLoaded",...)
   })
 })
 
+// The below is a mouse move event listener when the mouse moves over the whole body area 
 document.querySelector("body").onmousemove = body_js;  //Note not .mousemove but .onMousemove
 function body_js(event) {
   if (event.shiftKey === true) {
