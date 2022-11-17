@@ -7,7 +7,7 @@
   boxes
   <button ng-click="ctrl.addItem();">Add Item</button>
 
-  <ol>
+  <ol>  @* that the ol.. is not removed is to compare it to the below list-component.. *@
     <li ng-repeat="item in ctrl.items">
       {{item.quantity}} boxes of {{item.name}}
       <button ng-click="ctrl.removeItem($index);">Remove</button>

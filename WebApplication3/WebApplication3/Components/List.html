@@ -1,5 +1,5 @@
 ﻿<!--below is part of listComponent associated to ShoppingListComponentController-->
-<h3>{{$ctrl.myTitle}}</h3>  <!--mapped to myTitle of .component('listComponent',{..}), which looks for the passing-in title based on @title -->
+<h3>{{$ctrl.myTitle}}</h3>  <!-- mapped to myTitle of .component('listComponent',{..}), which looks for the passing-in title based on @title -->
 <ol>
   <li ng-repeat="item in $ctrl.items">
     {{item.quantity}} boxes of {{item.name}}
@@ -7,4 +7,4 @@
   </li>
 </ol>
 <div class="error_inList" ng-if="$ctrl.cookiesInList()">DOM-control: Warning: Cookie Detected!</div>  <!--$ctrl.cookiesInList() doesnot have a pass-in parameter, so do a simple or regular function call of ListComponentController-->
-<div class="error_inList2">CSS-ListComponentController-control Warning: Cookie Detected!</div> 
+<div class="error_inList2">CSS-ListComponentController-control Warning: Cookie Detected!</div>       <!-- it's displayed or hidden by $ctrl.$doCheck() of SinglePage_AngularJS.cshtml -->

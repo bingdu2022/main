@@ -1,10 +1,36 @@
-﻿//main coding architecture:
+﻿// Coding trend: high cohesion and loose coupling
+
+// This js does
+// ...1. inserts / renders List.html into SinglePage_AngularJS.cshtml.
+// ..... ListComponentController's $ctrl.$doCheck() acts like an event listener of #1
+// ...2. inserts/renders ListEvent.html into SinglePage_AngularJS.cshtml by mimicing server calls with promise response.
+// ..... SpinnerController acts like an event listener of #2 and uses $rootScope.$on(.) to listen a message caused by users' operations and shows/hides the spinner occordingly
+// ..... SpinnerController can be called as a common helper or tool of the SinglePage_AngularJS.cshtml.js 
+//                         because its member $rootScope is a global variable and can work with all other components of the entire myApp.
+//                         That's why it's even created in its own module (angular.module('Spinner',[])) in ShoppingModuleComponentsAngularJS.cshtml
+//                However, it seems we just need one module and the module has a tree of components.
+// ..... $timeout(function() {.do things.}, mini seconds): wait or give mini seconds for the js to do '.do things'
+// ..... check 2 items in paralell: $q.all([namePromise, quantityPromise]).then(function (response) {.}).catch(function (errorResponse) {.});
+// ..... $ctrl.$onInit = function () {.}
+// ..... items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position in items[.,..]
+
+// This js is a (function(){...})();, which contains several (instead of one) .components for the purpose of comparisons and learning
+// .. it consists of 
+//....On the client side or front-end:
+// ...1. SinglePage_MainController. It renders <div id="listComponentArea"..>
+// ...2. listComponent with List.html and its ListComponentController. It renders <list-component...> which is part of <div id="listComponentArea"..>
+// ...3. ShoppingListController. It renders <div id="listEventArea"..>
+//....Invovled on the server side or front-end and back-end:
+// ...4. listEvent (.component) with ListEvent.html and its ListEventController. It renders <list-event..> which is part of <div id="listEventArea"..>.
+// ...5. loadingSpinner (.component) with spinner.html and its SpinnerController. It displays a spinner to show ...in processing.... The spinner places a spinner at the <loading-spinner></loading-spinner> of the cshtml.
+
+//main coding component architecture:
 //..1. Components - only control their own View and Data - in other word: isolate scope
 //..2. Components have well-defined public API - Inputs and Outputs
 //.....Inputs: use '<' and '@' bindings only
 //.....Never change property of passed-in object or array
 //.....Outputs: use '&' for component event callbacks
-//.....Pass data to callback throught param map {key:val}
+//.....Pass data to callback through param map {key:val}
 //.....2-way data binding is minimized as much as possible
 //..3. Compoments have well-defined lifecycle
 //.....$onInit - controller initialization code
@@ -19,9 +45,9 @@
 //    templateUrl: 'template.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.prop1}} ...
 //    controller: CompController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
 //    bingdings: {
-//      prop1: '<',   //one-way or pass-in prop1
+//      prop1: '<',   //one-way or pass-in prop1, which is assigned in <list-component ... prop1="..."}
 //      prop2: '@x',    // it means prop2 is at the address of x which is assigned in <list-component ... x={{...}}
-//      onAction: '&'  //reference function: callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
+//      onAction: '&'  //reference function: callback to the function of its parent controller after getting/passing-in the parameter of the parent controller, assigned in <list-component ...on-action="...".
 //    }
 //  })
 
@@ -44,18 +70,26 @@
     .service('SinglePage_MainService', SinglePage_MainService)
 
     //Components: how the below .component(...) works: 
-    //..1. inserts List.html into the main SinglePage_AngularJS.cshtml. 
-    //..2. (List) does myTitle which is passed in from SinglePage_MainController.title of the main SinglePage_AngularJS.cshtml in the binding help of myTitle:'@title'
-    //..3. (List) adds a list (over ng-repeat="item in $ctrl.items") of items which is passed in (one-way) from SinglePage_MainController.items
-    //..4. (List) calls SinglePage_MainController.removeItem(index) (over "$ctrl.removeItem($index);") in the binding help of onRemove
-    //..5. (List) examining if or not the key cookie exists (over ng-if="$ctrl.cookiesInList()) by simply calling ListComponentController.cookiesInList
+    //..In short, .component(..) itself sets up links between ctrl (SinglePage_MainController of the js used to render the cshtml) and List.html/ListComponentController.
+    //Based on the .component(..) setup of the js and the <list-component...> setup of the SinglePage_AngularJS.cshtml,
+    //..1. The js inserts List.html into the <list-component...> area of the SinglePage_AngularJS.cshtml when the web page is loaded  when the web page is loaded.
+    //..2. The js replaces List.html:{{$ctrl.myTitle}} with ctrl.title which is passed in from SinglePage_MainController.title of the main SinglePage_AngularJS.cshtml in the binding help of myTitle:'@title'
+    //..3. Clicking on Add Item button adds a list (over ng-repeat="item in $ctrl.items") of items which is passed in (one-way) from SinglePage_MainController.items.
+    //..4. Clicking on Remove button calls ListComponentController.removeItem() which calls SinglePage_MainController.removeItem(index) (over "$ctrl.removeItem($index);") in the binding help of onRemove.
+    //..5. Clicking on Add Item button or Remove button calls ListComponentController.cookiesInList() (due to ng-if="$ctrl.cookiesInList() is coded behind them) and then do the below.
+    //.... If cookie is found, displays/hides 'DOM-control: Warning: Cookie Detected!' of <div class="error_inList"..>
+    //..6. At the same time, clicking on Add Item button or Remove button triggers ListComponentController.$doCheck() which calls ListComponentController.cookiesInList to monitors if or not the key cookie entered or removed and then do the below.
+    //.... If cookie is found, displays/hides 'CSS-ListComponentController-control Warning: Cookie Detected!' of <div class="error_inList2"..>
     .component('listComponent', {  //1. listComponent will match <list-component ...items="val.." myTitle="@.." on-remove="parentFunction(myArg)"> ... </list-component> of the main HTML; 2. {.}: a simple config object and NOT a function.
       templateUrl: '/Components/List.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
-      controller: ListComponentController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
+      controller: ListComponentController,  //not required or an empty function is auto-provided, and always defaults to an alias of '$ctrl'
+      // the below things of bindings belong to ListComponentController
       bindings: {  //below parameters and onActions are bound to ListComponentController (defauled a label of '$ctrl') and bound to templateUrl
-        items: '<',  //one-way or pass-in
-        myTitle: '@title',  // it means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}
-        onRemove: '&'  //reference function (with func parameters ? ):  callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
+        items: '<',  //one-way or pass-in: ListComponentController uses items which is passed in from <list-component..items=.>
+        myTitle: '@title',  // it's {{$ctrl.myTitle}} of List.html (but it's no where in ListComponentController) and means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}, and is used by {{$ctrl.myTitle}} of List.html
+        onRemove: '&'  //reference function (with func parameters ? ):  callback to the function of its parent controller 
+                       //after getting/passing-in the parameter of the parent controller over <list-component ..on-remove="ctrl.removeItem(index)".. .
+                       //and it's used by ng-click="$ctrl.removeItem($index) of List.html, and "$ctrl.removeItem($index)" then calls ListComponentController.removeItem().
       }
     })
 
@@ -63,27 +97,31 @@
 
 
     ////////////////////////listEvent register start
+
     //Asynchronous Behavior with Promises and $q
     .controller('ShoppingListController', ShoppingListController)  
     .service("ShoppingListService", ShoppingListService)
     .service('WeightLossFilterService', WeightLossFilterService)
 
-    .component('listEvent', {  //1. listComponent will match <list-component ...items="val.." myTitle="@.." on-remove="parentFunction(myArg)"> ... </list-component> of the main HTML; 2. {.}: a simple config object and NOT a function.
+    .component('listEvent', {  // mapped to <list-event ...> of SinglePage_AngularJS.cshtml.
       templateUrl: '/Components/ListEvent.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
       controller: ListEventController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
-      bindings: {  //below parameters and onActions are bound to ListComponentController (defauled a label of '$ctrl') and bound to templateUrl
-        items: '<',  //one-way or pass-in
-        myTitle: '@title',  // it means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}
-        onRemove: '&'  //reference function (with func parameters ? ):  callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
+      bindings: {  //below parameters and onActions belong to ListEventController (defaulted to a label of '$ctrl') and are bound to templateUrl
+        items: '<',  
+        myTitle: '@title',  // ListEventController's myTitle is mapped to the address of title which is assigned in <list-component ... title={{xxx}}
+        onRemove: '&'  // reference function:  callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
       }
     })
+
     ////////////////////////listEvent register end
 
     ////////////////////////loadingSpinner register start
-   .component('loadingSpinner', {  //1. listComponent will match <list-component ...items="val.." myTitle="@.." on-remove="parentFunction(myArg)"> ... </list-component> of the main HTML; 2. {.}: a simple config object and NOT a function.
+
+    .component('loadingSpinner', {  // mapped to <loading-spinner></loading-spinner> of SinglePage_AngularJS.cshtml.
       templateUrl: '/Components/spinner.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
-      controller: SpinnerController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
-    })
+      controller: SpinnerController,  // Use '$ctrl' as alias
+   })
+
     ////////////////////////loadingSpinner register end
 
 
@@ -94,9 +132,9 @@
   //is part of .component('listComponent',{..})
   ListComponentController.$inject=['$element']  //no need $inject $scope which is already there in AngularJS2.0
   function ListComponentController($element) {
-    var $ctrl = this;
+    var $ctrl = this;  // need to use $ctrl because it's defined in .component('listComponent', ...)
 
-    //We don't want the below occurs in our main SinglePage_AngularJS.cshtml. In other word, the title used in main HTML shouldn't come from this ListComponentController
+    //We don't want use the below in our main SinglePage_AngularJS.cshtml. Instead, we use $ctrl.myTitle which is mapped to the title of <list-event ... title="{{ctrl.title}}" of SinglePage_AngularJS.cshtml.
     //$ctrl.title = "Title(no cookie) from listComponent-ListComponentController"
 
     $ctrl.cookiesInList = function () {
@@ -120,7 +158,7 @@
 
     //other useful methods
 
-    var totalItems = 0;
+    var totalItems = 0;  // it works like VB shared variable whose value stays for the app session.
     $ctrl.$onInit = function () {  //will run only once when the controller gets instantiated.
      console.log("we are in $onInit().");
      totalItems = 0;
@@ -147,7 +185,8 @@
 
     //below is to display/hide an error message in (DOM) the parent webpage while Site.css helps to hide the DOM error message in loading up the web page. 
     $ctrl.$doCheck = function () {  //it's called everytime $digest runs
-      if (totalItems !== $ctrl.items.length) {
+      if (totalItems !== $ctrl.items.length) {  // totalItems is initialized as 0 in $ctrl.$onInit()
+        totalItems = $ctrl.items.length;  // reset or keep updating totalItems after using it.      
         var warningElem = $element.find('div.error_inList2');  //$element.find(.) and .slideDown/Up are jquery's methods
         if ($ctrl.cookiesInList()) {
           warningElem.slideDown(900);
@@ -211,7 +250,10 @@
 
   ////////////////////////listComponent end
 
-  ////////////////////////loadingSpinner start
+  ////////////////////////loadingSpinner (or SpinnerController) start
+
+  // SpinnerController acts like an event listener of ListEvent and uses $rootScope.$on(.) to listen a message caused by users' operations and shows/hides the spinner occordingly
+
   //for testing spinner
   //is part of .component('loadingSpinner',{..})
   SpinnerController.$inject = ['$rootScope']  //no need $inject $scope which is already there in AngularJS2.0
@@ -219,8 +261,8 @@
     var $ctrl = this;
 
     var cancelListener = $rootScope.$on('listEvent:processing', function (event, data) {
-      console.log('event is: ', event);
-      console.log('data is: ', data);
+      console.log('event is: ', event);  // know the event so that we can use its attributes though they're not used right now here.
+      console.log('data is: ', data);  // data is {.} passed-in from $rootScope.$broadcast/$emit('.',{.})
 
       if (data.on) {
         $ctrl.showSpinner = true;
@@ -231,7 +273,7 @@
     })
 
     // As comparison, $scope.$on will be auto-deregitered after the view or method of using it is closed.
-    // Must deregister $rootScope.$on(.) after using it so that we won't have memory leak  
+    // But here, Must deregister $rootScope.$on(.) after using it so that we won't have memory leak  
     $ctrl.$onDestroy = function () {
       cancelListener();
     }
@@ -250,16 +292,6 @@
       totalItems = 0;
       console.log("we are in $onInit().");
     }
-
-    //$ctrl.cookiesInList = function () {
-    //  for (var i = 0; i < $ctrl.items.length; i++) {   //items is bound to the items of ShoppingList3Directive()
-    //    var name = $ctrl.items[i].name;
-    //    if (name.toLowerCase().indexOf("cookie") !== -1) {
-    //      return true;
-    //    };
-    //  };
-    //  return false;
-    //};
 
     //how the below works:
     //..1. users click Remove button of List.html to do ng-click="$ctrl.removeItem($index) where the $ctrl is ListComponentController
@@ -297,7 +329,7 @@
         totalItems = $ctrl.items.length;  //reset
 
         $rootScope.$broadcast('listEvent:processing', { on: true });
-        var promises = [];
+        var promises = [];  // Use array [] when there are more than one promises
         for (var i = 0; i < $ctrl.items.length; i++) {
           promises.push(WeightLossFilterService.checkName($ctrl.items[i].name));
         }
@@ -406,11 +438,11 @@
 
       var deferred = $q.defer(); //set up async environment
 
-      var result = {
-        message: ""
+      var result = {   
+        message: ""   // Set a empty string message as default value of the result of the check function and it's the correct result when the promise call is successful
       };
 
-      //below $timeout mimics async behavior
+      //below $timeout mimics async behavior or as an estimated time of doing the promise call
       $timeout(function () {  //Syntax: $timeout(function() {..}, mini seconds);
         //check for item name
         if (name.toLowerCase().indexOf('cookie') === -1) {

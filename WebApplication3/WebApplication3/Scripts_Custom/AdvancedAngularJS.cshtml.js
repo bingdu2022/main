@@ -35,7 +35,7 @@
 
     //Directive - extends HTML with dynamic attributes and elements
     //Directive - in a simple word, replace duplicated codes or lines in HTML with template (or even just meaningful words) or templateUrl that's defined by .directive(...) in js
-    //it runs only once, so it can called as initialization of a web app?
+    //it runs only once, so it can be called as initialization of a web app?
     //Register first: .directive('myTag',MyTag)  //'myTag': normalized name that will appear in HTML. MyTab: factory function - returns DDO: Directive Definition Object
     //Then create a function: MyTag.$inject=[..] function myTag(..){var ddo = {..}; return ddo;}
     //Use it in HTML: use tag: <my-tag></my-tag>  // Note not myTag but have to be my-tag which will look for the registered .directive('myTag'...) in js which then looks for MyTag function.

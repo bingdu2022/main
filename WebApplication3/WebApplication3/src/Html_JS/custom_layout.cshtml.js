@@ -1,7 +1,8 @@
 ﻿// jQuery vs document.addEventListener
 
 // jQuery function starts with $ as in the below.
-// How to do a mouse move event listener when the mouse moves over the whole body area 
+// How to do a mouse move event listener when the mouse moves over the whole body area
+// Use event to check shift keys etc. i.e. if (event.shiftKey === true) {..}
 
 // The  $('.navbar-toggle').blur(...):
 // Hides the second top bar when mouse first clicks on the top bar button and then on anywhere of the web page body.
