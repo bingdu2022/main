@@ -9,10 +9,61 @@
 //                         because its member $rootScope is a global variable and can work with all other components of the entire myApp.
 //                         That's why it's even created in its own module (angular.module('Spinner',[])) in ShoppingModuleComponentsAngularJS.cshtml
 //                However, it seems we just need one module and the module has a tree of components.
+
+// ..... Use deferred=$q.defer() (has deferred.resolve(result) or deferred.reject(result) , result can be a simple message or json) to create a Promise.
+//          A Promise is a function that returns a single value or error in the future.
+//          So whenever you have some asynchronous process that should return a value or an error, you can use $q.defer() to create a new Promise.
+//          In most cases, angular $http call return a promise or no need use $q.defer() anymore. If $http call returns success but one success property is bad and we want to set it as reject, we can use $q.defer().
+//          Example:
+//              // create a new instance of deferred
+//              var deferred = $q.defer();
+//              // send a post request to the server
+//              $http.post('/user/login',
+//                { username: username, password: password })
+//                // handle success
+//                .success(function (data, status) {           // here is the $http promise
+//                  if (status === 200 && data.status) {
+//                    user = true;
+//                    deferred.resolve();
+//                  } else {
+//                    user = false;
+//                    deferred.reject();                       // here we use deferred.reject() to turn a success $http promise to a reject $http promise
+//                  }
+//                })
+//                // handle error
+//                .error(function (data) {
+//                  user = false;
+//                  deferred.reject();
+//                });
+
 // ..... $timeout(function() {.do things.}, mini seconds): wait or give mini seconds for the js to do '.do things'
-// ..... check 2 items in paralell: $q.all([namePromise, quantityPromise]).then(function (response) {.}).catch(function (errorResponse) {.});
+// ..... check 2 promises in paralell: $q.all([namePromise, quantityPromise]).then(function (response) {.come here if all succeed.}).catch(function (response) {.come here if one fails.}).finally(function () {.});
 // ..... $ctrl.$onInit = function () {.}
 // ..... items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position in items[.,..]
+// ..... $rootScope.$broadcast('.', {.}); listened by $rootScope.$on('.', handlerName);
+
+//   You don’t need defer to create a simple-valued promise:
+// ..... var defer = $q.defer();
+// ..... $http.get('options.json').success(function (result) {defer.resolve(result)});
+// ..... return defer.promise;
+//   The right method is:  
+// ..... return $http.get('options.json').then(function (response) {return response.data});
+//   You don’t need defer to change the value of a promise:
+// ..... var defer;
+// ..... defer = $q.defer();
+// ..... defer.resolve(['detail', 'simple']);
+// ..... return defer.promise;
+//   The right method is:
+// ..... return $q.when(['detail', 'simple']);
+//   $timeout returns a promise:
+// ..... return $timeout(function() {}, 5000);
+
+// ..... AngularJS Deferred & Promises- Basic Understanding: (including callbacks, $.ajax(.) and $http.get(.) or $http(.))
+// ..... https://www.tothenew.com/blog/angularjs-deferred-promises-basic-understanding/
+//       Since $http is an abstraction over $q, it has different callbacks. Instead of .then and .catch, 
+//       it’s .success and .error and the arguments you get are different.
+
+
 
 // This js is a (function(){...})();, which contains several (instead of one) .components for the purpose of comparisons and learning
 // .. it consists of 
