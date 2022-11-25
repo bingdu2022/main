@@ -1,11 +1,11 @@
 ﻿// Coding trend: high cohesion and loose coupling
 
 // This js does
-// ...1. inserts / renders List.html into SinglePage_AngularJS.cshtml.
+// ...1. inserts / renders List.html into AngularJS_Basics.cshtml.
 // ..... ListComponentController's $ctrl.$doCheck() acts like an event listener of #1
-// ...2. inserts/renders ListEvent.html into SinglePage_AngularJS.cshtml by mimicing server calls with promise response.
+// ...2. inserts/renders ListEvent.html into AngularJS_Basics.cshtml by mimicing server calls with promise response.
 // ..... SpinnerController acts like an event listener of #2 and uses $rootScope.$on(.) to listen a message caused by users' operations and shows/hides the spinner occordingly
-// ..... SpinnerController can be called as a common helper or tool of the SinglePage_AngularJS.cshtml.js 
+// ..... SpinnerController can be called as a common helper or tool of the AngularJS_Basics.cshtml.js 
 //                         because its member $rootScope is a global variable and can work with all other components of the entire myApp.
 //                         That's why it's even created in its own module (angular.module('Spinner',[])) in ShoppingModuleComponentsAngularJS.cshtml
 //                However, it seems we just need one module and the module has a tree of components.
@@ -122,9 +122,9 @@
 
     //Components: how the below .component(...) works: 
     //..In short, .component(..) itself sets up links between ctrl (SinglePage_MainController of the js used to render the cshtml) and List.html/ListComponentController.
-    //Based on the .component(..) setup of the js and the <list-component...> setup of the SinglePage_AngularJS.cshtml,
-    //..1. The js inserts List.html into the <list-component...> area of the SinglePage_AngularJS.cshtml when the web page is loaded  when the web page is loaded.
-    //..2. The js replaces List.html:{{$ctrl.myTitle}} with ctrl.title which is passed in from SinglePage_MainController.title of the main SinglePage_AngularJS.cshtml in the binding help of myTitle:'@title'
+    //Based on the .component(..) setup of the js and the <list-component...> setup of the AngularJS_Basics.cshtml,
+    //..1. The js inserts List.html into the <list-component...> area of the AngularJS_Basics.cshtml when the web page is loaded  when the web page is loaded.
+    //..2. The js replaces List.html:{{$ctrl.myTitle}} with ctrl.title which is passed in from SinglePage_MainController.title of the main AngularJS_Basics.cshtml in the binding help of myTitle:'@title'
     //..3. Clicking on Add Item button adds a list (over ng-repeat="item in $ctrl.items") of items which is passed in (one-way) from SinglePage_MainController.items.
     //..4. Clicking on Remove button calls ListComponentController.removeItem() which calls SinglePage_MainController.removeItem(index) (over "$ctrl.removeItem($index);") in the binding help of onRemove.
     //..5. Clicking on Add Item button or Remove button calls ListComponentController.cookiesInList() (due to ng-if="$ctrl.cookiesInList() is coded behind them) and then do the below.
@@ -154,7 +154,7 @@
     .service("ShoppingListService", ShoppingListService)
     .service('WeightLossFilterService', WeightLossFilterService)
 
-    .component('listEvent', {  // mapped to <list-event ...> of SinglePage_AngularJS.cshtml.
+    .component('listEvent', {  // mapped to <list-event ...> of AngularJS_Basics.cshtml.
       templateUrl: '/Components/ListEvent.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
       controller: ListEventController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
       bindings: {  //below parameters and onActions belong to ListEventController (defaulted to a label of '$ctrl') and are bound to templateUrl
@@ -168,7 +168,7 @@
 
     ////////////////////////loadingSpinner register start
 
-    .component('loadingSpinner', {  // mapped to <loading-spinner></loading-spinner> of SinglePage_AngularJS.cshtml.
+    .component('loadingSpinner', {  // mapped to <loading-spinner></loading-spinner> of AngularJS_Basics.cshtml.
       templateUrl: '/Components/spinner.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
       controller: SpinnerController,  // Use '$ctrl' as alias
    })
@@ -185,7 +185,7 @@
   function ListComponentController($element) {
     var $ctrl = this;  // need to use $ctrl because it's defined in .component('listComponent', ...)
 
-    //We don't want use the below in our main SinglePage_AngularJS.cshtml. Instead, we use $ctrl.myTitle which is mapped to the title of <list-event ... title="{{ctrl.title}}" of SinglePage_AngularJS.cshtml.
+    //We don't want use the below in our main AngularJS_Basics.cshtml. Instead, we use $ctrl.myTitle which is mapped to the title of <list-event ... title="{{ctrl.title}}" of AngularJS_Basics.cshtml.
     //$ctrl.title = "Title(no cookie) from listComponent-ListComponentController"
 
     $ctrl.cookiesInList = function () {
@@ -204,7 +204,7 @@
     //..3. the below $ctrl.removeItem is just used to determine index = itemIndex
     //..4. after #3 gets index = itemIndex, webpage does SinglePage_MainController: SinglePage_MainService.removeItem(itemIndex) > SinglePage_MainService():items.splice(itemIndex, 1)
     $ctrl.removeItem = function (itemIndex) {
-      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of SinglePage_AngularJS.cshtml
+      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of AngularJS_Basics.cshtml
     };
 
     //other useful methods
@@ -350,7 +350,7 @@
     //..3. the below $ctrl.removeItem is just used to determine index = itemIndex
     //..4. after #3 gets index = itemIndex, webpage does SinglePage_MainController: SinglePage_MainService.removeItem(itemIndex) > SinglePage_MainService():items.splice(itemIndex, 1)
     $ctrl.removeItem = function (itemIndex) {
-      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of SinglePage_AngularJS.cshtml
+      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of AngularJS_Basics.cshtml
     };
 
     //other useful methods

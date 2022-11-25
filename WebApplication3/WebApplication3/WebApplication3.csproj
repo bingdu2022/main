@@ -1057,6 +1057,7 @@
     <Content Include="Views\Home\HtmlJs_DynamicViews_InBody.cshtml" />
     <Content Include="src\Html_JS_DynamicViews\view100s-json-data-on-server.json" />
     <Content Include="src\Html_JS_DynamicViews\view200s-json-data-on-server.json" />
+    <Content Include="Views\Home\AngularJS_Basics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

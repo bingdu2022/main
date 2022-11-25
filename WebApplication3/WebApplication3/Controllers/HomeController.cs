@@ -22,7 +22,7 @@ namespace WebApplication3.Controllers
       return View();
     }
 
-    public ActionResult SinglePage_AngularJS()
+    public ActionResult AngularJS_Basics()
     {
       ViewBag.Title = "SinglePage AngularJS vs HTML";
 

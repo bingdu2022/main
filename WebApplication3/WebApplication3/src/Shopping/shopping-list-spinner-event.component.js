@@ -48,7 +48,7 @@
     //..3. the below $ctrl.removeItem is just used to determine index = itemIndex
     //..4. after #3 gets index = itemIndex, webpage does ShoppingModuleComponentsAngularJS: SinglePage_MainService.removeItem(itemIndex) > SinglePage_MainService():items.splice(itemIndex, 1)
     $ctrl.removeItem = function (itemIndex) {
-      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of SinglePage_AngularJS.cshtml
+      $ctrl.onRemove({ index: itemIndex });   //index comes from the index of on-remove="ctrl.removeItem(index)" of shopping-simple.component.cshtml
     };
 
     //other useful methods
