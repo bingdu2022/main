@@ -1017,7 +1017,6 @@
     <Content Include="Scripts\test-bundles\angular-route.js" />
     <Content Include="Scripts\test-bundles\angular-sanitize.js" />
     <Content Include="Scripts\test-bundles\angular-touch.js" />
-    <Content Include="Scripts_Custom\SinglePage_AngularJS.cshtml.js" />
     <Content Include="src\Shopping\shopping-list.component.html" />
     <Content Include="src\Shopping\shopping-list.component.js" />
     <Content Include="Scripts_Custom\AdvancedAngularJS.cshtml.js" />
@@ -1046,7 +1045,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\version.json" />
-    <Content Include="Views\Home\SinglePage_AngularJS.cshtml" />
     <Content Include="Views\Home\ShoppingModuleComponentsAngularJS.cshtml" />
     <Content Include="src\Shopping\shopping-spinner.component.html" />
     <Content Include="Views\Home\AngularUiRouterApp.cshtml" />
