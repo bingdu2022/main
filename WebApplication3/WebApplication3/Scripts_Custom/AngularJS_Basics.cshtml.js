@@ -123,7 +123,7 @@
     //Components: how the below .component(...) works: 
     //..In short, .component(..) itself sets up links between ctrl (SinglePage_MainController of the js used to render the cshtml) and List.html/ListComponentController.
     //Based on the .component(..) setup of the js and the <list-component...> setup of the AngularJS_Basics.cshtml,
-    //..1. The js inserts List.html into the <list-component...> area of the AngularJS_Basics.cshtml when the web page is loaded  when the web page is loaded.
+    //..1. The js inserts List.html into the <list-component...> area of the AngularJS_Basics.cshtml when the web page is loaded.
     //..2. The js replaces List.html:{{$ctrl.myTitle}} with ctrl.title which is passed in from SinglePage_MainController.title of the main AngularJS_Basics.cshtml in the binding help of myTitle:'@title'
     //..3. Clicking on Add Item button adds a list (over ng-repeat="item in $ctrl.items") of items which is passed in (one-way) from SinglePage_MainController.items.
     //..4. Clicking on Remove button calls ListComponentController.removeItem() which calls SinglePage_MainController.removeItem(index) (over "$ctrl.removeItem($index);") in the binding help of onRemove.
@@ -159,7 +159,7 @@
       controller: ListEventController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
       bindings: {  //below parameters and onActions belong to ListEventController (defaulted to a label of '$ctrl') and are bound to templateUrl
         items: '<',  
-        myTitle: '@title',  // ListEventController's myTitle is mapped to the address of title which is assigned in <list-component ... title={{xxx}}
+        myTitle: '@title',  // ListEventController's myTitle is mapped to the address of title which is assigned in <list-event ... title={{xxx}}
         onRemove: '&'  // reference function:  callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
       }
     })
@@ -169,7 +169,7 @@
     ////////////////////////loadingSpinner register start
 
     .component('loadingSpinner', {  // mapped to <loading-spinner></loading-spinner> of AngularJS_Basics.cshtml.
-      templateUrl: '/Components/spinner.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
+      templateUrl: '/Components/spinner.html', // may have ng-if ...
       controller: SpinnerController,  // Use '$ctrl' as alias
    })
 
@@ -308,7 +308,7 @@
   //for testing spinner
   //is part of .component('loadingSpinner',{..})
   SpinnerController.$inject = ['$rootScope']  //no need $inject $scope which is already there in AngularJS2.0
-  function SpinnerController($rootScope) {
+  function SpinnerController($rootScope) {  // why to use $rootScope is to use its .$on() method to listen or monitor an event message $broadcasted by other controllers.
     var $ctrl = this;
 
     var cancelListener = $rootScope.$on('listEvent:processing', function (event, data) {
@@ -324,7 +324,7 @@
     })
 
     // As comparison, $scope.$on will be auto-deregitered after the view or method of using it is closed.
-    // But here, Must deregister $rootScope.$on(.) after using it so that we won't have memory leak  
+    // But here, we MUST deregister $rootScope.$on(.) after using it so that we won't have memory leak  
     $ctrl.$onDestroy = function () {
       cancelListener();
     }
