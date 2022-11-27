@@ -29,8 +29,8 @@
   <button ng-click="ctrl.addItem();">Add Item</button>
 
   <list-event items="ctrl.items" title="{{ctrl.title}}"
-                  on-remove="ctrl.removeItem(index)">
-    @*here on-remove=".." is a callback func: 1. get index value from listComponent > ListComponentController: $ctrl.removeItem. 2. call SinglePage_MainController: ctrl.removeItem(index)*@
+              on-remove="ctrl.removeItem(index)">
+    @*here on-remove=".." is a callback func: 1. get index value from listEvent > ListEventController: $ctrl.removeItem. 2. call SinglePage_MainController: ctrl.removeItem(index)*@
   </list-event>
 
 </div>
