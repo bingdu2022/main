@@ -180,9 +180,7 @@
     <Content Include="src\JS_DynamicViews\view200s-click.html" />
     <Content Include="src\JS_DynamicViews\view100s-title.html" />
     <Content Include="src\JS_DynamicViews\view100s-click.html" />
-    <Content Include="src\JS_DynamicViews\html-page-item-titles.html" />
     <Content Include="src\JS_DynamicViews\JS_DynamicViews_InBody.cshtml.js" />
-    <Content Include="src\JS_DynamicViews\html-page2.html" />
     <Content Include="src\JS_DynamicViews\view000.html" />
     <Content Include="src\myApp.module.js" />
     <Content Include="src\Shopping\shopping-list-spinner-event.component.html" />
