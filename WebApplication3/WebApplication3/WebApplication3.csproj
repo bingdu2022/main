@@ -181,7 +181,7 @@
     <Content Include="src\Html_JS_DynamicViews\view100s-title.html" />
     <Content Include="src\Html_JS_DynamicViews\view100s-click.html" />
     <Content Include="src\Html_JS_DynamicViews\html-page-item-titles.html" />
-    <Content Include="src\Html_JS_DynamicViews\HtmlJs_DynamicViews_InBody.cshtml.js" />
+    <Content Include="src\Html_JS_DynamicViews\JS_DynamicViews_InBody.cshtml.js" />
     <Content Include="src\Html_JS_DynamicViews\html-page2.html" />
     <Content Include="src\Html_JS_DynamicViews\view000.html" />
     <Content Include="src\myApp.module.js" />
@@ -1052,7 +1052,7 @@
     <Content Include="Views\Home\JS_InHtmlBody.cshtml" />
     <Content Include="src\Html_JS\json-data-on-server.json" />
     <Content Include="src\Html_JS\custom_layout.cshtml.js" />
-    <Content Include="Views\Home\HtmlJs_DynamicViews_InBody.cshtml" />
+    <Content Include="Views\Home\JS_DynamicViews_InBody.cshtml" />
     <Content Include="src\Html_JS_DynamicViews\view100s-json-data-on-server.json" />
     <Content Include="src\Html_JS_DynamicViews\view200s-json-data-on-server.json" />
     <Content Include="Views\Home\AngularJS_Basics.cshtml" />

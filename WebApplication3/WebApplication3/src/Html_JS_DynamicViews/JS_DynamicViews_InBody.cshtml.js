@@ -214,7 +214,7 @@
     return finalHtml;
   }
 
-  // todo: Remove the class 'active' from the default ("HTML JS DynamicViews") to switch to another page
+  // todo: Remove the class 'active' from the default ("JS DynamicViews") to switch to another page
   var switchMenuToActive = function () {
     // Remove 'active' from the default
     var classes = document.querySelector('#nav-js').className;  //look for <li id="nav-js"..> of _Layout.cshtml to find 'active' element

@@ -49,13 +49,13 @@ namespace WebApplication3.Controllers
 
     public ActionResult JS_InHtmlBody()
     {
-      ViewBag.Title = "Html JS";
+      ViewBag.Title = "JS";
       return View();
     }
 
-    public ActionResult HtmlJs_DynamicViews_InBody()
+    public ActionResult JS_DynamicViews_InBody()
     {
-      ViewBag.Title = "Html Js Dynamic Views In Body";
+      ViewBag.Title = "JS Dynamic Views In Body";
       return View();
     }
        
