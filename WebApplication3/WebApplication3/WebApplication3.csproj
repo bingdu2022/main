@@ -174,7 +174,7 @@
     <Content Include="src\Html_CSS\a-html-page.html" />
     <Content Include="src\Html_JS\ajax-utils.js" />
     <Content Include="src\Html_JS\data-on-server.txt" />
-    <Content Include="src\Html_JS\HtmlJs_InHtmlBody.cshtml.js" />
+    <Content Include="src\Html_JS\JS_InHtmlBody.cshtml.js" />
     <Content Include="src\Html_JS_DynamicViews\view200s-title.html" />
     <Content Include="src\Html_JS_DynamicViews\view200.html" />
     <Content Include="src\Html_JS_DynamicViews\view200s-click.html" />
@@ -1049,7 +1049,7 @@
     <Content Include="src\Shopping\shopping-spinner.component.html" />
     <Content Include="Views\Home\AngularUiRouterApp.cshtml" />
     <Content Include="Views\Home\HtmlCss_InHtmlBody.cshtml" />
-    <Content Include="Views\Home\HtmlJs_InHtmlBody.cshtml" />
+    <Content Include="Views\Home\JS_InHtmlBody.cshtml" />
     <Content Include="src\Html_JS\json-data-on-server.json" />
     <Content Include="src\Html_JS\custom_layout.cshtml.js" />
     <Content Include="Views\Home\HtmlJs_DynamicViews_InBody.cshtml" />

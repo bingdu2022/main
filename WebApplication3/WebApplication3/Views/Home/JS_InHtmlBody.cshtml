@@ -1,7 +1,7 @@
 ﻿<p>
   Make this 'body' to show up (replace @*@RenderBody*@ of _Layout.cshtml) and clickable:
-  Show up: In HomController.cs, add public ActionResult HtmlJs_InHtmlBody() {..}
-  Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML JS", "HtmlJs_InHtmlBody", "Home", new { area = "" }, null)</li>*@
+  Show up: In HomController.cs, add public ActionResult JS_InHtmlBody() {..}
+  Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML JS", "JS_InHtmlBody", "Home", new { area = "" }, null)</li>*@
 </p>
 
 <h1>HTML JS</h1>
@@ -150,8 +150,8 @@
 @section scripts
   {
   <script src="~/src/Html_JS/ajax-utils.js"></script>  @*it's prior to the below line which will use the ajax-utils.js'*@
-  <script src="~/src/Html_JS/HtmlJs_InHtmlBody.cshtml.js"></script>
-  <script src="~/src/Html_JS/custom_layout.cshtml.js"></script>  @* this js works for this HtmlJs_InHtmlBody.cshtml since it's here.*@
+  <script src="~/src/Html_JS/JS_InHtmlBody.cshtml.js"></script>
+  <script src="~/src/Html_JS/custom_layout.cshtml.js"></script>  @* this js works for this JS_InHtmlBody.cshtml since it's here.*@
 
 }
 

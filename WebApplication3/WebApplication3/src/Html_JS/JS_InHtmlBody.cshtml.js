@@ -7,9 +7,14 @@
 console.log(document.getElementById("section1"));
 console.log(document instanceof HTMLDocument);
 
+// With a querySelector statement, you can select an element based on a CSS selector. 
+//   This means you can select elements by ID, class, or any other type of selector.
+// If you only need to select an element by ID or class, you can use getElementById or getElementsByClassName, respectively. 
+// If you need to use a more elaborate rule to select elements, the querySelector method is your best option.
+
 // Method 1 that clicking button calls its js to update DOM: the button is NOT directly linked to this function, so can't use 'this.'
 // <button onclick="sayHello();" of cshtml/html calls the below function to update the web page (cshtml) - done on the client side or front end.
-function sayHello() {
+function sayHello() {  // it's triggered by <button onclick="sayHello();" ..
   this.textContent = "Said"; //this line doesn't work for this method
   var input1 = document.getElementById("input1").value;
   var message = "<h3>Hello, " + input1 + "!</h3>";
@@ -17,12 +22,12 @@ function sayHello() {
     // Do nothing or just clear out div2 content
     document.getElementById("div2").innerHTML = '';
   } else {
-    document.getElementById("div1").textContent = message;
+    document.getElementById("div1").textContent = message;  // .textContent doesn't honor <h3> etc styles
     document.querySelector("#div2").innerHTML = message;  /*#x: use css id selector*/
   }
 }
 
-// Method 2 that clicking button calls its js to update DOM: the button is directly linked to this function, so can use 'this.'
+// Method 2 that clicking button calls its js to update DOM: the button is directly linked to this function by pre-setting up an .addEventListener(.), so can use 'this.'
 // Unobstrusive event binding: users' clicking on a button of cshtml/html calls the below function to update DOM
 document.querySelector('section2 button') //must be exactly like this to make this.textContent = "Said" work
   .addEventListener("click", sayHello2);  //Note not 'onClick'. only one button (with click) in <section2 .../>
@@ -37,6 +42,15 @@ function sayHello2(event) {
     document.querySelector("section2 div").innerHTML = message;  /*#x: use css id selector*/
   }
 }
+
+// the above .addEventListener can add multiple events to a particular element. 
+// the below .onclick can add only a single event to an element.
+// Example:
+//   <script>
+//      let btn_element = document.getElementById("btn");
+//      btn_element.addEventListener("click", () => {document.getElementById("text1").innerHTML = "Task 1 is performed";})
+//      btn_element.addEventListener("click", () => {document.getElementById("text2").innerHTML = "Task 2 is performed";});
+//  </script >
 
 // Method 3 that clicking button calls its js to update DOM: the button is directly linked to this function, so can use 'this.'
 // Directly link a function to onClick of a button: users' clicking on a button of cshtml/html calls the below function to update DOM
@@ -56,7 +70,7 @@ function sayHello3(event) {
 
 // Method 4 that clicking button calls its js to update DOM:
 // DOMContentLoaded: adds event handlers before any images, css or other scripts 
-// Therefore, there is no need to add this script at the end of this HtmlJs_InHtmlBody.cshtml.js
+// Therefore, there is no need to add this script at the end of this JS_InHtmlBody.cshtml.js
 document.addEventListener("DOMContentLoaded",
   function (event) {
     var section = "section" + 4;
