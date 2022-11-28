@@ -70,7 +70,7 @@ function sayHello3(event) {
 
 // Method 4 that clicking button calls its js to update DOM:
 // DOMContentLoaded: adds event handlers before any images, css or other scripts 
-// Therefore, there is no need to add this script at the end of this JS_InBody.cshtml.js
+// Therefore, there is no need to add this script at the end of this JS.cshtml.js
 document.addEventListener("DOMContentLoaded",
   function (event) {
     var section = "section" + 4;
