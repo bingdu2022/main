@@ -121,7 +121,7 @@ function sayHello5_2(event) {
 
 //AJAX is an acronym that stands for Asynchronous JavaScript and XML
 //When using AJAX, there is no need to update the entire page every time, as only its specific part is updated.
-//Event handling for Ajax call which will call a tool of /src/Html_JS/ajax-untils.js
+//Event handling for Ajax call which will call a tool of /src/JS/ajax-untils.js
 document.addEventListener("DOMContentLoaded",
   function (event) {
     var section = 'section' + 9;
@@ -129,8 +129,8 @@ document.addEventListener("DOMContentLoaded",
     document.querySelector(section + ' button')
       .addEventListener('click', function () {
 
-        // Ajac call to server to get the name data, which equals to the result of https://localhost:44374/src/Html_js/data-on-server.txt
-        $ajaxUtils.sendGetRequest("/src/Html_JS/data-on-server.txt", function (responseText) { //it's strange to use (request) and not (response) here
+        // Ajac call to server to get the name data, which equals to the result of https://localhost:44374/src/JS/data-on-server.txt
+        $ajaxUtils.sendGetRequest("/src/JS/data-on-server.txt", function (responseText) { //it's strange to use (request) and not (response) here
           var name = responseText;
           // Below will not immediately get the expected result if it's placed outside of this $ajaxUtils.sendGetRequest(..) which is an asynchronous call
           document.querySelector(section + ' div').innerHTML = "<h3>Hello " + name + "!</h3>";
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded",
 // 1. Users click an HTML button. 2. the button event listener in the js does an ajax call. 3. the call gets the data from server. 
 // 4. the js finds DOM element and displays the data in the innerHTML of the element.
 
-//Event handling for Ajax call which will call a tool of /src/Html_JS/ajax-untils.js
+//Event handling for Ajax call which will call a tool of /src/JS/ajax-untils.js
 document.addEventListener("DOMContentLoaded",
   function (event) {
     var section = 'section' + 11;
@@ -151,8 +151,8 @@ document.addEventListener("DOMContentLoaded",
     document.querySelector(section + ' button')
       .addEventListener('click', function () {
 
-        // Ajax call to server to get the name, which equals to the result of https://localhost:44374/src/Html_js/json-data-on-server.json
-        $ajaxUtils.sendGetRequest("/src/Html_JS/json-data-on-server.json", function (request) { //it's strange to use (request) and not (response) here
+        // Ajax call to server to get the name, which equals to the result of https://localhost:44374/src/JS/json-data-on-server.json
+        $ajaxUtils.sendGetRequest("/src/JS/json-data-on-server.json", function (request) { //it's strange to use (request) and not (response) here
           var name = request;
           // Below will not immediately get the expected result if it's placed outside of this $ajaxUtils.sendGetRequest(..) which is an asynchronous call
           document.querySelector(section + ' div').innerHTML = "<h3>Hello " + name.firstName +" " + name.lastName + " (" + name.age + " years old) " + "!</h3>";
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded",
   }
 )
 
-//// below is moved to /src/Html_JS/custom_layout.cshtml.js
+//// below is moved to /src/JS/custom_layout.cshtml.js
 
 //// Hide the second top bar when mouse clicks on the web page body. It or the below does not work here. 
 ////jQuery function starts with $ as in the below.

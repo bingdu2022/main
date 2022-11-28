@@ -20,7 +20,7 @@
 
 // From users' perspective, after the web page is loaded, they can click on buttons or href links (onclick $dc.xxx to server) to see view000, view100s or view200s.
 
-// A strange issue: not colored texts in \WebApplication3\src\Html_JS\custom_layout.cshtml.js
+// A strange issue: not colored texts in \WebApplication3\src\JS\custom_layout.cshtml.js
 // Fix: change custom_layout.cshtml.js to custom_lay1out.cshtml.js makes the colors reappear. The colors are still there after Reverse the change
 
 (function (global) {
@@ -62,7 +62,7 @@
     // On first load, show view000
     showLoading("#main-content");
 
-    $ajaxUtils.sendGetRequest(  // Use /src/Html_JS/ajax-utils.js
+    $ajaxUtils.sendGetRequest(  // Use /src/JS/ajax-utils.js
       view000,  // $ajaxUtils.sendGetRequest is trying to get view000 Asychronouslly
       function (responseText) {  // Does the below if $ajaxUtils.sendGetRequest successfully gets view000 from server. Here responseText is just a symbol or can be replaced with view000 or any variable.
         document.querySelector('#main-content').innerHTML = responseText;  // Based on the third arg (false), response.responseText is an HTML or a string
