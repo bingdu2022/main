@@ -26,14 +26,14 @@
 (function (global) {
   var dc = {};
   // Video 2:00
-  var view000 = "/src/Html_JS_DynamicViews/view000.html" // Video 1:33
+  var view000 = "/src/JS_DynamicViews/view000.html" // Video 1:33
 
-  var allViewsUrl = "/src/Html_JS_DynamicViews/view100s-json-data-on-server.json";  // an array of objects. Video 1:40
-  var view100sTitleHtml = "/src/Html_JS_DynamicViews/view100s-title.html";
-  var view100sClickHtml = "/src/Html_JS_DynamicViews/view100s-click.html";
-  var view200sUrl = "/src/Html_JS_DynamicViews/view200s-json-data-on-server.json?view100s=";  // Video: 1:57:26 for json and Video: 1:58:50 for json?view100s= which is replaced with a simple array loop check.
-  var view200sTitleHtml = "/src/Html_JS_DynamicViews/view200s-title.html";
-  var view200Html = "/src/Html_JS_DynamicViews/view200.html";
+  var allViewsUrl = "/src/JS_DynamicViews/view100s-json-data-on-server.json";  // an array of objects. Video 1:40
+  var view100sTitleHtml = "/src/JS_DynamicViews/view100s-title.html";
+  var view100sClickHtml = "/src/JS_DynamicViews/view100s-click.html";
+  var view200sUrl = "/src/JS_DynamicViews/view200s-json-data-on-server.json?view100s=";  // Video: 1:57:26 for json and Video: 1:58:50 for json?view100s= which is replaced with a simple array loop check.
+  var view200sTitleHtml = "/src/JS_DynamicViews/view200s-title.html";
+  var view200Html = "/src/JS_DynamicViews/view200.html";
 
 
   // Convinience function for inserting innerHTML for 'select'
