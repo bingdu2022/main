@@ -47,7 +47,7 @@ namespace WebApplication3.Controllers
       return View();
     }
 
-    public ActionResult JS_InHtmlBody()
+    public ActionResult JS_InBody()
     {
       ViewBag.Title = "JS";
       return View();
