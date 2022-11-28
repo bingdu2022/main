@@ -1048,7 +1048,7 @@
     <Content Include="Views\Home\ShoppingModuleComponentsAngularJS.cshtml" />
     <Content Include="src\Shopping\shopping-spinner.component.html" />
     <Content Include="Views\Home\AngularUiRouterApp.cshtml" />
-    <Content Include="Views\Home\HtmlCss_InHtmlBody.cshtml" />
+    <Content Include="Views\Home\HtmlCss_InBody.cshtml" />
     <Content Include="Views\Home\JS_InBody.cshtml" />
     <Content Include="src\JS\json-data-on-server.json" />
     <Content Include="src\JS\custom_layout.cshtml.js" />
