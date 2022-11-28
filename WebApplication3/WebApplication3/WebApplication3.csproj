@@ -171,7 +171,7 @@
     <Content Include="Components\List.html" />
     <Content Include="Components\spinner.html" />
     <Content Include="Scripts\angular-ui-router.min.js" />
-    <Content Include="src\Html_CSS\a-html-page.html" />
+    <Content Include="src\Html_Css\a-html-page.html" />
     <Content Include="src\JS\ajax-utils.js" />
     <Content Include="src\JS\data-on-server.txt" />
     <Content Include="src\JS\JS.cshtml.js" />
@@ -1046,7 +1046,7 @@
     <Content Include="Views\Home\ShoppingModuleComponentsAngularJS.cshtml" />
     <Content Include="src\Shopping\shopping-spinner.component.html" />
     <Content Include="Views\Home\AngularUiRouterApp.cshtml" />
-    <Content Include="Views\Home\HtmlCss_InBody.cshtml" />
+    <Content Include="Views\Home\Html_Css.cshtml" />
     <Content Include="Views\Home\JS.cshtml" />
     <Content Include="src\JS\json-data-on-server.json" />
     <Content Include="src\JS\custom_layout.cshtml.js" />

@@ -1,7 +1,7 @@
 ﻿<p>
   Make this 'body' to show up (replace @*@RenderBody*@ of _Layout.cshtml) and clickable:
-  Show up: In HomController.cs, add public ActionResult HtmlCss_InBody() {..}
-  Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML CSS", "HtmlCss_InBody", "Home", new { area = "" }, null)</li>*@
+  Show up: In HomController.cs, add public ActionResult Html_Css() {..}
+  Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML CSS", "Html_Css", "Home", new { area = "" }, null)</li>*@
 </p>
 
 <!--I've learned HTML-CSS-JS from Chailin: https://www.facebook.com/CourseraWebDev/ -->
@@ -87,8 +87,8 @@
 <p> &copy; Copyright; no&nbsp;break&nbsp;phrase </p> @* other specials or entity references*@
 
 <h3>a href for hyper link</h3>
-<a href="~/src/Html_CSS/a-html-page.html" title="This is a link">Linking to an intenal html. Only the content of its body is displayed here because it's an MVC web app.</a>
-<a href="~/src/Html_CSS/a-html-page.html" title="This is a block link>">
+<a href="~/src/Html_Css/a-html-page.html" title="This is a link">Linking to an intenal html. Only the content of its body is displayed here because it's an MVC web app.</a>
+<a href="~/src/Html_Css/a-html-page.html" title="This is a block link>">
   <div>DIV (block in an inline) Linking to a web page, which means the a tag can contain flowing and phrasing tags</div>
 </a>
 <a href="https://github.com/bingdu2022/main" target="_blank" title="Go to an external link">
