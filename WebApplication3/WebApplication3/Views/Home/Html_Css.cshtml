@@ -1,10 +1,10 @@
 ﻿<p>
   Make this 'body' to show up (replace @*@RenderBody*@ of _Layout.cshtml) and clickable:
-  Show up: In HomController.cs, add public ActionResult Html_Css() {..}
-  Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML CSS", "Html_Css", "Home", new { area = "" }, null)</li>*@
+    Show up: In HomController.cs, add public ActionResult Html_Css() {..}
+    Clickable: in _Layout.cshtml, add @*<li>@Html.ActionLink("HTML CSS", "Html_Css", "Home", new { area = "" }, null)</li>*@
 </p>
 
-<!--I've learned HTML-CSS-JS from Chailin: https://www.facebook.com/CourseraWebDev/ -->
+<!--I've learned HTML-CSS-JS from Yaakow Chaikin: https://www.facebook.com/CourseraWebDev/ -->
 <!--Block-level (ie. div) elements  Inline (ie. span) elements
   ..render to begin on a new line   ..render on the same line
   ..contain inline or other block   ..only other inline elements
@@ -26,7 +26,7 @@
 <h2>Below dispalys how semantic elements show a meaningful structure</h2>
 
 <header>
-  header element - xxx. Usually logo, tag line, avgivation etc.
+  header element - xxx. Usually logo, tag line, navgivation etc.
   <nav>nav (short for navigation) element - links to different parts of the web site</nav>
 </header>
 
@@ -40,7 +40,7 @@
 </section>
 
 <aside>
-  aside tag: info related ot the main topic
+  aside tag: info related to the main topic
 </aside>
 
 <footer>
@@ -57,7 +57,7 @@
     <li>
       li 3
       <ul>
-        under li 3, ul-li sturure:
+        inside li 3, ul-li sturure:
         <li>li 3 - li1</li>
         <li>li 3 - li2</li>
       </ul>
@@ -129,8 +129,8 @@
 <h4 style="color:cadetblue">descendant selector, i.e. article p {color:cadetblue} or .classname p {color:..}: Here uses h4 style="color:cadetblue". It means all the p tags that are inside (at any level) article../article use the defined style </h4>
 <h3 style="color:burlywood">Pseudo class selector, i.e. :link, :visited, :hover, :active, :nth-child(..). {color:burlywood} or .classname p {color:..}: Here uses h3 style="color:burlywood". It means all the p tags that are inside (at any level) article../article use the defined style </h3>
 <pseudo_section>
-  Pseudo_section style pseudo_section li {list-style: none;  color: burlywood;}
-  <h4>and here(h4) to show below links use pseudo_section a:link, a:visited {...}</h4>
+  Pseudo_section style: i.e. in .css file, pseudo_section li {list-style: none;  color: burlywood;}
+  <h4>and here(h4) to show below links use pseudo_section a:link, a:visited {...} in the .css file</h4>
   <h4><a href="/src/Ui_Router/html-table.html" target="_blank">A local table html link to use pseudo class selector to style</a> </h4>
   <ul>
     <li>
@@ -148,7 +148,7 @@
   <div>div1</div>
   <div>div2</div>
   <div>
-    div3. You can hover here for : pseudo_list div:nth-child(3):hover{
+    div3. You can hover mouse here for the css-defined style: pseudo_list div:nth-child(3):hover{
     background-color:antiquewhite;cursor:pointer;}
     <br />But simple/readable is better than complicated/tricky
   </div>
@@ -195,7 +195,7 @@ margin: 20px;width:400px;
 height:60px;overflow:auto;
 ">
   <div style="background-color:antiquewhite;">
-    <span style="font-weight:bolder;">Overflow to havea scroll bar:</span>  My div has style="background-color:aqua;padding:10px 10px 10px 10px;border: 5px solid black;
+    <span style="font-weight:bolder;">Overflow to have a scroll bar:</span>  My div has style="background-color:aqua;padding:10px 10px 10px 10px;border: 5px solid black;
     margin: 20px;width:400px;height:60px;overflow:scroll;"
   </div>
 </div>
