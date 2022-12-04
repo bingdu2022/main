@@ -104,3 +104,4 @@ pseudo_list div:nth-child(3):hover{
   background-color:antiquewhite;
   cursor:pointer;
 }
+.class_green_bolder{color:green;font-weight:bolder;}

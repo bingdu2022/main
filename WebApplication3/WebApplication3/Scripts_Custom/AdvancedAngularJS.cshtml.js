@@ -78,7 +78,7 @@
     vm.addItem = function () {
       ShoppingListService.addItem(vm.itemName, vm.itemQuantity); //After doing .addItem, it seems doing ShoppingListService.getItems() here can't get updated vm.items
       var currentItems = ShoppingListService.getItems().length + 1; //+1: because ShoppingListService.addItem mimics 'deferred' or is a promise, here is slow one step
-      vm.title = originalTitle + " (" + currentItems + " items)"; 
+      vm.title = originalTitle + " (" + currentItems + " items)";  // it's first used by the DDO of the 'Shopping List 3'
     };
 
     vm.removeItem = function (itemIndex) {
@@ -222,9 +222,10 @@
       })
 
     vm.logMenuItem = function (Id) {
-      var promise = MenuCategoriesService.getMenuForCategory(Id);
-      promise.then(function (response) {
+      var promise2 = MenuCategoriesService.getMenuForCategory(Id);
+      promise2.then(function (response) {
         console.log(response.data);
+        vm.category = response.data;
       })
         .catch(function (error) {
           console.log(error);
@@ -287,7 +288,7 @@
   function ShoppingList() {
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItemWithIsolate.html'  //note can't use /Views/Home/ because customized staff is not allowed to save under it due to security reasons
-      , scope: {ctrl: '=myCtrl', title: '@title'}  //DOM attribute value binding @ always results in directive property being a string
+      , scope: {ctrl: '=myCtrl', title: '@title', title2: '@title2'}  //DOM attribute value binding @ always results in directive property being a string
     };
     return ddo;
   }
@@ -413,7 +414,9 @@
       //the ShoppingList3DirectiveController under module can be used not only for the directive but for other places as well if needed.
 
       bindToController: true, //bind scope{.params.} to ctrl
-      link: ShoppingList4DirectiveLink
+
+      link: ShoppingList4DirectiveLink  //It's a function which uses event listener scope.$watch to monitor the result of ctrl.cookiesInList()
+      // and then show or remove warning cookie based on the result true/false.
     };
     return ddo;
   };
@@ -517,6 +520,12 @@
 
     });
 
+    scope.$watch('ctrl.errorMessage', function (newValue, oldValue) {
+      console.log("newValue: ", newValue);
+      console.log("oldValue", oldValue);
+
+    });
+
     function displayCookieWarning() {
       ////Use angular jqLite
       //var warningElem = element.find("div"); // element = shopping-list4 > AdvancedAngularJS_InputItem_transclude.html which has one div
@@ -565,6 +574,8 @@
 
     vm.getItems = function () { return items; };
 
+    // The below is never used because ng-click='ctrl.removeItem()' is in AdvancedAngularJS_InputItem_transclude.html 
+    //   which has its own conotrller ShoppingList3DirectiveController
     vm.removeItem = function (itemIndex) {
       items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
     }
@@ -575,7 +586,7 @@
     var vm = this;
 
     vm.items = ShoppingList5Service.getItems();
-    vm.title = "Transclude_ShoppingList (Limited to 3 items)";
+    vm.title = "Transclude_ShoppingList (horror and cookie)";
     vm.warning = "Warning from ShoppingList5Controller: Cookie detected!";
 
     vm.itemName = "";
@@ -588,6 +599,8 @@
       } catch (error) { vm.errorMessage = error.message; };
     };
 
+    // The below removeItem is never used because ng-click='ctrl.removeItem()' is in AdvancedAngularJS_InputItem_transclude.html
+    //   which has its own conotrller ShoppingList3DirectiveController
     vm.removeItem = function (itemIndex) {
       ShoppingList5Service.removeItem(itemIndex);
       vm.errorMessage = ""; //in case Remove occurs after Error: Max items (3) reached!

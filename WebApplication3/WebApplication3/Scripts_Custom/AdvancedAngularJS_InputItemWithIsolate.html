@@ -1,6 +1,8 @@
-﻿<h3>{{title}}</h3>
+﻿<p>The below title comes from {{title2}}</p> 
+<h3>{{title}}: a directive or a DDO with its isolated ctrl attibutes ie title etc.</h3>
 <ol>
-  <li ng-repeat="item in ctrl.items">  <!--not ctrl1.items-->
+  <li ng-repeat="item in ctrl.items">
+    <!--not ctrl1.items-->
     {{item.quantity}} boxes of {{item.name}}
     <button ng-click="ctrl.removeItem($index);">Remove</button>
   </li>
