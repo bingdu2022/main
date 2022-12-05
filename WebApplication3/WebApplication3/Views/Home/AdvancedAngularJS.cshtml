@@ -26,11 +26,13 @@
     </li>
   </ol>
 
-  <br />
-  <p class="class_green_bolder">--------------------Another type of promise: $http service call - calling /api/Shopping API 
-  (triggered by menu.logMenuItem(item.Id)):</p>
-
   @* $http service call - calling API *@
+
+  <br />
+  <p class="class_green_bolder">
+    --------------------Another type of promise: $http service call - calling /api/Shopping API
+    (triggered by menu.logMenuItem(item.Id)):
+  </p>
   <div ng-controller="MenuCategoriesController as menu">
     <h3>List of Menu Categories</h3>
     <ul>
@@ -49,7 +51,10 @@
 </div>
 
 <br />
-<p class="class_green_bolder">--------------------Use DDOs: input-Item with html and list-item-desc without html, under ShoppingListController:</p>
+<p class="class_green_bolder">
+  --------------------Use DDOs: input-Item with html and list-item-desc without html, under ShoppingListController.
+  It shows Errors 'That's too much, Bing!' (if >=5 items) or 'Stay away from cookies, Bing' in console:
+</p>
 @* below is a slightly modified copy of the above *@
 <div id="di2" ng-controller="ShoppingListController as ctrl">
   <h3>Shopping List 2: a directive or a DDO with its own html</h3>
@@ -67,10 +72,10 @@
 
 </div>
 
+@* .directive(..) Attribute Isolate = or @ *@
+
 <br />
 <p class="class_green_bolder">--------------------Use DDO (shopping-list) with its own html and isolated scope variables</p>
-
-@* .directive(..) Attribute Isolate = or @ *@
 <div id="di3" ng-controller="ShoppingListController as ctrl1">
   @*<h3>Shopping List 3</h3>*@
   <input type="text" ng-model="ctrl1.itemName" placeholder="item name" />
@@ -86,11 +91,14 @@
 
 </div>
 
-<br />
-<p class="class_green_bolder">--------------------The DDOs same to the above under ShoppingList2Controller with ShoppingList2Service 
-  and ng-if to show Max items errors:</p>
+@* below id="di4" is a copy of the above for testing Directive Isolate *@
 
-@* below is a copy of the above for testing Directive Isolate *@
+<br />
+<p class="class_green_bolder">
+  --------------------The DDOs same to the above under ShoppingList2Controller with ShoppingList2Service
+  and ng-if to show Max items errors:
+</p>
+<br />
 <div id="di4" ng-controller="ShoppingList2Controller as ctrl2">
   @*<h3>Shopping List 4</h3>*@
   <input type="text" ng-model="ctrl2.itemName" placeholder="item name" />
@@ -101,11 +109,13 @@
   <div ng-if="ctrl2.errorMessage" class="error"> Error: {{ctrl2.errorMessage}} </div>
 </div>
 
-<br />
-<p class="class_green_bolder">--------------------DDO (shopping-list3) with a inside controller. ShoppingList2Controller and 
-  ShoppingList3Directive with its own ShoppingList3DirectiveController and its inside Warning cookie errors:</p>
+@* below id="di6" is for a controller inside of Directive *@
 
-@* below is for a controller inside of Directive *@
+<br />
+<p class="class_green_bolder">
+  --------------------DDO (shopping-list3) with a inside controller. ShoppingList2Controller and
+  ShoppingList3Directive with its own ShoppingList3DirectiveController and its inside Warning cookie errors:
+</p>
 <br />
 <div id="di6" ng-controller="ShoppingList2Controller as ctrl3">
   @*<h3>Shopping List 5</h3>*@
@@ -116,20 +126,25 @@
   @*below items="ctrl3.items" is the key which is different from <shopping-list my-ctrl="ctrl2" ...> *@
   <shopping-list3 items="ctrl3.items" title="{{ctrl3.title}}"></shopping-list3>  @* use .directive(..) with isolate scope and a controller inside of it *@
 
-  @* below error comes from shopping-list3, so should be handled inside shopping-list3 which leads to a request of placing a controller inside a directive *@
-  @*<div ng-if="ctrl3.errorMessage" class="error"> Error: {{ctrl3.errorMessage}} </div>*@
+  @* the above shopping-list3 pointed AdvancedAngularJS_InputItem_controller.html will be inserted here and contains the item list and errors.
+    the error should be handled inside shopping-list3 which leads to a request of placing a controller inside a directive *@
 
 </div>
 
+@* below id="di7" is for Directive: link *@
+
 <br />
 <p class="class_green_bolder">
-  --------------------DDO (shopping-list4) with both controller and link. ShoppingList2Controller
+  --------------------DOM manipulation is usually done inside of the link function over DDO.
+  The purpose of using 'link' here is to display/remove a warning message in a different way.
+  DDO: Declare link function inside .directive: var ddo={ scope:{..}, link: LinkFunction, ..templateUrl: '..' }; return ddo; }
+</p>
+<p class="class_green_bolder">
+  --------------------Use link to handle errors: DDO (shopping-list4) with both controller and link. ShoppingList2Controller
   and ShoppingList4Directive using ShoppingList3DirectiveController and with ShoppingList4DirectiveLink which
   is a function and uses an event listener scope.$watch to monitor the result of ctrl.cookiesInList()
   and then show or remove warning cookie based on the result true/false:
 </p>
-
-@* below is for Directive: link *@
 <br />
 <div id="di7" ng-controller="ShoppingList2Controller as ctrl3">
   <input type="text" ng-model="ctrl3.itemName" placeholder="item name" />
@@ -139,17 +154,22 @@
   @*below items="ctrl3.items" is the key which is different from <shopping-list my-ctrl="ctrl2" ...> *@
   <shopping-list4 items="ctrl3.items" title="{{ctrl3.title}}"></shopping-list4>  @* use .directive(..) with link *@
 
-  @* below error comes from shopping-list3, so should be handled inside shopping-list3 which leads to a request of placing a controller inside a directive *@
-  @*<div ng-if="ctrl3.errorMessage" class="error"> Error: {{ctrl3.errorMessage}} </div>*@
+  @* the above shopping-list4 pointed AdvancedAngularJS_InputItem_link.html will be inserted here and contains the item list and errors.
+    the error should be handled inside shopping-list4 which leads to a request of placing a controller inside a directive *@
 
 </div>
 
+@* below id="di8" is for Directive: transclude *@
+
 <br />
 <p class="class_green_bolder">
-  --------------------DDO (shopping-list5 or shoppingList5) with its own html, controller, link and transclude, under ShoppingList5Controller.
-  Error messages are written here but dynamically showing/removing them is controlled by both Site.css (default) and shoppingList5-defined controller: ShoppingList3DirectiveController and ShoppingList5DirectiveLink :
+  --------------------DDO: transclude: let error messages stay in the main HTML and have DDO to control its display or hiding.
+  The goal is use different error messages in different places of HTML but these messages use the same DDO to control their show/hide etc behaviors.
 </p>
-@* below is for Directive: transclude *@
+<p class="class_green_bolder">
+  --------------------Use both link and transclude to handle errors: the DDO (shopping-list5 or shoppingList5) with its own html, controller, link and transclude, under ShoppingList5Controller.
+  Error messages are written here but dynamically showing/removing them is controlled by both Site.css (for removing the error by default) and shoppingList5-defined controller: ShoppingList3DirectiveController and ShoppingList5DirectiveLink :
+</p>
 <br />
 <div id="di8" ng-controller="ShoppingList5Controller as ctrl5">
   <input type="text" ng-model="ctrl5.itemName" placeholder="item name" />
@@ -160,8 +180,8 @@
   <shopping-list5 id="list5" items="ctrl5.items" title="{{ctrl5.title}}">
     <div>
       @* this outter div is mapped to div of shoppingList5>AdvancedAngularJS_InputItem_transclude.html  *@
-      @* the content below of the outter div for error messages is placed here under ctrl5 in the main cshtml and in ctrl5 
-        but their display is controlled by DDO: both ShoppingList5DirectiveLink and the <div class="error2" ng-transclude></div> 
+      @* the content below of the outter div for error messages is placed here under ctrl5 in the main cshtml and in ctrl5
+        but their display is controlled by DDO: both ShoppingList5DirectiveLink and the <div class="error2" ng-transclude></div>
         of AdvancedAngularJS_InputItem_transclude.html  *@
       @* below are not displayed by default controlled in Site.css:.error2 > display: none *@
       <div class="title">Oh, the horror!</div>

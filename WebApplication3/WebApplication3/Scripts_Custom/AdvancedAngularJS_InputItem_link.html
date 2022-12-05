@@ -1,7 +1,11 @@
-﻿<!--below is part of ShoppingList3DirectiveController-->
-<h3>{{ctrl.title}}</h3>
+﻿<!--below will be inserted into AdvancedAngularJS.cshtml. Its js is inside AdvancedAngularJS.cshtml.js
+  and the ctrl is ShoppingList3DirectiveController which is the controller of ShoppingList4Directive
+  defined in .directive('shoppingList4', ShoppingList4Directive)-->
+
+<h3>{{ctrl.title}}</h3>  <!-- title is an passed-in title of ShoppingList2Controller  -->
 <ol>
   <li ng-repeat="item in ctrl.items">
+    <!-- items is an passed-in items of ShoppingList2Controller  -->
     <!--not ctrl1.items-->
     {{item.quantity}} boxes of {{item.name}}
     <button ng-click="ctrl.removeItem($index);">Remove</button>
@@ -10,10 +14,12 @@
 <!--<div class="error" ng-if="ctrl.cookiesInList()">
   {{ctrl.errorMessage}}
 </div>-->
-<div class="error2">  <!--~\Content\Site.css-->
+<div class="error2">
+  <!--~\Content\Site.css-->
   Directive link error: cookie is found!
 </div>
+
+<!-- the below error is slowly removed by the scope.$watch('ctrl.cookiesInList()'.. of ShoppingList4DirectiveLink as soon as the web page is loaded -->
 <div class="error3">
-  <!--~\Content\Site.css-->
   Directive link error3 found by jQuery: cookie is found!
 </div>

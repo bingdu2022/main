@@ -322,7 +322,7 @@
     var vm = this;
 
     vm.items = ShoppingList2Service.getItems();
-    vm.title = "Shopping List 5(Limited to 3 items)";
+    vm.title = "ShoppingList2Controller.title";
 
     vm.itemName = "";
     vm.itemQuantity = "";
@@ -502,7 +502,11 @@
     };
     return ddo;
   };
-  //below is to serve ShoppingList5Directive
+  //below is to serve ShoppingList5Directive and does:
+  //  A. Monitors ctrl.cookiesInList() result changes caused by users' clicking on 'Add Item'
+  //  B. Based on A, show or remove all the divs in <div class="error2" ng-transclude> ...div1..div2..  </div>, 
+  //     where the inner div1, div2 ... are written in <shopping-list5> ...div1..div2.. </shopping-list5> of AdvancedAngularJS.cshtml 
+  //     which is the parent html of the child AdvancedAngularJS_InputItem_transclude.html
   function ShoppingList5DirectiveLink(scope, element, attrs, controller) {
     // scope = $scope but why not use $scope is because here scope is pass-in parameter and not $inject parameter. 
     console.log("link scope is: ", scope);  // = $scope or $$.. $parent . $root . ctrl: ShoppingList3DirectiveController .. [[Prototype:]] Object

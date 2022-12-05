@@ -1,4 +1,7 @@
-﻿<!--below is part of ShoppingList3DirectiveController-->
+﻿<!--below will be inserted into AdvancedAngularJS.cshtml. Its js is inside AdvancedAngularJS.cshtml.js
+  and the ctrl is ShoppingList3DirectiveController which is the controller of ShoppingList4Directive
+  defined in .directive('shoppingList3', ShoppingList4Directive)-->
+
 <h3>{{ctrl.title}}</h3>
 <ol>
   <li ng-repeat="item in ctrl.items">
@@ -8,5 +11,5 @@
   </li>
 </ol>
 <div class="error" ng-if="ctrl.cookiesInList()">
-  {{ctrl.errorMessage}}
+  {{ctrl.errorMessage}}   <!-- "Warning: cookies detected!" -->
 </div>

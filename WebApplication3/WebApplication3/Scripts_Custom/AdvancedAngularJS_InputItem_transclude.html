@@ -1,9 +1,10 @@
 ﻿<!--below will be inserted into AdvancedAngularJS.cshtml. Its js is inside AdvancedAngularJS.cshtml.js
   and the ctrl is ShoppingList3DirectiveController which is the controller of ShoppingList5Directive
-  defined as in .directive('shoppingList5', ShoppingList5Directive)-->
-<h3>{{ctrl.title}}</h3>
+  defined in .directive('shoppingList5', ShoppingList5Directive)-->
+
+<h3>{{ctrl.title}}</h3>  <!-- title is an passed-in title of ShoppingList5Controller  -->
 <ol>
-  <li ng-repeat="item in ctrl.items">
+  <li ng-repeat="item in ctrl.items"> <!-- items is an passed-in items of ShoppingList5Controller  -->
     <!--not ctrl1.items-->
     {{item.quantity}} boxes of {{item.name}}
     <button ng-click="ctrl.removeItem($index);">Remove</button>
@@ -12,5 +13,8 @@
 
 <!--below can contain one or more child divs that are written in its parent html,
   as if you see <div class="error2"..> ... <div>...</div>.. <div>...</div> ..</div>
-  All the child divs are written in <shopping-list5 ..> ... </shopping-list5> of the parent html AdvancedAngularJS.cshtml-->
+  All the child divs are written in <shopping-list5 ..> ... </shopping-list5> of the parent html AdvancedAngularJS.cshtml
+  The purpose of coding class="error2" is hide the child divs over Site.css when the web page is loaded.
+  The purpose of coding ng-transclude is indicate this div may contain its child (or inner) divs in its parent html
+  -->
 <div class="error2" ng-transclude></div> 
