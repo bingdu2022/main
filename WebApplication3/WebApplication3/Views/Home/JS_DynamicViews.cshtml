@@ -1,11 +1,17 @@
-﻿<div><h3 class="text-center">Html Main View from JS_DynamicViews.cshtml </h3></div>
+﻿<div><h3 class="text-center">Ajax updates main-content of JS_DynamicViews.cshtml with /src/JS_DynamicViews/JS_DynamicViews.cshtml.js </h3></div>
 <div id="call-btn">  @* tried to use  class="visible-xs"> but it seems not working here *@
-  <a class="btn" href="tel:801-331-8758">
+ 
+  <a class="btn" href="tel:801-331-8758"> @* it is displayed at the left side of the bottom bar of the web page when users hover mouse on it*@
+    @* the below <span ...></span> is a phone icon. The more icons form Bootstrap Glyphicon Components can be found 
+      at https://www.w3schools.com/bootstrap/tryit.asp?filename=trybs_ref_glyphs&stacked=h*@
     <span class="glyphicon glyphicon-earphone"></span>801-331-8758
   </a>
 </div>
 <div class='text-center'><img src='/images/fall_trees_scene.jpg' width="300" height="240" alt="pic of trees"></div>
-<div><h4 style="background-color:antiquewhite;">The below area displays view000, view100s or view2002.</h4> </div>
+<div><h4 style="background-color:antiquewhite;">
+  The below area displays view000, view100s or view2002
+  by helps of $ajaxUtils.sendGetRequest(.) of document.addEventListener("DOMContentLoaded"..):
+</h4> </div>
 
 <div id="main-content" class="main_container">here</div>
 

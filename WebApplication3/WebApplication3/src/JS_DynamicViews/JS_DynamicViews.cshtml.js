@@ -21,7 +21,8 @@
 // From users' perspective, after the web page is loaded, they can click on buttons or href links (onclick $dc.xxx to server) to see view000, view100s or view200s.
 
 // A strange issue: not colored texts in \WebApplication3\src\JS\custom_layout.cshtml.js
-// Fix: change custom_layout.cshtml.js to custom_lay1out.cshtml.js makes the colors reappear. The colors are still there after Reverse the change
+// Fix: change custom_layout.cshtml.js to custom_lay1out.cshtml.js makes the colors reappear. 
+//      The colors are still there after reversing the change
 
 (function (global) {
   var dc = {};
@@ -43,7 +44,7 @@
   };
 
   // Show loading icon inside element identified by 'selector'.
-  // It happens before loading view000 and then is replaced by view000. Its purpose is to show users with a 'waiting' icon before showing view100s
+  // It happens before loading view000 and then is replaced by view000. Its purpose is to show users with a 'waiting' icon before loading view100s is finished.
   var showLoading = function (selector) {
     var html = "<div class='text-center'>";
     html += "<img src='/images/loading.gif'></div>";
@@ -59,10 +60,11 @@
 
   // On page load (before images, CSS ...)
   document.addEventListener("DOMContentLoaded", function (event) {
-    // On first load, show view000
+    // During loading view000, show waiting icon.
     showLoading("#main-content");
 
-    $ajaxUtils.sendGetRequest(  // Use /src/JS/ajax-utils.js
+    // On first load, show view000
+    $ajaxUtils.sendGetRequest(  // Use the sendGetRequest method of /src/JS/ajax-utils.js
       view000,  // $ajaxUtils.sendGetRequest is trying to get view000 Asychronouslly
       function (responseText) {  // Does the below if $ajaxUtils.sendGetRequest successfully gets view000 from server. Here responseText is just a symbol or can be replaced with view000 or any variable.
         document.querySelector('#main-content').innerHTML = responseText;  // Based on the third arg (false), response.responseText is an HTML or a string
@@ -77,12 +79,20 @@
     $ajaxUtils.sendGetRequest(view000,function (view000) {document.querySelector('#main-content').innerHTML = view000;},false);
   };
 
-  // Load the view100s views
+  // Load the view100s views summary:
+  //   1. Fetch the view100s-json-data-on-server.json data (views) from server  - Ajax call 1
+  //   2. If #1 succeeds, fetch the view100s-title.html from server - Ajax call 2
+  //   3. If #2 succeeds, fetch the view100s-click.html from server - Ajax call 3
+  //   4. If #3 succeeds, A. generate View100s from combining view100s-title.html and view100s-click.html based on views in the client or front end.
+  //                      B. insert View100s html into "#main-content"
+
+  // Load the view100s views:
   dc.loadView100s = function () {
     showLoading("#main-content"); // in case it takes a while to finish loading the below, so show a spinner (waiting gif) to users
     $ajaxUtils.sendGetRequest(  // Ajax call (1)
-      allViewsUrl,
-      buildAndShowView100sHTML  // the value (an object json) of Function buildAndShowView100sHTML - here passing in the address of the function.
+      allViewsUrl,  //   1. Fetch the view100s-json-data-on-server.json data (views) from server
+      buildAndShowView100sHTML  // if fetching allViewsUrl successfully, pass its data (views) to buildAndShowView100sHTML and execute buildAndShowView100sHTML(views)
+                                // Here buildAndShowView100sHTML is the address of Function buildAndShowView100sHTML(..)
     );  //default: ,True for json object. Note .sendGetRequest has three args.
   };
 
@@ -90,16 +100,18 @@
   function buildAndShowView100sHTML(views) {
     // Load title of categories page
     $ajaxUtils.sendGetRequest(  // Ajx call (2) inside Ajax call (1) 
-      view100sTitleHtml,  // After Ajax gets view100sTitleHtml, below continues adding it with more contents, i.e. many view100 views 
+      view100sTitleHtml,  //   2. If #1 succeeds, fetch the view100s-title.html from server
+                          // After Ajax gets view100sTitleHtml, below continues adding it with more contents, i.e. many view100 views
 
       function (view100sTitleHtml) {
         // Retrieve single view100s view
         $ajaxUtils.sendGetRequest(  // Ajx call (3) inside Ajax call (2) 
-          view100sClickHtml,  // Gets view100sClickHtml first and then below calls buildView100sHTML to do view100sTitleHtml + view100sClickHtml
+          view100sClickHtml,  //   3. If #2 succeeds, fetch the view100s-click.html from server
+                              //      and then below calls buildView100sHTML to do view100sTitleHtml + view100sClickHtml
           function (view100sClickHtml) {
             var view100Html =
-              buildView100sHTML(views, view100sTitleHtml, view100sClickHtml);
-            insertHtml("#main-content", view100Html);  // Show a complete web page after loading all view100s views
+              buildView100sHTML(views, view100sTitleHtml, view100sClickHtml); // 4. If #3 succeeds, A.generate View100s from combining view100s - title.html and view100s - click.html based on views in the client or front end.
+            insertHtml("#main-content", view100Html);  // B. insert View100s html into "#main-content"
           },
           false);
       },
@@ -139,25 +151,25 @@
     //$ajaxUtils.sendGetRequest(view200sUrl + lastName, buildAndShowView200sHTML);  //default: True for json object
 
     _lastName = lastName;
-    $ajaxUtils.sendGetRequest(view200sUrl, buildAndShowView200sHTML);  //default: True for json object
+    $ajaxUtils.sendGetRequest(view200sUrl, buildAndShowView200sHTML);  //default: True for json object: A. Fetch view200sUrl first
 
   };
 
   // Builds HTML for the View200s HTML page based on the data from the server
-  function buildAndShowView200sHTML(view100sView200s) { //view100sView200s is an json object to be returned
+  function buildAndShowView200sHTML(view100sView200s) { //view100sView200s is an json object returned by fetching view200sUrl
     // Load title of View200s page
     $ajaxUtils.sendGetRequest(
-      view200sTitleHtml,
+      view200sTitleHtml,  //fetch view200s-title.html from server
 
       // Retrieve single view
       function (view200sTitleHtml) {
         // Retrieve single view
         $ajaxUtils.sendGetRequest(
-          view200Html,
+          view200Html,  // fetch view200.html from server
           function (view200Html) {
             var view200sHtml =
-              buildView200sHTML(view100sView200s, view200sTitleHtml, view200Html);
-            insertHtml("#main-content", view200sHtml);
+              buildView200sHTML(view100sView200s, view200sTitleHtml, view200Html);  // combine view200sTitleHtml and view200.html by looping the data view100sView200s
+            insertHtml("#main-content", view200sHtml);  // insert the result of buildView200sHTML to #main-content
           },
           false);
       },
