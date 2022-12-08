@@ -1,7 +1,7 @@
 ﻿<!--Ajax will get the below, dynamically generates a view100 view and inserts it to the SPA (Single Page Application)-->
 <div class="col-md-3 col-sm-4 col-xs-6 col-xxs-12">
   <!-- last_name = .view100s.LastName which will be done in JS_DynamicViews.cshtml.js -->
-  <a href="#" onclick="$dc.loadView200s('{{last_name}}');">
+  <a href="#" onclick="$dc.loadView200s('{{last_name}}');">  <!-- note here {{last_name}} is not ng binding but placeholder or will be replaced in the js-->
     <div class="view-image">
       <!--Video 1:47: Below can come from different jpg files, i.e. /images/{{last_name}}/{{last_name}}.jpg-->
       <img src='/images/fall_trees_scene.jpg' width="100" height="100" alt="{{name}}">
