@@ -11,8 +11,24 @@
 *@
 
 <h1>Shopping List with Components</h1>
-
+<h3>Understand how MVC SPA works:</h3>
+<ol>
+  <li>I code Html.ActionLink("Module Components AngularJS", "ShoppingModuleComponentsAngularJS","Home") in the main SPA: _Layout.cshtml for a clickable tab.</li>
+  <li>I click the tab, the webApp.dll uses Home to find HomeController (HomeController.cs).</li>
+  <li>the HomeController executes public ActionResult ShoppingModuleComponentsAngularJS() which returns view() which is ShoppingModuleComponentsAngularJS.cshtml .</li>
+</ol>
+<h3>Understand how Module-Components works:</h3>
+<ul>
+  <li>ShoppingModuleComponentsAngularJS.cshtml just has placeholders i.e. shopping-simple etc and also does not have its own js</li>
+  <li>Instead, it is associated with 1 module js, 3 components and each of the componenets has a html and a js, and 2 of the 3 components are associted to the 4th/5th component (shopping-list) with their htmls - kind of nested module-component</li>
+  <li>It has 3 placeholders or links: (1)shopping-simple and (2)shopping-spinner are replaced by their component htmls 
+  and (3)loading-spinner will be replaced by a spinner gif when needing a waiting time</li>
+  <li>shopping-simple has the 4th componenet (shoppint-list) shows 2 ways of display/remove error messages: ng-if="$ctrl.cookiesInList()" and $ctrl.$doCheck > if ($ctrl.cookiesInList())</li>
+  <li>shopping-spinner has the 5th component (shopping-list-spinner).</li>
+</ul>
+<br />
 <shopping-simple></shopping-simple>
+
 <shopping-spinner></shopping-spinner>
 
 <loading-spinner></loading-spinner>  this comes from ShoppingModuleComponentsAngularJS.cshtml  @*it's at the same level as other top div*@

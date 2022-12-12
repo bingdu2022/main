@@ -13,6 +13,13 @@
     </li>
   </ol>
 
+  <!--above has a simple error handling - throw errors to console if addItem has something wrong i.e. Max items . 
+    below uses the same above ctrl.addItem but will process addItem errors differently by checking cookie.
+    why to do the above and below is just for comparison of different error handlers and also for testing a nested component
+    -->
+
+  <!--below is a placeholder of shopping-list.component.html or may be called as a nested component holder.
+    It will have 2 special error handling methods for display/remove.-->
   <shopping-list items="ctrl.items" title="{{ctrl.title}}"
                  on-remove="ctrl.removeItem(index)">
     <!--@*here on-remove=".." is a callback func: 1. get index value from listComponent > ListComponentController: $ctrl.removeItem. 2. call SinglePage_MainController: ctrl.removeItem(index)*@-->

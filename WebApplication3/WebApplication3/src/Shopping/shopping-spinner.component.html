@@ -1,6 +1,11 @@
 ﻿
 <div id="listEventArea" ng-controller="ShoppingListController as ctrl">
   <h4>List Event and Spinner Area ///////////////////////</h4>
+  <ul>
+    <li>$ctrl.$docheck - send $rootScope.$broadcast('..', { on: true }) - loop promises.push(...promise call..) - loop final: $rootScope.$broadcast('..', { on: false }) </li>
+    <li>As soon as $broadcast on,  spinner.component.js monitors it using $rootScope.$on('..', function (event, data) { ...showSpinner=true... } and html uses ng-if="$ctrl.showSpinner" to show spinner </li>
+    <li>As soon as $broadcast off, spinner.component.js monitors it using $rootScope.$on('..', function (event, data) { ...stopSpinner=false... } and html uses ng-if="$ctrl.showSpinner" to hide spinner </li>
+  </ul>
   <input type="text" ng-model="ctrl.itemName" placeholder="item name" />
   <input type="text" ng-model="ctrl.itemQuantity" placeholder="quantity" />
   boxes

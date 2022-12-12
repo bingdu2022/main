@@ -1,12 +1,12 @@
 ﻿//this shopping-spinner.component.js does
-//..1. Replace <shopping-simple></shopping-simple> of ShoppingModuleComponentsAngularJS.cshtml with shopping-spinner.component.html
+//..1. Replace <shopping-spinner></shopping-spinner> of ShoppingModuleComponentsAngularJS.cshtml with shopping-spinner.component.html
 //..2. Register/create ShoppingListController to support angular bindings in shopping-spinner.component.html
 
 
 //main coding architecture:
 //One module (or more independent or dependent modules)
 
-//One module with many components:
+//One module with one or more components:
 
 //..1. Components - only control their own View and Data - in other word: isolate scope
 //..2. Components have well-defined public API - Inputs and Outputs
@@ -106,6 +106,8 @@
     var vm = this;
     // List of shopping items
     var items = [];
+
+    // See the above //The reason to comment out ... to know why the below is not used here for shopping-spinner.html Add Item clicking
 
     //below is the best because waiting time of checkQuantity = checkName time + checkQuantity time in the above coding
     //check 2 items in paralell: total time = the needed longest time of the 2 checkings

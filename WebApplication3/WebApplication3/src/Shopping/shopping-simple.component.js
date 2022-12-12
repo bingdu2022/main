@@ -41,7 +41,7 @@
 
 (function () {
   'use strict';
-  angular.module('myApp')  //define an independent module: 'myApp' which is used in the MVC main web page: _Layout.cshtml
+  angular.module('myApp')  //Use already defined module: 'myApp' which is first defined in the MVC main web page: _Layout.cshtml
 
     ////////////////////////ShoppingController register start
     .controller('ShoppingController', ShoppingController)
