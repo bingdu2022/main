@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';  //bd: added Routes, useNavigate
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
-import { Counter } from './components/Counter';
+import { Counter } from './components/Counter';  // Why to use {..} because it's not defined as export default ...
 
 import './custom.css'
 
