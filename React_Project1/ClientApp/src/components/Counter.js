@@ -6,7 +6,7 @@ export class Counter extends Component {
 
   constructor(props) {  // constructor can access 'this'
     super(props);  //constructor has to call its parent class in React Component since here this child class or 'export class Counter' extends Component
-    this.state = { currentCount: 0, formatCount: 'Zero', tags: ['tag1', 'tag2', 'tag3'] }  //, imageUrl: require('../images/fall_trees_scene.jpg') }; // imageUrl... works too if not use import fall_trees_scene from '../images...'
+    this.state = { currentCount: (this.props.value === undefined ? 0 : this.props.value), formatCount: 'Zero', tags: ['tag1', 'tag2', 'tag3'] }  //, imageUrl: require('../images/fall_trees_scene.jpg') }; // imageUrl... works too if not use import fall_trees_scene from '../images...'
 
     // the below tells a function in js is an object which may have methods, i.e. .bind(..)
     this.incrementCounter = this.incrementCounter.bind(this);  //this.incrementCounter.bind(this) returns a new instance with 'this' parameter passing of incrementCounter, so this line recreates the function of incrementCounter() {..} to incrementCounter(this) {...}
@@ -55,6 +55,7 @@ export class Counter extends Component {
   }
 
   render() {
+    console.log(this.props);  /*to see how a caller can use props to pass in things*/
     return (
       <div>
         <h3>Counter: </h3>
@@ -62,6 +63,7 @@ export class Counter extends Component {
         <img src={fall_trees_scene} height='100' width={100+50} alt="fall_trees_scene.jpg"></img>
         <p>This is a simple example of a React component.</p>
 
+        {this.props.children}   {/*see Counters.js > <h4>Title</h4> which passes Title here*/}
         <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
         <p>Formatted Count: {this.state.formatCount}</p>
         <button className="btn btn-primary m-2" onClick={this.incrementCounter}>Increment</button>
