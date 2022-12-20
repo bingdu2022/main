@@ -7,6 +7,7 @@ export class Counter extends Component {
   constructor(props) {  // constructor can access 'this'
     super(props);  //constructor has to call its parent class in React Component since here this child class or 'export class Counter' extends Component
     this.state = { currentCount: (this.props.value === undefined ? 0 : this.props.value), formatCount: 'Zero', tags: ['tag1', 'tag2', 'tag3'] }  //, imageUrl: require('../images/fall_trees_scene.jpg') }; // imageUrl... works too if not use import fall_trees_scene from '../images...'
+    // the above this.state scope is limited to this class while props can be passed between classes
 
     // the below tells a function in js is an object which may have methods, i.e. .bind(..)
     this.incrementCounter = this.incrementCounter.bind(this);  //this.incrementCounter.bind(this) returns a new instance with 'this' parameter passing of incrementCounter, so this line recreates the function of incrementCounter() {..} to incrementCounter(this) {...}
@@ -28,6 +29,7 @@ export class Counter extends Component {
       formatCount: this.state.currentCount -1 === 0 ? 'Zero' : this.state.currentCount - 1
     });
   }
+
 
   // Passing an argument to an event handler
   passArgToDecreaseCounter = () => { this.decreaseCounter({ id: 1 }) };
@@ -58,12 +60,19 @@ export class Counter extends Component {
     console.log(this.props);  /*to see how a caller can use props to pass in things*/
     return (
       <div>
-        <h3>Counter: </h3>
+
+        {/*Counter (child) asks its caller's (Counters or this.props) to do onDelete (start an event) and then its parent Counters.js does onDelete={this.handleDeleteCounter} event*/}
+        <h3>Counter: <span> <button className="btn btn-primary m-2"
+          onClick={() => { this.props.onDelete(this.props.otherWayPassArgCounterId) }}   /*()=> ... is a way of taking the passing arg from its caller*/
+        >Delete Me</button>  </span> </h3>
+
         <h4>rendering counts and lists; conditional rendering, handling events, updating the State</h4>
         <img src={fall_trees_scene} height='100' width={100+50} alt="fall_trees_scene.jpg"></img>
         <p>This is a simple example of a React component.</p>
 
-        {this.props.children}   {/*see Counters.js > <h4>Title</h4> which passes Title here*/}
+        {this.props.children}   {/*see Counters.js > <h4>Counter #{x.id}</h4> which passes Counter #{x.id} here over '.children' */}
+        <h4>Another way of passing Counter id from Counters.js: {this.props.otherWayPassArgCounterId}</h4>  {/*similar to .children, it's another way to pass properties from Counters.js to Counter.js*/}
+
         <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
         <p>Formatted Count: {this.state.formatCount}</p>
         <button className="btn btn-primary m-2" onClick={this.incrementCounter}>Increment</button>
