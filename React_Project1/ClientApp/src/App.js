@@ -1,3 +1,15 @@
+//React_Project1 structure or Components:
+//Start or main web page: ClientApp / public / index.html: ... <div id=” root”></div> ...
+//Sub page 1: ClientApp / src / App.js will replace < div id =”root”></div >
+//  •	App.js:
+//    o	Layout.js > NavMenu.js
+  //    	Home.js
+  //    	Counter.js
+  //    	FetchData.js
+  //    	Counters.js > Counter.js
+  //    	Lists.js
+  //    	CounterParent.js > CounterChild.js
+
 import React, { Component } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';  //bd: added Routes, useNavigate
 import { Layout } from './components/Layout';   // from C:\bingdu2022.main\React_Project1\ClientApp\src\components\Layout.js
