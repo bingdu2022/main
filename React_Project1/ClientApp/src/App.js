@@ -6,6 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter'; // Why to use {..} because it's not defined as export default ...
 import { Counters } from './components/Counters';  
 import { Lists } from './components/Lists';
+import { CounterParent } from './components/CounterParent';
 
 import './custom.css'
 
@@ -20,6 +21,7 @@ export default class App extends Component {
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/counters' component={Counters} />
         <Route path='/lists' component={Lists} />
+        <Route path='/counter-parent' component={CounterParent} />
       </Layout>
     );
   }
