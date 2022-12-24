@@ -27,6 +27,7 @@ export class CounterChild extends Component {
         {/*by using an arrow function ()=> .. having an argument: (this.props.counterChild) which can be figured out (to use counterChild.id) by its caller*/}
         <button className='btn btn-primary btn-sm m-2' onClick={() => this.props.onIncrement(this.props.counterChild)} >Increment</button>
 
+        {/*the below (this.props.counterChild.id) = (this.props.counterChild) which means React is smart to know what to look for*/}
         <button className='btn btn-secondary btn-sm m-2' onClick={() => this.props.onRemoveMe(this.props.counterChild.id)} >Remove Me</button>
 
       </div>
