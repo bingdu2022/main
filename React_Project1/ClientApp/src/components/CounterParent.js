@@ -73,7 +73,24 @@ export class CounterParent extends Component {
     //JSON.stringify/parse only work with Number and String and Object literal without function or Symbol properties.
     //deepClone work with all types, function and Symbol are copied by reference.
 
+    //A shallow clone is a clone that has its primitive properties cloned but his REFERENCE properties still reference the original.
+
     this.setState({ counters });
+
+    //https://stackoverflow.com/questions/48710797/how-do-i-deep-clone-an-object-in-react
+  //  Many people still use jQuery.So in our example(please put import where it belongs, on top of the file):
+  //  import jQ from "jquery";
+  //  let trueDeep = jQ.extend(true, original, {});
+  //  console.log(original, trueDeep);
+  //  This works, it makes a nice deep copy and is a one - liner.But we had to import the entire jQuery.Which is fine if it is already being used in project, but I tend to avoid it since it is over - bloated and has terribly inconsistent naming.
+  //  Similarly, Angular users can use angular.copy().
+
+  //  You can use my personal SUPERSTAR among JS libraries(I am not involved in the project, just a big fan) - Lodash(or _ for friends).
+  //  So extend our example with (again, mind the position of import):
+  //  import _ from "lodash"; // cool kids know _ is low-dash
+  //  var fastAndDeepCopy = _.cloneDeep(objects);
+  //  console.log(original, lodashDeep);
+  //  It is a simple oneliner, it works, it is fast.
   }
 
   render() {
