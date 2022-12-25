@@ -3,6 +3,7 @@
 //  looks for this.props.counterChild which is undefined before its caller calls it.
 
 import React, { Component } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export class CounterChild extends Component {
   /*this is a controlled Component and does not have its own data which will be passed in by its caller*/
@@ -17,8 +18,12 @@ export class CounterChild extends Component {
   formatCount() {  /*return a value or a new value based on the input value*/
     const count = this.props.counterChild.value;
     return count === 0 ? 'Zero' : this.props.counterChild.value;
+    let location = useLocation();
+    console.log('useLocation(): ', location);
+
   }
   render() {
+    console.log('CounterChild: this.props:', this.props);
     return (
       <div>
         <span className={this.getBadgeClass()}>{this.formatCount()} </span>  {/*simpaly displays data that are passed in by the caller*/}

@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import { CounterChild } from './CounterChild';  /*It calls ./CounterChild.js*/
 import cloneDeep from 'lodash/cloneDeep';
+import { useLocation } from 'react-router-dom';
 
 export class CounterParent extends Component {
 
@@ -16,12 +17,28 @@ export class CounterParent extends Component {
     counters_origin_values: [{ id: 0, value: 2 }, { id: 1, value: 1 }]
   };
 
+  callNavMenu = () => {
+    this.props.location.data.handleTotalCount();
+  }
+
   handleIncrement =(x) => {
     console.log(x);
     const counters = [...this.state.counters];  /* [... ] or {... }  shallow clone of an array or object*/
     const index = counters.indexOf(x);  /*.indexOf() : a method of an array*/
     //counters[index] = { ...x };
-    counters[index].value ++;
+    counters[index].value++;
+
+    //let location = useLocation();
+    //console.log('hook: CounterParent location: ', location.state);  // it does not work: Uncaught Error: Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+
+    console.log('Props: CounterParent: ', this.props);
+    console.log('Props: CounterParent location: ',this.props.location);
+    console.log('Props: CounterParent location.data: ', this.props.location.data);
+    counters[index].value += this.props.location.state.totalCount;   // study how to use the passing props data from  CounterParent clicking tab in NavMenu.js
+
+    //this.props.location.data.handleTotalCount(); // this does not work and the possible reason is handleTotalCount is a callback function, so directly calling it as a regular func seeme not working .
+    this.callNavMenu();  // because the above doesn't work, creating a callback works
+
     this.setState({ counters });
   }
 
@@ -94,6 +111,7 @@ export class CounterParent extends Component {
   }
 
   render() {
+    console.log('this.props:', this.props);
     return (
       <div>
         <button className='btn btn-third m-2' onClick={this.handleReset} >Reset</button>

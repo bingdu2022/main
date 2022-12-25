@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './NavMenu.css';
 import earthsoft from '../images/EarthSoft.svg';
 import earthsoftIco from '../images/EarthIcon.ico';
+import { CounterParent } from './CounterParent';
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
@@ -13,7 +14,8 @@ export class NavMenu extends Component {
 
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
-      collapsed: true
+      collapsed: true,
+      totalCount: [{ value: 0 }]
     };
   }
 
@@ -21,6 +23,14 @@ export class NavMenu extends Component {
     this.setState({
       collapsed: !this.state.collapsed
     });
+  }
+
+  handleTotalCount = () => { /*pass function using props in React Router Link: https://stackoverflow.com/questions/66911401/how-can-i-pass-function-using-props-in-react-router-link*/
+    const totalCount = { ...this.state.totalCount };
+    console.log("NevMenu totalCount: ", totalCount);
+    totalCount[0].value ++;
+    this.setState({ totalCount });
+    console.log("NavMenu: handleTotalCount: totalCount: ", this.state.totalCount);
   }
 
   render () {
@@ -48,7 +58,9 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-dark" to="/lists">Lists</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/counter-parent">Counter Parent</NavLink>
+                  {/*pass data to navigated component using Link and NavLink: https://stackoverflow.com/questions/60123984/react-router-pass-props-from-one-component-to-another-using-navlink*/}
+                  {/*pass function using props in React Router Link: https://stackoverflow.com/questions/66911401/how-can-i-pass-function-using-props-in-react-router-link*/}
+                  <NavLink tag={Link} className="text-dark" to={{ pathname: "/counter-parent", state: { totalCount: 4,second:2 }, data: { handleTotalCount: this.handleTotalCount } }} >Counter Parent ({this.state.totalCount[0].value}) </NavLink>
                 </NavItem>
               </ul>
             </Collapse>
