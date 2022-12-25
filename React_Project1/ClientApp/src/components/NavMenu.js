@@ -25,10 +25,13 @@ export class NavMenu extends Component {
     });
   }
 
-  handleTotalCount = () => { /*pass function using props in React Router Link: https://stackoverflow.com/questions/66911401/how-can-i-pass-function-using-props-in-react-router-link*/
+  handleTotalCount = (x) => { /*pass function using props in React Router Link: https://stackoverflow.com/questions/66911401/how-can-i-pass-function-using-props-in-react-router-link*/
     const totalCount = { ...this.state.totalCount };
     console.log("NevMenu totalCount: ", totalCount);
-    totalCount[0].value ++;
+    totalCount[0].value++;  /*doing it by ignoring passed in x*/
+
+    totalCount[0].value = x;  /*show a number passed in from the gavigated tab CounterParent*/
+
     this.setState({ totalCount });
     console.log("NavMenu: handleTotalCount: totalCount: ", this.state.totalCount);
   }
