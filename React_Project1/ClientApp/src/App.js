@@ -28,7 +28,7 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-        <Route exact path='/' component={Home} />
+        <Route exact path='/' component={Home} />    {/*Route here is a clickable tab in the top menu bar*/}
         <Route path='/counter' component={Counter} />
         <Route path='/fetch-data' component={FetchData} />
         <Route path='/counters' component={Counters} />

@@ -18,8 +18,8 @@ export class CounterParent extends Component {
 
   handleIncrement =(x) => {
     console.log(x);
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(x);
+    const counters = [...this.state.counters];  /* [... ] or {... }  shallow clone of an array or object*/
+    const index = counters.indexOf(x);  /*.indexOf() : a method of an array*/
     //counters[index] = { ...x };
     counters[index].value ++;
     this.setState({ counters });
