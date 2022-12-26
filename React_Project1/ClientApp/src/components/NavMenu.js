@@ -63,7 +63,7 @@ export class NavMenu extends Component {
                 <NavItem>
                   {/*pass data to navigated component using Link and NavLink: https://stackoverflow.com/questions/60123984/react-router-pass-props-from-one-component-to-another-using-navlink*/}
                   {/*pass function using props in React Router Link: https://stackoverflow.com/questions/66911401/how-can-i-pass-function-using-props-in-react-router-link*/}
-                  <NavLink tag={Link} className="text-dark" to={{ pathname: "/counter-parent", state: { totalCount: 4,second:2 }, data: { handleTotalCount: this.handleTotalCount } }} >Counter Parent ({this.state.totalCount[0].value}) </NavLink>
+                  <NavLink tag={Link} className="text-dark" to={{ pathname: "/counter-parent", state: { totalCount: 4,second:2 }, data: { handleTotalCount: this.handleTotalCount } }} >Counter Parent <span className='badge badge-pill badge-secondary'> {this.state.totalCount[0].value}</span> </NavLink>
                 </NavItem>
               </ul>
             </Collapse>
