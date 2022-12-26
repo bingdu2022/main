@@ -15,7 +15,12 @@ export class NavMenu extends Component {
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.state = {
       collapsed: true,
+
       totalCount: [{ value: 0 }]
+      //As comparison, in const SomeComponent = () => { const [someState, setSomeState] = useState('starting value'); ...}
+      //The key difference between someSate and this.state.totalCount is that the initial value of the state defined by useState can be anything you want it to be.
+      //It no longer has to be an object as the this.state.totalCount requires. A string, a number, an object, undefined, null - anything goes!
+
     };
   }
 

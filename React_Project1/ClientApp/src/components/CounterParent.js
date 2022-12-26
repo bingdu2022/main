@@ -14,7 +14,8 @@ export class CounterParent extends Component {
 
   state = {
     counters: [{ id: 0, value: 2 }, { id: 1, value: 1 }],
-    counters_origin_values: [{ id: 0, value: 2 }, { id: 1, value: 1 }]
+
+    counters_origin_values: [{ id: 0, value: 2 }, { id: 1, value: 1 }]   //  to keep the original values of counters. Donot know other ways?
   };
 
   callNavMenu = () => {
@@ -92,6 +93,7 @@ export class CounterParent extends Component {
 
     //the below is the best for deep clone or real clone of an object by import cloneDeep from 'lodash/cloneDeep';
     const counters = cloneDeep(this.state.counters_origin_values);
+
     //JSON.stringify/parse only work with Number and String and Object literal without function or Symbol properties.
     //deepClone work with all types, function and Symbol are copied by reference.
 

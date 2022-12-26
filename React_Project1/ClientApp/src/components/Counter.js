@@ -4,6 +4,7 @@ import fall_trees_scene from '../images/fall_trees_scene.jpg';  //some one said 
 export class Counter extends Component {
   static displayName = Counter.name;
 
+  /*the below constructor is a lifecyle hook*/
   constructor(props) {  // constructor can access 'this'
     super(props);  //constructor has to call its parent class in React Component since here this child class or 'export class Counter' extends Component
     this.state = { currentCount: (this.props.value === undefined ? 0 : this.props.value), formatCount: 'Zero', tags: ['tag1', 'tag2', 'tag3'] }  //, imageUrl: require('../images/fall_trees_scene.jpg') }; // imageUrl... works too if not use import fall_trees_scene from '../images...'
@@ -14,6 +15,12 @@ export class Counter extends Component {
 
     // The below line is not needed anymore after it's created with a special way: decreaseCounter = () => {..}
     //this.decreaseCounter = this.decreaseCounter.bind(this);
+  }
+
+  //the below componentDidMount is the second often-used lifecyle hook and it is executed afte render(){..} is done.
+  componentDidMount() {
+    // Ajax call
+    //this.setState({ movies});
   }
 
   incrementCounter() {  // this is an event handler for onClick of a button
