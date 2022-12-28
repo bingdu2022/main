@@ -374,7 +374,6 @@ namespace ConsoleApp_C  //group things for organization: namespace > classes > m
         throw new NotImplementedException();
       }
 
-      public string 
     }
 
     void MyPrint()  //void: don't return anything, equivalent to vb Sub()
