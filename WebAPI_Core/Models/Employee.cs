@@ -13,5 +13,7 @@ namespace WebAPI_Core.Models
     public string DateOfJoining { get; set; }
     public string PhotoFileName { get; set; }
 
+    public string Names { get; set; }  // For deleting multi records whose EmployeeName in 'Names', i.e. Names = "name1,name2" etc.
+
   }
 }

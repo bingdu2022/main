@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using WebAPI_Core.Models;
+using Microsoft.AspNetCore.Hosting;
 
 
 // created the below based on 'VS2019-Learn React JS and .NET Core API by Creating a Full Stack Web App from Scratch.mp4'
@@ -18,13 +19,11 @@ namespace WebAPI_Core.Controllers
   public class DepartmentController : Controller
   {
 
-    private readonly IConfiguration _configuration;
     private readonly Common _common;
 
     public DepartmentController(IConfiguration configuration)
     {
-      _configuration = configuration;
-      _common = new Common(_configuration);
+      _common = new Common(configuration);
     }
      
 

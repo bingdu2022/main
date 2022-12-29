@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;  // bd: added it
 using WebAPI_Core.Models;    // bd: added it
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebAPI_Core.Controllers
 {
@@ -18,9 +20,9 @@ namespace WebAPI_Core.Controllers
   {
 
     private readonly Common _common;
-    public EmployeeController(IConfiguration configuration)
+    public EmployeeController(IConfiguration configuration, IWebHostEnvironment evn)  //Use IWebHostEnvironment to get the physical web app path or server root path on the server.
     {
-      _common = new Common(configuration);
+      _common = new Common(configuration,evn);
     }
 
     [HttpGet]
@@ -42,12 +44,56 @@ namespace WebAPI_Core.Controllers
       return _common.GetJsonResultOfDatabaseTable(query);
     }
 
-    [HttpPost]  // api call will take the url: https://localhost:44389/api/employee , tested in Postman
+    [HttpPost] // api call will take the url: https://localhost:44389/api/employee with Body (raw-JSON) of i.e. {"employeename": "Xiao 2","department": "IT","dateofjoining": "2022-12-28","photofilename": "Xiao.png"} , tested in Postman 
     public JsonResult Post(Employee e)
     {
       string query = $"insert into dbo.employee (employeename,department,DateOfJoining,PhotoFileName) values ('{e.EmployeeName}','{e.Department}','{e.DateOfJoining}','{e.PhotoFileName}')";
       int numberOfResult = _common.ExecuteNonQuery(query);
       return new JsonResult($"one row is saved to BDServer.Employee!");
     }
+
+    [HttpPut] // api call will take the url: https://localhost:44389/api/employee with Body (raw-JSON) of i.e. {"EmployeeId": 4, "employeename": "Xiao 4"} , tested in Postman
+    public JsonResult Put(Employee e)
+    {
+      string query = $"update dbo.employee set employeename='{e.EmployeeName}' where employeeid = {e.EmployeeId}";
+      int numberOfRows = _common.ExecuteNonQuery(query);
+      return new JsonResult($"The new employeename '{e.EmployeeName}' with employeeid = {e.EmployeeId} is updated and saved to database.");
+    }
+
+    [HttpDelete]  // api call will take the url: https://localhost:44389/api/employee with Body (raw-JSON) of i.e. {"Names": "Xiao,Xiao 4"} , tested in Postman
+    public JsonResult Delete(Employee e)
+    {
+
+      string whereClause = $" where employeename in ('{e.Names.Replace(",","','")}')";
+
+      int numberOfRows = _common.ExecuteNonQuery($"delete from employee {whereClause}");
+      return new JsonResult($"Deleted {numberOfRows} row(s) in BDServer.Emloyee!");
+    }
+
+    [Route("UploadImageFile")]  // Define a custom route
+    [HttpPost]
+    public JsonResult UploadImageFile()   // It uploads an image file from the client machine to the server root/Images/ folder.
+                                          // In Postman, POST {{localhost44389}}employee/uploadimagefile and in Body (form-data): 
+                                          // In KEY, enter uploadedFile and select its dropdown as File, and then in VALUE, select an image file locally, click Send.
+    {
+      try
+      {
+        var httpRequest = Request.Form;
+        var postedFile = httpRequest.Files[0];  // simply gets the name of the first file attached in Body (form-data): In KEY, enter uploadedFile and select its dropdown as File, and then in VALUE, select an image file locally, click Send in Postman. 
+        string filename = postedFile.FileName;
+        var physicalPath = _common.GetFilePath($"Images\\{filename}");
+        using(var stream = new FileStream(physicalPath, FileMode.Create))
+        {
+          postedFile.CopyTo(stream);
+        }
+        return new JsonResult($"Saved {filename} to ./Images/ folder");
+      }
+      catch (Exception)
+      {
+        return new JsonResult($"Failed to save the file.");
+      }
+
+    }
+
   }
 }

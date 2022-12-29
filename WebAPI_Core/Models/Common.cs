@@ -7,15 +7,22 @@ using Microsoft.AspNetCore.JsonPatch;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebAPI_Core.Models
 {
   public class Common
   {
     private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _evn;
     public Common(IConfiguration configuration)
     {
       _configuration = configuration;
+    }
+    public Common(IConfiguration configuration, IWebHostEnvironment evn)
+    {
+      _configuration = configuration;
+      _evn = evn;
     }
 
     public SqlConnection Connection()
@@ -23,6 +30,15 @@ namespace WebAPI_Core.Models
       string sqlDataSource = _configuration.GetConnectionString("EmployeeAppCon");
       SqlConnection myCon = new SqlConnection(sqlDataSource);
       return myCon;
+    }
+
+    public string AppPath()
+    {
+      return _evn.ContentRootPath + "\\";  // i.e. C:\\bingdu2022.main\\WebAPI_Core\\
+    }
+    public string GetFilePath(string fileName)
+    {
+      return AppPath() +  fileName;     //i.e. C:\\bingdu2022.main\\WebAPI_Core\\Images\\
     }
 
     public JsonResult GetJsonResultOfDatabaseTable(string queryString) {

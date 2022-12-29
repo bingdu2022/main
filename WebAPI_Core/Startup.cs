@@ -11,7 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Serialization;
-
+using Microsoft.Extensions.FileProviders; //bd: for configuring FileProvider = new PhysicalFileProvider(.)
+using System.IO;                           //bd: for configuring FileProvider = new PhysicalFileProvider(.)
 
 namespace WebAPI_Core
 {
@@ -28,7 +29,7 @@ namespace WebAPI_Core
     public void ConfigureServices(IServiceCollection services)
     {
 
-      // Enable CORS: from 'VS2019-Learn React JS and .NET Core API by Creating a Full Stack Web App from Scratch.mp4'
+      // bd: nable CORS: from 'VS2019-Learn React JS and .NET Core API by Creating a Full Stack Web App from Scratch.mp4'
       services.AddCors(c => {
         c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
       });
@@ -47,7 +48,7 @@ namespace WebAPI_Core
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      // Enable CORS: from 'VS2019-Learn React JS and .NET Core API by Creating a Full Stack Web App from Scratch.mp4'
+      // bd: Enable CORS: from 'VS2019-Learn React JS and .NET Core API by Creating a Full Stack Web App from Scratch.mp4'
       app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
       if (env.IsDevelopment())
@@ -64,6 +65,13 @@ namespace WebAPI_Core
       app.UseEndpoints(endpoints =>
       {
         endpoints.MapControllers();
+      });
+
+      // bd: I added /Images/ folder under the project, so I need to add a instruction here:
+      app.UseStaticFiles(new StaticFileOptions
+      {
+        FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"Images")),
+        RequestPath="/Images"
       });
     }
   }
