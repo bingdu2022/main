@@ -20,11 +20,14 @@ export class CounterParent extends Component {
 
   callNavMenu = () => {
 
-    /*Use for loop to calculate sum of this.state.counters[i].value*/
+    /*Use for-loop to calculate sum of this.state.counters[i].value*/
     let totalCount = 0;
     for (let i = 0; i < this.state.counters.length; i++) { totalCount += this.state.counters[i].value };
 
     this.props.location.data.handleTotalCount(totalCount);
+
+  //  // Use filter:
+  //  let countersLengthOfGreaterThan0 = this.state.counters.filter(x => x.value >0).length
   }
 
   handleIncrement =(x) => {

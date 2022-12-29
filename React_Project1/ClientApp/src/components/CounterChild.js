@@ -8,6 +8,14 @@ import { useLocation } from 'react-router-dom';
 export class CounterChild extends Component {
   /*this is a controlled Component and does not have its own data which will be passed in by its caller*/
 
+  componentDidUpdate(prevProps, prevState) {
+    console.log('prevProps', prevProps);
+    console.log('prevState', prevState);
+    if (prevProps.counterChild.value !== this.props.counterChild.value) {
+      // Ajax call and get new data from the servser
+    };
+  }
+
   getBadgeClass() {  /*concatenates strings and return a final string for a className*/
     let className = 'badge m2 badge-';
     /*console.log('this.props', this.props);*/
