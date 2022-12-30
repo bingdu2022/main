@@ -4,18 +4,21 @@
 //3. After doing #2 above, this seems auto-done: import { Department } from './components/Department'; in App.js
 
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';  //https://react-bootstrap.github.io/components/table/
+/*th is used for table header cells while td is used for table data cells*/
 
 export class Department extends Component {
   constructor(props) {
     super(props);
-    this.state = { department: [] }
+    this.state = { departments: [] }
   }
 
+  // REACT_APP_API is created in ClientApp/.env file based on iisSettings in launchSettings.json of WebAPI_Core project
   refreshDepartmentList() {
-    fetch(process.env.REACT_APP_API + 'department')
-      .then(response => response.json()).then(data => {
-        this.setState({ department: data });
+    fetch(process.env.REACT_APP_API + 'department')   
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ departments: data });
       });
   }
 
@@ -25,25 +28,27 @@ export class Department extends Component {
 
 
   render() {
-    const { department } = this.state;
+    const { departments } = this.state;
     return (
       //<div className="mt-5 d-flex justify-content-left"> this is Department page.</div>
       <div>
         <Table className="mt-4" striped bordered hover size="sm">
           <thead>
-            <tr>DepartmentId</tr>
-            <tr>DepartmentName</tr>
-            <tr>Options</tr>
+            <tr>
+              <th>DepartmentId</th>      
+              <th>DepartmentName</th>
+              <th>Options</th>
+            </tr>
           </thead>
           <tbody>
-            {department.map(x =>
+            {departments.map(x =>
               <tr key={x.DepartmentId}>
                 <td>{x.DepartmentId}</td>
                 <td>{x.DepartmentName}</td>
                 <td>Edit / Delete</td>
               </tr>)
             }
-           </tbody>
+          </tbody>
         </Table>
       </div>
     )
