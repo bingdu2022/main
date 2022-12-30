@@ -1,6 +1,7 @@
 ﻿//To make me show up:
 //1. Create a clickable button: NavMenu.js: <NavItem> <NavLink tag={Link} className="text-dark" to="/counter-parent">Counter Parent</NavLink> </NavItem>
 //2. Register url route: App.js: <Route path='/counter-parent' component={CounterParent} />
+//3. After doing #2 above, this seems auto-done: import { CounterParent } from './components/CounterParent'; in App.js
 
 /*It calls ./CounterChild.js*/
 

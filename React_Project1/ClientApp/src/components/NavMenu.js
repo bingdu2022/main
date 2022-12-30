@@ -57,7 +57,7 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
+                  <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink> 
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/counters">Counters</NavLink>
@@ -70,6 +70,13 @@ export class NavMenu extends Component {
                   {/*pass function using props in React Router Link: https://stackoverflow.com/questions/66911401/how-can-i-pass-function-using-props-in-react-router-link*/}
                   <NavLink tag={Link} className="text-dark" to={{ pathname: "/counter-parent", state: { totalCount: 4,second:2 }, data: { handleTotalCount: this.handleTotalCount } }} >Counter Parent <span className='badge badge-pill badge-secondary'> {this.state.totalCount[0].value}</span> </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/department">Department</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/employee">Employee</NavLink>
+                </NavItem>
+
               </ul>
             </Collapse>
           </Container>

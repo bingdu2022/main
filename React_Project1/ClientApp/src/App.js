@@ -11,7 +11,7 @@
   //    	CounterParent.js > CounterChild.js
 
 import React, { Component } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';  //bd: added Routes, useNavigate
+import { Routes, Route, useNavigate, BrowserRouter, Switch } from 'react-router-dom';  //bd: added Routes, useNavigate, BrowserRouter, Switch
 import { Layout } from './components/Layout';   // from C:\bingdu2022.main\React_Project1\ClientApp\src\components\Layout.js
 import { Home } from './components/Home';       // cannot be /home and have to be /Home
 import { FetchData } from './components/FetchData';
@@ -21,6 +21,8 @@ import { Lists } from './components/Lists';
 import { CounterParent } from './components/CounterParent';
 
 import './custom.css'
+import { Department } from './components/Department';
+import { Employee } from './components/Employee';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -34,6 +36,8 @@ export default class App extends Component {
         <Route path='/counters' component={Counters} />
         <Route path='/lists' component={Lists} />
         <Route path='/counter-parent' component={CounterParent} />
+        <Route path='/department' component={Department} />
+        <Route path='/employee' component={Employee} />
       </Layout>
     );
   }
