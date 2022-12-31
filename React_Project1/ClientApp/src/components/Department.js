@@ -32,7 +32,7 @@ export class Department extends Component {
 
   //*use className="trClassName" try to customize the row height in custom.css*/
   render() {
-    const { departments } = this.state;
+    const { departments } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
     let addModalClose = () => this.setState({ addModalShow:false });
     return (
       //<div className="mt-5 d-flex justify-content-left"> this is Department page.</div>

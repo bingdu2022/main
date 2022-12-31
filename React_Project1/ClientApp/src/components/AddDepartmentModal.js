@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import { Modal, Button, Row, Col, Form } from 'react-bootstrap';  //https://www.geeksforgeeks.org/react-bootstrap-modal-component/
 
 export class AddDepartmentModal extends Component {
   constructor(props) {
@@ -54,18 +54,12 @@ export class AddDepartmentModal extends Component {
                   <Form.Group>
                     <Button variant='primary' type='submit'> Add Department </Button>
                   </Form.Group>
-
-
                 </Form>
               </Col>
-
             </Row>
           </Modal.Body>
           <Modal.Footer> <Button variant='danger' onClick={this.props.onHide}>Close</Button> </Modal.Footer>
-
         </Modal>
-
-
       </div>
       )
   }
