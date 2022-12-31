@@ -29,7 +29,7 @@ namespace WebAPI_Core
     public void ConfigureServices(IServiceCollection services)
     {
 
-      // bd: nable CORS: from 'VS2019-Learn React JS and .NET Core API by Creating a Full Stack Web App from Scratch.mp4'
+      // bd: enable CORS: from 'VS2019-Learn React JS and .NET Core API by Creating a Full Stack Web App from Scratch.mp4'
       services.AddCors(c => {
         c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
       });
