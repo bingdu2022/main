@@ -33,7 +33,7 @@ export class Department extends Component {
 
   //*use className="trClassName" try to customize the row height in custom.css*/
   render() {
-    const { departments,departmentid,departmentname } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
+    const { departments,departmentId,departmentName } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
     //console.log('departments:', departments);
     //console.log('departmentId:', departmentid);
     //console.log('departmentName:', departmentname);
@@ -58,10 +58,10 @@ export class Department extends Component {
                 <td>
                   <ButtonToolbar>
                     <Button className='mr-2' variant='info'
-                      onClick={() => this.setState({ editModalShow: true, departmentid: x.DepartmentId, departmentname: x.DepartmentName })}>
+                      onClick={() => this.setState({ editModalShow: true, departmentId: x.DepartmentId, departmentName: x.DepartmentName })}>
                       Edit
                     </Button>
-                    <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} departmentid={departmentid} departmentname={departmentname} />
+                    <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} deptid={departmentId} deptname={departmentName} />
                   </ButtonToolbar>
                 </td>
               </tr>)

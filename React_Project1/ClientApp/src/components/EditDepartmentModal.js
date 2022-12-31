@@ -56,14 +56,14 @@ export class EditDepartmentModal extends Component {
                   <Form.Group controlId='DepartmentId'>
                     <Form.Label>DepartmentId</Form.Label>
                     <Form.Control type='text' name='DepartmentId' required
-                      disabled defaultValue={this.props.departmentid}
+                      disabled defaultValue={this.props.deptid}
                       placeholder='DepartmentId' />
                   </Form.Group>
 
                   <Form.Group controlId='DepartmentName'>
                     <Form.Label>DepartmentName</Form.Label>
                     <Form.Control type='text' name='DepartmentName' required
-                      defaultValue={this.props.departmentname}
+                      defaultValue={this.props.deptname}
                       placeholder='DepartmentName' />
                   </Form.Group>
 
