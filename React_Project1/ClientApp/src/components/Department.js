@@ -9,11 +9,12 @@ import { Table } from 'react-bootstrap';  //https://react-bootstrap.github.io/co
 
 import { Button, ButtonToolbar } from 'react-bootstrap';
 import { AddDepartmentModal } from './AddDepartmentModal';
+import { EditDepartmentModal } from './EditDepartmentModal';
 
 export class Department extends Component {
   constructor(props) {
     super(props);
-    this.state = { departments: [], addModalShow:false  }
+    this.state = { departments: [], addModalShow:false, editModalShow:false }
   }
 
   // REACT_APP_API is created in ClientApp/.env file based on iisSettings in launchSettings.json of WebAPI_Core project
@@ -32,8 +33,12 @@ export class Department extends Component {
 
   //*use className="trClassName" try to customize the row height in custom.css*/
   render() {
-    const { departments } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
-    let addModalClose = () => this.setState({ addModalShow:false });
+    const { departments,departmentid,departmentname } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
+    //console.log('departments:', departments);
+    //console.log('departmentId:', departmentid);
+    //console.log('departmentName:', departmentname);
+    let addModalClose = () => this.setState({ addModalShow: false });
+    let editModalClose = () => this.setState({ editModalShow: false });
     return (
       //<div className="mt-5 d-flex justify-content-left"> this is Department page.</div>
       <div>
@@ -50,7 +55,15 @@ export class Department extends Component {
               <tr key={x.DepartmentId}>
                 <td>{x.DepartmentId}</td>
                 <td>{x.DepartmentName}</td>
-                <td>Edit / Delete</td>
+                <td>
+                  <ButtonToolbar>
+                    <Button className='mr-2' variant='info'
+                      onClick={() => this.setState({ editModalShow: true, departmentid: x.DepartmentId, departmentname: x.DepartmentName })}>
+                      Edit
+                    </Button>
+                    <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} departmentid={departmentid} departmentname={departmentname} />
+                  </ButtonToolbar>
+                </td>
               </tr>)
             }
           </tbody>
@@ -59,6 +72,7 @@ export class Department extends Component {
         <ButtonToolbar>
           <Button variant='primary' onClick={() => this.setState({ addModalShow: true })}>Add Department</Button>
           <AddDepartmentModal show={this.state.addModalShow} onHide={addModalClose} />
+        {/*  <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} />*/}
         </ButtonToolbar>
 
       </div>
