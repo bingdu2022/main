@@ -8,7 +8,7 @@ export class AddDepartmentModal extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
+    event.preventDefault();  // a preventDefault is called on the event when submitting the form to prevent a browser reload/refresh.       https://www.robinwieruch.de/react-preventdefault/
     fetch(process.env.REACT_APP_API + 'department', {
       method: 'POST',
       headers: {
@@ -16,7 +16,10 @@ export class AddDepartmentModal extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+
         DepartmentId: 0,    /*Video uses null but it causes error, so I changed it to 0. When the record is saved to db, it auto-changes to auto-identity integer*/
+        // Since DepartmentController.cs API needs only DepartmentName data, so the above can be commented out.
+
         DepartmentName: event.target.DepartmentName.value
       })
     })
