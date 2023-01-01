@@ -31,6 +31,12 @@ export class Department extends Component {
 
   componentDidUpdate() { this.refreshDepartmentList(); }
 
+  deleteDepartment(id) {
+    if (window.confirm("Are you sure?")) {
+      fetch(process.env.REACT_APP_API + 'department/' + id, {method: 'DELETE'}).catch(error=>alert('Failed!'))
+    }
+  }
+
   //*use className="trClassName" try to customize the row height in custom.css*/
   render() {
     const { departments,departmentId,departmentName,tmpX } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
@@ -40,6 +46,7 @@ export class Department extends Component {
 
     let addModalClose = () => this.setState({ addModalShow: false });
     let editModalClose = () => this.setState({ editModalShow: false });
+    let deleteModalClose = () => this.setState({ deleteModalShow: false });
     return (
       //<div className="mt-5 d-flex justify-content-left"> this is Department page.</div>
       <div>
@@ -58,10 +65,16 @@ export class Department extends Component {
                 <td>{x.DepartmentName}</td>
                 <td>
                   <ButtonToolbar>
-                    <Button className='mr-2' variant='info'
-                      onClick={() => this.setState({ editModalShow: true, departmentId: x.DepartmentId, departmentName: x.DepartmentName, tmpX:x.DepartmentName })}>
-                      Edit
-                    </Button>
+                    <span>
+                      <Button className='mr-2' variant='info'
+                        onClick={() => this.setState({ editModalShow: true, departmentId: x.DepartmentId, departmentName: x.DepartmentName, tmpX: x.DepartmentName })}>
+                        Edit
+                    </Button> 
+                    <Button className='mr-2' variant='danger'
+                      onClick={() => this.deleteDepartment(x.DepartmentId)}>
+                        Delete
+                      </Button>
+                      </span>
                     <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} deptid={departmentId} deptname={departmentName} tmp_x={tmpX} />
                   </ButtonToolbar>
                 </td>
@@ -73,7 +86,6 @@ export class Department extends Component {
         <ButtonToolbar>
           <Button variant='primary' onClick={() => this.setState({ addModalShow: true })}>Add Department</Button>
           <AddDepartmentModal show={this.state.addModalShow} onHide={addModalClose} />
-        {/*  <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} />*/}
         </ButtonToolbar>
 
       </div>
