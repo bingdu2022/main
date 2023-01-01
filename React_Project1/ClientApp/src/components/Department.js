@@ -33,10 +33,11 @@ export class Department extends Component {
 
   //*use className="trClassName" try to customize the row height in custom.css*/
   render() {
-    const { departments,departmentId,departmentName } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
+    const { departments,departmentId,departmentName,tmpX } = this.state;  // it's called destructing assignment and is the same to const departments = this.state.departments
+    // tmpX works and it means we can add many more new state arguments here. But not sure on the differences between the args here and inside constructor{.} ? 
     //console.log('departments:', departments);
-    //console.log('departmentId:', departmentid);
-    //console.log('departmentName:', departmentname);
+    //console.log('departmentId:', departmentId);
+
     let addModalClose = () => this.setState({ addModalShow: false });
     let editModalClose = () => this.setState({ editModalShow: false });
     return (
@@ -58,10 +59,10 @@ export class Department extends Component {
                 <td>
                   <ButtonToolbar>
                     <Button className='mr-2' variant='info'
-                      onClick={() => this.setState({ editModalShow: true, departmentId: x.DepartmentId, departmentName: x.DepartmentName })}>
+                      onClick={() => this.setState({ editModalShow: true, departmentId: x.DepartmentId, departmentName: x.DepartmentName, tmpX:x.DepartmentName })}>
                       Edit
                     </Button>
-                    <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} deptid={departmentId} deptname={departmentName} />
+                    <EditDepartmentModal show={this.state.editModalShow} onHide={editModalClose} deptid={departmentId} deptname={departmentName} tmp_x={tmpX} />
                   </ButtonToolbar>
                 </td>
               </tr>)

@@ -45,7 +45,7 @@ export class EditDepartmentModal extends Component {
         >
           <Modal.Header closeButton>
             <Modal.Title id='contained-modal-title-vcenter'>
-              Edit Department
+              Edit Department - {this.props.tmp_x}
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -68,7 +68,7 @@ export class EditDepartmentModal extends Component {
                   </Form.Group>
 
                   <Form.Group>
-                    <Button variant='primary' type='submit'> Update Department </Button>
+                    <Button variant='primary' type='submit'> Update Department - {this.props.tmp_x} </Button>
                   </Form.Group>
                 </Form>
               </Col>
