@@ -14,7 +14,7 @@ import { EditDepartmentModal } from './EditDepartmentModal';
 export class Department extends Component {
   constructor(props) {
     super(props);
-    this.state = { departments: [], addModalShow:false, editModalShow:false }
+    this.state = { departments: [],isUpdated:false, addModalShow:false, editModalShow:false }
   }
 
   // REACT_APP_API is created in ClientApp/.env file based on iisSettings in launchSettings.json of WebAPI_Core project
@@ -29,12 +29,27 @@ export class Department extends Component {
 
   componentDidMount() { this.refreshDepartmentList(); }
 
-  componentDidUpdate() { this.refreshDepartmentList(); }
+  componentDidUpdate(prevProps,prevState) {
+    if (this.state.isUpdated ===true) {
+      console.log('prevState.isUpdated', prevState.isUpdated); console.log('this.state.isUpdated', this.state.isUpdated);
+      this.setIsUpdatedToFalse();
+      this.refreshDepartmentList();
+    };
+  }
 
   deleteDepartment(id) {
     if (window.confirm("Are you sure?")) {
       fetch(process.env.REACT_APP_API + 'department/' + id, {method: 'DELETE'}).catch(error=>alert('Failed!'))
     }
+  }
+
+  setIsUpdatedToTrue=()=> {
+    const isUpdated = true;
+    this.setState({ isUpdated });
+  }
+  setIsUpdatedToFalse() {
+    const isUpdated = false;
+    this.setState({ isUpdated });
   }
 
   //*use className="trClassName" try to customize the row height in custom.css*/
@@ -46,7 +61,7 @@ export class Department extends Component {
 
     let addModalClose = () => this.setState({ addModalShow: false });
     let editModalClose = () => this.setState({ editModalShow: false });
-    let deleteModalClose = () => this.setState({ deleteModalShow: false });
+
     return (
       //<div className="mt-5 d-flex justify-content-left"> this is Department page.</div>
       <div>
@@ -85,7 +100,7 @@ export class Department extends Component {
 
         <ButtonToolbar>
           <Button variant='primary' onClick={() => this.setState({ addModalShow: true })}>Add Department</Button>
-          <AddDepartmentModal show={this.state.addModalShow} onHide={addModalClose} />
+          <AddDepartmentModal show={this.state.addModalShow} onHide={addModalClose} onUpdated={this.setIsUpdatedToTrue} />
         </ButtonToolbar>
 
       </div>

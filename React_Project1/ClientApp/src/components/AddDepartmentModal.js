@@ -30,6 +30,7 @@ export class AddDepartmentModal extends Component {
       .then(result => {         // the second .then get the data from the response
                                 // that resolves with the result of parsing the response body text as JSON
         alert(result);   // Shows users a popup on the result of submitting data
+        { this.props.onUpdated() }; // it seems {()=> this.props.onUpdated() } does not work.
       },
         (error) => { alert('Failed');}
       )
