@@ -39,7 +39,8 @@ export class Department extends Component {
 
   deleteDepartment(id) {
     if (window.confirm("Are you sure?")) {
-      fetch(process.env.REACT_APP_API + 'department/' + id, {method: 'DELETE'}).catch(error=>alert('Failed!'))
+      fetch(process.env.REACT_APP_API + 'department/' + id, { method: 'DELETE' })
+        .then(res => res.json()).then(result => {this.setIsUpdatedToTrue() }).catch(error => alert('Failed!'))
     }
   }
 

@@ -63,6 +63,7 @@ namespace WebAPI_Core.Controllers
     [HttpDelete]  // api call will take the url: https://localhost:44389/api/employee with Body (raw-JSON) of i.e. {"Names": "Xiao,Xiao 4"} , tested in Postman
     public JsonResult Delete(Employee e)
     {
+      if (e.Names == null) { return new JsonResult("EmployeeName cannot be null!"); };
 
       string whereClause = $" where employeename in ('{e.Names.Replace(",","','")}')";
 
