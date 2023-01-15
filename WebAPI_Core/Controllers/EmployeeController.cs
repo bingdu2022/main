@@ -95,7 +95,7 @@ namespace WebAPI_Core.Controllers
         {
           postedFile.CopyTo(stream);
         }
-        return new JsonResult($"Saved {filename} to ./Images/ folder");
+        return new JsonResult($"{filename}");     //($"Saved {filename} to ./Images/ folder")
       }
       catch (Exception)
       {

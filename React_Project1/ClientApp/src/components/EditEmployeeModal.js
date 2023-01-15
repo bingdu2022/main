@@ -7,16 +7,14 @@ export class EditEmployeeModal extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {};
   }
 
   handleSubmit(event) {
     event.preventDefault();  // a preventDefault is called on the event when submitting the form to prevent a browser reload/refresh.       https://www.robinwieruch.de/react-preventdefault/
     fetch(process.env.REACT_APP_API + 'employee', {  // a promise call or returns a promise or HTTP response
       method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
       body: JSON.stringify({  // Here is convert the JS {.} including users' input into a JSON string
         EmployeeName: event.target.EmployeeName.value,
         Department: event.target.Department.value,

@@ -3,7 +3,7 @@ import React, { Component, PureComponent } from 'react';
 import {Table, Button, ButtonToolbar } from 'react-bootstrap';
 
 import { AddEmployeeModal } from './AddEmployeeModal';
-
+import { EditEmployeeModal } from './EditEmployeeModal';
 
 
 export class Employee extends Component {
@@ -52,7 +52,7 @@ export class Employee extends Component {
   // why x.employeename is because API EmployeeController.cs intentionally lowercases it for testing case sensitivity. 
   // it proves it has to be EXACTLY like that or cannot be use database table query output formats (e.g. EmployeeName etc).
   render() {
-    const { employees, empId,empName,dep,dateOfJoining,photoname } = this.state;
+    const { employees, empId, empName, dep, dateOfJoining, photoname } = this.state;
     //console.log('employees', employees);
     let addModalClose = () => { this.setState({ addModalShow: false }) };
     let editModalClose = () => { this.setState({ editModalShow: false }) };
@@ -82,10 +82,14 @@ export class Employee extends Component {
                 <td>
                   <ButtonToolbar>
                     <Button className='mr-2' variant='info'
-                    onClick={() => this.setState({ editModalShow: true, empId: x.EmployeeId, empName: x.employeename, dep: x.department, dateOfJoining: x.dateofjoining, photoname: x.photofilename })}
+                      onClick={() => this.setState({ editModalShow: true, empId: x.EmployeeId, empName: x.employeename, dep: x.department, dateOfJoining: x.dateofjoining, photoname: x.photofilename })}
                     >Edit</Button>
                     <Button className='mr-2' variant='danger'
                       onClick={() => this.deleteEmployee(x.employeename)}>Delete</Button>
+
+                    <EditEmployeeModal show={this.state.editModalShow} onHide={editModalClose} onUpdated={this.setIsUpdatedToTrue}
+                      e_empId={empId} e_empName={empName} e_empDep={dep} e_doj={dateOfJoining} e_photoname={photoname} />
+
                   </ButtonToolbar>
                 </td>
               </tr>
@@ -94,10 +98,9 @@ export class Employee extends Component {
           </tbody>
         </Table>
 
-     <ButtonToolbar>   <Button variant='primary' onClick={() => this.setState({addModalShow:true})}>Add Employee</Button> </ButtonToolbar>
+        <ButtonToolbar>   <Button variant='primary' onClick={() => this.setState({ addModalShow: true })}>Add Employee</Button> </ButtonToolbar>
 
         <AddEmployeeModal show={this.state.addModalShow} onHide={addModalClose} onUpdated={this.setIsUpdatedToTrue} />
-
       </div>
       )
   }
