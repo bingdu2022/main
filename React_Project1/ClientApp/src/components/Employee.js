@@ -88,7 +88,7 @@ export class Employee extends Component {
                       onClick={() => this.deleteEmployee(x.employeename)}>Delete</Button>
 
                     <EditEmployeeModal show={this.state.editModalShow} onHide={editModalClose} onUpdated={this.setIsUpdatedToTrue}
-                      e_empId={empId} e_empName={empName} e_empDep={dep} e_doj={dateOfJoining} e_photoname={photoname} />
+                      e_empid={empId} e_empname={empName} e_empdep={dep} e_doj={dateOfJoining} e_photoname={photoname} />
 
                   </ButtonToolbar>
                 </td>

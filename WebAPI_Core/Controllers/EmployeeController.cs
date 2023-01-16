@@ -104,5 +104,33 @@ namespace WebAPI_Core.Controllers
 
     }
 
+    [Route("UploadImageFileToDB")]  // Define a custom route
+    [HttpPost]
+    public JsonResult UploadImageFileDB()   // It uploads an image file from the client machine to the server database.
+                                            // In Postman, POST {{localhost44389}}employee/UploadImageFileDB and in Body (form-data): 
+                                            // In KEY, enter uploadedFile and select its dropdown as File, and then in VALUE, select an image file locally, click Send.
+    {
+      try
+      {
+        var httpRequest = Request.Form;
+
+        // Upload the images to BDServer Employee.Image column
+        //Console.WriteLine("httpRequest.Keys", httpRequest.Keys);
+        //Console.WriteLine("httpRequest", httpRequest);
+        //Console.WriteLine("httpRequest.Files: ", httpRequest.Files);
+        _common.UploadFiles(httpRequest, "PhotoFileName");
+
+        // Upload the first image to web root/Images/ folder 
+        var postedFile = httpRequest.Files[0];  // simply gets the name of the first file attached in Body (form-data): In KEY, enter uploadedFile and select its dropdown as File, and then in VALUE, select an image file locally, click Send in Postman. 
+        string filename = postedFile.FileName;
+        return new JsonResult($"{filename}");     //($"Saved {filename} to ./Images/ folder")
+      }
+      catch (Exception)
+      {
+        return new JsonResult($"Failed to save the file.");
+      }
+
+    }
+
   }
 }
