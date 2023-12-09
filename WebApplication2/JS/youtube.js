@@ -1,88 +1,115 @@
 ﻿let btn1 = document.getElementById('btn1');
 btn1.disabled = true;
 
-
-
-
-/*
 document.getElementById("button").onclick = function () {
   document.getElementById("confirm").innerHTML = "Order placed.";
-  document.getElementById("button").style.display = "none";
+  document.getElementById("button").style.display = "none";   // remove or hide the Confirm button after clicking on it.
 }
-*/
 
-//var username = prompt();
-//alert(username);
-//console.log(username);
+/// Check if the username is already stored in localStorage
+var username = localStorage.getItem('username');
+console.log('Stored username:', username);
 
-//var age = 50;
-//console.log(age);
-//var message = "Age: = " + age;
-//console.log(message);
+if (username === null) {
+  // If not, prompt the user for a username
+  console.log('Prompting user for a username');
+  username = prompt('Enter your username:');
 
-/*
+  if (username !== null && username !== '') {
+    // Store the username in localStorage for future use
+    localStorage.setItem('username', username);
+    console.log('Username stored:', username);
+  } else {
+    // Handle the case where the user clicks "Cancel" or provides an empty username
+    console.log('User canceled the prompt or entered an empty username.');
+  }
+}
+
+// Use the username as needed
+console.log('Username:', username);
+
+// Display the username with an alert
+alert('Username: ' + username);
+
+
+// var, let, and const are all used for variable declarations in JavaScript
+// In modern JavaScript development, it's generally recommended to use let and const over var
+
+var age = 50;   // var  is function-scoped, does not have to be initialized with a value, and can be reassigned with a new value
+console.log(age);
+var message = "Age: = " + age;
+console.log(message);
+
 (function() {
   //IIFE - immediately invoked function expression
-  var age = 5;
+  var age = 5;      // var  is function-scoped, which means the age here is scoped or working within the function block.
+  console.log("age in function is " + age);  // it's 5 in Inspector > Console: Logs tab
 })();
+console.log("age outside function is " + age);    // it's 50 in Inspector > Console: Logs tab
 
 var y = 10;
 let x = 20;
-*/
 
-/*
 {
   //block
-  let z = "30";
-  const w = 40;
+  let z = "30";   // let is block-scoped { } and must be initialized with a value, here z is different from the below z that is within another { ... }
+  const w = 40;    // let is block-scoped { }, must be initialized with a value, and cannot be changed.
   {
-    let z = 50;
+    let z = 50;   // here z = 50 is different from the outside z = "30"
     console.log(z);
   }
-  console.log(z + w);
+  console.log(z + w);  // = 3040 and no errors even if a string + a number
 
   let myName = 'Bing';
   console.log(myName);
 }
-*/
 
-/*
-let x = {
+
+let x1 = {   // x1 is defined as an object. Each attribute ends with comma. Inside function has a name of 'fun' 
   name: "Cal",
   age: 10,
   favFood: 'Pizza ....',
   fun: function () {
-    console.leg("yyy");
+    console.log("yyy");
+  },
+  fun2: function () {
+    console.log("fun2");
+    return "from fun2";
   }
 };
 
+console.log(x1);
+console.log(x1.favFood);
+console.log(x1.fun());  // must be x1.fun() without missing the ending round brachets or parentheses. It generates yyy and undefined in inspector>Logs tab
+console.log(x1.fun2());  // It generates fun2 and from fun2 in inspector>Logs tab
+
 let dat = new Date();
-console.log(dat.toISOString());
-let grades = [10, 20, 2];
+console.log(dat.toISOString());  // display a date in string
+let grades = [10, 20, 2];  // define an array
 console.log(grades);
 
-let myName = 'Bing';
+let myName = 'Bing';  // signle or double quote are used to define a string
 myName = myName.toUpperCase();
 console.log(myName);
 
-let yourName = new String("Bing Du");
+let yourName = new String("Bing Du");  // define a string object or an object of type String 
 console.log(yourName);
 console.log(typeof (yourName));
-let age = new Number(12.2);
-console.log(age);
-let ageValue = age.valueOf();
+let age1 = new Number(12.2);   // define a number object. Using new Number() and creating wrapper objects for primitive types is not common practice in JavaScript, so just do let age1 = 12.2;
+console.log(age1);
+let ageValue = age1.valueOf();
 console.log(ageValue);
 console.log(typeof (ageValue));
-*/
 
-/*
+
+
 {
   let x = 5 / 3;
   console.log(x);
-  console.log(Number.MAX_SAFE_INTEGER);
+  console.log(Number.MAX_SAFE_INTEGER);  // = 9007199254740991
   x = 9007199254740991;
   console.log(x);
-  console.log(1 / 0);
+  console.log(1 / 0);   // = Infinity and no error messages in inspector>Errors tab
 
   //+ - * / %
   var slices = 10;
@@ -100,7 +127,7 @@ console.log(typeof (ageValue));
 
   let x1 = 5;
   let y = "10";
-  let yInt = Number.parseInt(y);
+  let yInt = Number.parseInt(y);  // convert a number string to int
   console.log(x1 + yInt);
 
   yInt = Number.parseFloat("10.9999999 my fav");  //10.9999999
@@ -109,21 +136,20 @@ console.log(typeof (ageValue));
   
 }
 
-*/
 
 {
 
-  //var input = prompt("Input a number:");
-  //console.log("Decimal:", input);
-  //console.log("Binary:", Number.parseInt(input,2));
-  //console.log("Octal:", Number.parseInt(input, 8));
-  //console.log("Hex:", Number.parseInt(input, 16));
+  var input = prompt("Input a number:");
+  console.log("Decimal:", input);
+  console.log("Binary:", Number.parseInt(input,2));
+  console.log("Octal:", Number.parseInt(input, 8));
+  console.log("Hex:", Number.parseInt(input, 16));
 
-  //var input = Number(prompt("input a decimal:"));
-  //console.log(input, " in decimal to decimal:", input);
-  //console.log(input+ " in decimal to binary:", input.toString(2));
-  //console.log(input+" in decimal to octal:", input.toString(8));
-  //console.log(input+" in decimal to hex:", input.toString(16));
+  var input = Number(prompt("input a decimal:"));
+  console.log(input, " in decimal to decimal:", input);
+  console.log(input+ " in decimal to binary:", input.toString(2));
+  console.log(input+" in decimal to octal:", input.toString(8));
+  console.log(input+" in decimal to hex:", input.toString(16));
 
   /*
   let x = new Number(1234567);
