@@ -173,7 +173,7 @@ console.log(typeof (ageValue));
   console.log(Math.trunc(4.9999));
   
 
-//  let dy = 'Bing';
+  let dy = 'Bing';
 //  console.log(`I\nam ${dy}`);  //\n a line symbol
 //  let longLine = 'a very long \
 //second line'; console.log(longLine);
