@@ -151,7 +151,7 @@ console.log(typeof (ageValue));
   console.log(input+" in decimal to octal:", input.toString(8));
   console.log(input+" in decimal to hex:", input.toString(16));
 
-  /*
+  
   let x = new Number(1234567);
   console.log(x.toExponential(5));
   console.log("$" + x.toFixed(2));
@@ -171,7 +171,7 @@ console.log(typeof (ageValue));
   var getSign = Math.sign(-2);
   console.log(getSign);
   console.log(Math.trunc(4.9999));
-  */
+  
 
 //  let dy = 'Bing';
 //  console.log(`I\nam ${dy}`);  //\n a line symbol
