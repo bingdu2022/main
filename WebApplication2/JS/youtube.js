@@ -6,10 +6,15 @@ document.getElementById("button").onclick = function () {
   document.getElementById("button").style.display = "none";   // remove or hide the Confirm button after clicking on it.
 }
 
+// localStorage.setItem saves a variable onto the client's computer when they access a web site.
+// usages: 1. do a special logic shown below.
+// 2. Persistence: Data stored in localStorage persists across page reloads and even when the browser is closed and reopened.
+// 3.Storage Limit: The data size limit for localStorage is larger compared to cookies, typically around 5 MB per domain.
+// 4.Simple API: The localStorage API is easy to use, with methods like setItem and getItem for storing and retrieving values.
+// Note not used if sensitive or security concerns on the info saved onto a client's computer.
+
 /// Check if the username is already stored in localStorage
 var username = localStorage.getItem('username');
-console.log('Stored username:', username);
-
 if (username === null) {
   // If not, prompt the user for a username
   console.log('Prompting user for a username');
@@ -29,8 +34,9 @@ if (username === null) {
 console.log('Username:', username);
 
 // Display the username with an alert
-alert('Username: ' + username);
-
+// note that the alert popup has the checkbox of  "Don't allow localhost:44328 to prompt you again,".
+// If you check it, the 'Enter your username:' prompt will never work again whether refreshing or closing the brower/restart the web app unless you clear cashes of the browser.
+alert('Username: ' + username); 
 
 // var, let, and const are all used for variable declarations in JavaScript
 // In modern JavaScript development, it's generally recommended to use let and const over var
@@ -47,15 +53,15 @@ console.log(message);
 })();
 console.log("age outside function is " + age);    // it's 50 in Inspector > Console: Logs tab
 
-var y = 10;
-let x = 20;
+var y_array = 10;
+let x_array = 20;
 
 {
   //block
-  let z = "30";   // let is block-scoped { } and must be initialized with a value, here z is different from the below z that is within another { ... }
-  const w = 40;    // let is block-scoped { }, must be initialized with a value, and cannot be changed.
+  let z = "30";   // let is block-scoped { } and must be initialized with a value, here z_array is different from the below z_array that is within another { ... }
+  const w = 40;    // const is block-scoped { }, must be initialized with a value, and cannot be changed.
   {
-    let z = 50;   // here z = 50 is different from the outside z = "30"
+    let z = 50;   // here z_array = 50 is different from the outside z_array = "30"
     console.log(z);
   }
   console.log(z + w);  // = 3040 and no errors even if a string + a number
@@ -65,7 +71,7 @@ let x = 20;
 }
 
 
-let x1 = {   // x1 is defined as an object. Each attribute ends with comma. Inside function has a name of 'fun' 
+let x1 = {   // x1 is defined as an object. Each attribute ends with comma. Inside functions are used as x1.fun() or x1.fun2().
   name: "Cal",
   age: 10,
   favFood: 'Pizza ....',
@@ -83,8 +89,8 @@ console.log(x1.favFood);
 console.log(x1.fun());  // must be x1.fun() without missing the ending round brachets or parentheses. It generates yyy and undefined in inspector>Logs tab
 console.log(x1.fun2());  // It generates fun2 and from fun2 in inspector>Logs tab
 
-let dat = new Date();
-console.log(dat.toISOString());  // display a date in string
+let dat0 = new Date();
+console.log(dat0.toISOString());  // display a date in string
 let grades = [10, 20, 2];  // define an array
 console.log(grades);
 
@@ -100,7 +106,6 @@ console.log(age1);
 let ageValue = age1.valueOf();
 console.log(ageValue);
 console.log(typeof (ageValue));
-
 
 
 {
@@ -138,25 +143,33 @@ console.log(typeof (ageValue));
 
 
 {
-
-  var input = prompt("Input a number:");
+  // the data stored in sessionStorage is only available for the duration of the page session. Once the user closes the tab or window, the data is cleared.
+  var input = sessionStorage.getItem('input');
+  if (sessionStorage.getItem('input') == null) {
+    input = prompt("Input a number:");
+    sessionStorage.setItem('input', input);
+  };
   console.log("Decimal:", input);
   console.log("Binary:", Number.parseInt(input,2));
   console.log("Octal:", Number.parseInt(input, 8));
   console.log("Hex:", Number.parseInt(input, 16));
 
-  var input = Number(prompt("input a decimal:"));
-  console.log(input, " in decimal to decimal:", input);
-  console.log(input+ " in decimal to binary:", input.toString(2));
-  console.log(input+" in decimal to octal:", input.toString(8));
-  console.log(input+" in decimal to hex:", input.toString(16));
+  var input2 = sessionStorage.getItem('input2');
+  if (input2 == null) {
+    input2 = prompt("Input a decimal:");
+    sessionStorage.setItem('input2', input2);
+  };
 
-  
-  let x = new Number(1234567);
-  console.log(x.toExponential(5));
-  console.log("$" + x.toFixed(2));
-  console.log(x.toLocaleString());
-  console.log(typeof (x.toFixed(2)));
+  console.log(input2, " in decimal to decimal:", input2);
+  console.log(input2 + " in decimal to binary:", input2.toString(2));
+  console.log(input2 + " in decimal to octal:", input2.toString(8));
+  console.log(input2 + " in decimal to hex:", input2.toString(16));
+    
+  let x0 = new Number(1234567);
+  console.log(x0.toExponential(5));
+  console.log("$" + x0.toFixed(2));
+  console.log(x0.toLocaleString());
+  console.log(typeof (x0.toFixed(2)));
 
   var abs = Math.abs(-10);
   console.log(abs);
@@ -174,329 +187,334 @@ console.log(typeof (ageValue));
   
 
   let dy = 'Bing';
-//  console.log(`I\nam ${dy}`);  //\n a line symbol
-//  let longLine = 'a very long \
-//second line'; console.log(longLine);
-//  console.log(dy.length);
-//  console.log(dy.charCodeAt(2));
-//  console.log(dy[2]);
-//  console.log(dy.concat("c1", 'c2'));
-//  let longS = 'i am very long and have a good child.';
-//  let search1 = 'good';
-//  let search2 = 'nothing';
-//  console.log(search1 + ' vs. ' + search2);
-//  console.log(longS.includes(search2));
-//  console.log(longS.includes(search1,10));
-//  console.log(longS.indexOf(search1));  // alway 0-based
-//  console.log(longS.indexOf(search2));
+  console.log(`I\nam ${dy}`);  //\n a line symbol
+  let longLine = 'a very long \
+second line'; console.log(longLine);
+  console.log(dy.length);
+  console.log(dy.charCodeAt(2));
+  console.log(dy[2]);
+  console.log(dy.concat("c1", 'c2'));
+  let longS = 'i am very long and have a good child.';
+  let search1 = 'good';
+  let search2 = 'nothing';
+  console.log(search1 + ' vs. ' + search2);
+  console.log(longS.includes(search2));
+  console.log(longS.includes(search1, 10));  // search starting from the index 10
+  console.log(longS.indexOf(search1));  // 26,  alway 0-based, 
+  console.log(longS.indexOf(search2));  // -1
 
-  //console.log('long'.substring(2,3));
-  //console.log('long'.substr(2, 1));
-  //console.log(' \t\nloNg \t \n'.toUpperCase().trim());  // \t: tab space
-  //console.log(' long'.trimLeft());
-  //console.log(' long '.trimEnd());
-  //console.log('repeat me\t'.repeat(3));
-  //console.log('code|12'.split('|'));
-  //console.log('I*to death'.replace('*', ' '));
-  //console.log('i am here'.search('am'));
+  console.log('long'.substring(2, 3));  // n  -includes characters at index 2 (inclusive) but not at index 3 (exclusive).
+  console.log('long'.substr(2, 1));
+  console.log(' \t\nloNg \t \n'.toUpperCase().trim());  // \t: tab space. trim() method in JavaScript removes leading and trailing whitespaces, including spaces, tabs (\t), and newline characters (\n).
+  console.log(' \t\nloNg \t \n'.toUpperCase().trim().length);  
+  console.log(' long'.trimLeft());
+  console.log(' long '.trimEnd());
+  console.log('repeat me\t'.repeat(3)); // repeat me	repeat me	repeat me	
+  console.log('code|12'.split('|'));  // array["code", "12"]
+  console.log('I*to death'.replace('*', ' '));
+  console.log('i am here'.search('am'));
+  console.log(' \t\nloNg \t short \t \n'.toUpperCase().replace(/\s/g, ''));  // /\s/g is a regular expression that matches all whitespace characters (\s), and g is a flag that ensures a global search (matches all occurrences)
+  console.log(' \t\nloNg \t short \t \n'.toUpperCase().trim());   // =LONG 	 SHORT,  trim() does not remove \t or \n that is not at leading or trailing.
 
   
-  //let posi = {
-  //  x: 10,
-  //  y: 20,
-  //  print: function () {
-  //    console.log(`X: ${this.x}, Y: ${this.y}`);
-  //  },
-  //  childObject: { leftSide: 'this is left side' }
-  //}
-  //  console.log(posi);
-  //let posiRef = posi;
-  //posiRef.x = 15;
-  //console.log(posi.x);
-  //posi.print();
+  let posi = {
+    x: 10,
+    y: 20,
+    print: function () {
+      console.log(`X: ${this.x}, Y: ${this.y}`);  // how to use inside varaiables within an object
+    },
+    childObject: { leftSide: 'this is left side' }  // an object can nest another object
+  }
+    console.log(posi);
+  let posiRef = posi;
+  posiRef.x = 15;    // the value of an object's attribute can be changed
+  console.log(posi.x);
+  posi.print();
 
-  //console.log(posi.childObject.leftSide);
+  console.log(posi.childObject.leftSide);
 
-  //function print() {
-  //  console.log(`X: ${this.x}, Y: ${this.y}`);
-  //}
-  //print();  // you get X: undefined, Y: undefined
+  function print() {
+    console.log(`X: ${this.x}, Y: ${this.y}`);
+  }
+  print();  // you get X: undefined, Y: undefined
 
-  //var name = prompt();
-  //if (name === 'a') {  // 5<>'5' for === identify operator or strict equality for asking for equal in both value and data type
-  //  // == can convert data type underline
-  //  console.log('welcome a!');
-  //}
-  //else if (name === 'b') {  // 5<>'5' for === identify operator or strict equality for asking for equal in both value and data type
-  //  // == can convert data type underline
-  //  console.log('welcome b!');
-  //}
-  //else {
-  //  console.log('Wrong guess');
-  //}
+  var name = 'a';  // prompt();
+  if (name === 'a') {  // 5<>'5' for === identify operator or strict equality for asking for equal in both value and data type
+    // == can convert data type underline
+    console.log('welcome a!');
+  }
+  else if (name === 'b') {  // 5<>'5' for === identify operator or strict equality for asking for equal in both value and data type
+    // == can convert data type underline
+    console.log('welcome b!');
+  }
+  else {
+    console.log('Wrong guess');
+  }
 
-  //var x = prompt();
-  //if (x !== 'a') {  // this line = !(x=='a')
-  //  console.log('welcome a')
-  //}
-  //  else if (x < 2 || x>=10) {
-  //    console.log('you are right - 1<2');
-  //}
+  x = -1; // prompt();
+  if (x !== 'a') {  // this line = !(x_array=='a')
+    console.log('welcome none a')
+  }
+    else if (x < 2 || x>=10) {
+      console.log('you are right - 1<2');
+  }
 
-  //var x = prompt();
-  //if (x < 2 || x >= 10) {  // ||= or   &&= and
-  //  console.log(`you are right -${x}<2 or ${x}>=10`);
-  //}
+  x = 11; // prompt();
+  if (x < 2 || x >= 10) {  // ||= or   &&= and
+    console.log(`you are right -${x}<2 or ${x}>=10`);
+  }
 
-  //let name = prompt("what is your name?");
-  //switch (name) {
-  //  case 'a':
-  //  case 'c':
-  //    console.log('welcome a or c');
-  //    break;
-  //  case 'b':
-  //    console.log('welcom b');
-  //    break;
-  //  default:
-  //    console.log("guess wrong");
-  //    break;
-  //}
+  name = 'd' // prompt("what is your name?");
+  switch (name) {
+    case 'a':
+    case 'c':
+      console.log('welcome a or c');
+      break;
+    case 'b':
+      console.log('welcom b');
+      break;
+    default:
+      console.log("guess wrong");
+      break;
+  }
 
-  //let x = 1;
-  //if (x === 1) console.log('x=1');
-  //console.log(x === 1 ? `x(${x})=1` : 'x<>1');
-  //x = 2;
-  //let y = x === 1 ? `x(${x})=1` : 'x<>1';
-  //console.log(y)
+  x = 1;
+  if (x === 1) console.log('x=1');
+  console.log(x === 1 ? `x(${x})=1` : 'x<>1');
+  x = 2;
+  let y = x === 1 ? `x(${x})=1` : 'x<>1';
+  console.log(y);   // 0
 
-  //let i = 0;
-  //while (i < 3) {
-  //  console.log(i);
-  //  i++;  // or i += 1;
-  //}
+  let i = 0;
+  while (i < 3) {
+    console.log(i);
+    i++;  // or i += 1;
+  }
 
-  //let i = 0;
-  //do {
-  //  console.log(i);
-  //  i++
-  //} while (i < 3);
+  i = 0;
+  do {
+    console.log(i);
+    i++
+  } while (i < 3);
 
-  //let password;
-  //do {
-  //  password = prompt('what is the passcode?');
-  //} while (password.toLowerCase !== "let me in");
+  let password;
+  do {
+    password = 'let me in';  // prompt('what is the passcode?');
+  } while (password.toLowerCase() !== "let me in");
 
-  //do {
-  // var password2 = prompt('what is the passcode?');  //var: global or local to entire function regardless of block scope
-  //} while (password2.toLowerCase() !== "let me in");
+  do {
+    var password2 = 'let me in';  //  prompt('what is the passcode?');  //var: global or local to entire function regardless of block scope
+  } while (password2.toLowerCase() !== "let me in");
 
-  //for (i = 10; i < 13;i++) { console.log(i) };
+  for (i = 10; i < 13;i++) { console.log(i) };  // i is defined outside of for loop
 
-  //for (let i = 0; i < 10; i = i + 2) { console.log(i) };
+  for (let i = 0; i < 10; i = i + 2) { console.log(i) };   // i can also be defined inside for loop even if there is an outside i defined.
 
-  //let list = [1, 3, 5];
-  //for (i = 0; i <= list.length; i++) { console.log(i) };
+  let list = [1, 3, 5];
+  for (i = 0; i <= list.length; i++) { console.log(i) };
 
-  //let s = "Search this string in a long one";
-  //let charToSearch = 'a';
-  //for (let i = 0; i <= s.length; i++) {
-  //  if (s[i] === charToSearch) {
-  //    console.log(s[i] + " is found at index: " + i);
-  //  }
-  //}
+  let s = "Search this string in a long one";
+  let charToSearch = 'a';
+  for (let i = 0; i <= s.length; i++) {
+    if (s[i] === charToSearch) {                       // access 'inside' of a string s, we can do s[i] - i here is the index of a letter in the s string.
+      console.log(s[i] + " is found at index: " + i);
+    }
+  }
 
-  ////find the first occurance
-  //let s = "Search this string in a long one";
-  //let charToSearch = 'a';
-  //for (let i = 0; i <= s.length; i++) {
-  //  if (s[i] === charToSearch) {
-  //    console.log(s[i] + " is found at index: " + i);
-  //    break;
-  //  }
-  //}
+  //find the first occurance
+  let s1 = "Search this string in a long one";
+  let charToSearch1 = 'a';
+  for (let i = 0; i <= s1.length; i++) {
+    if (s1[i] === charToSearch1) {
+      console.log(s1[i] + " is found at index: " + i);
+      break;
+    }
+  }
 
-  ////Skip something
-  //let s = "Search this string in a long one";
-  //let charToSearch = 'a';
-  //for (let i = 0; i <= s.length; i++) {
-  //  if (s[i] === charToSearch) {
-  //    continue;
-  //  }
-  //  console.log(s[i] + " is found at index: " + i);
-  //}
+  //Skip something
+  let s2 = "Search this string in a long one";
+  let charToSearch2 = 'a';
+  for (let i = 0; i <= s2.length; i++) {
+    if (s2[i] === charToSearch2) {
+      continue;
+    }
+    console.log(s2[i] + " is found at index: " + i);   // undefined is found at index: 32 because '=' is used in 'i <= s2.length' of the for-i loop
+  }
 
-  //let d = document.getElementById("dest");
-  //for (let i = 1; i < 5; i++) {
-  //  for (let j = i; j >=0; j--) {   //j--: count down or j=j-1
-  //    //console.log(i, j);
-  //    d.append(j + " ");
-  //  }
-  //  var br = document.createElement("br");
-  //  d.appendChild(br);
-  //}
+  // dynamically add 1 0, 2 1 0, ... to UI (index.html)
+  let d = document.getElementById("dest");   // find the place from UI for adding the 1 0, ... and name is as d
+  for (let i = 1; i < 5; i++) {
+    for (let j = i; j >=0; j--) {   //j--: count down or j=j-1
+      //console.log(i, j);
+      d.append(j + " ");    // add the things to the d variable
+    }
+    var br = document.createElement("br");   // create a separator to divide the added info to several lines
+    d.appendChild(br);   // add the separator to the end of each line
+  }
 
-  //let ages = [12, 13, 15];
-  //ages.length = 10;   //expand ages from 3 to 10
-  //ages[20] = 30;  //auto expand ages from 3 to 21
+  let ages = [12, 13, 15];
+  ages.length = 10;   //expand ages from 3 to 10
+  ages[20] = 30;  //auto expand ages from 3 to 21
 
-  ////multi dimention array
-  //let stuff = [12, 'test', function (x) {console.log('hello')}];
-  //let grades = [[1, 2], [20, 12]];
-  //console.log(grades);
-  //console.log(grades[0][1]);
+  //multi dimention array
+  let stuff = [12, 'test', function (x) {console.log('hello')}];
+  let grades = [[1, 2], [20, 12]];
+  console.log(grades);
+  console.log(grades[0][1]);
 
-  //let x = [];
-  //x[0] = 12;
-  //x[10] = 2;  // x of from 1 to 9 are empty
-  //console.log(x);
+  let x_array = [];
+  x_array[0] = 12;
+  x_array[10] = 2;  // x_array of from 1 to 9 are empty
+  console.log(x_array);
 
-  //let y = [1, 2, 4, 5, 6];
-  //y.length = 3;
-  //console.log(y);
+  let y_array = [1, 2, 4, 5, 6];
+  y_array.length = 3;
+  console.log(y_array);
 
-  //let x = [1, 3, 5, 3, 5, 6, 7];
-  //x.length = 10; //expands x
-  //for (let i = 0; i < x.length; i++) {
-  //  if (x[i] !== undefined) {   //undefined means x[i]=empty
-  //    console.log(i);
-  //  }
-  //}
+  x_array = [1, 3, 5, 3, 5, 6, 7];
+  x_array.length = 10; //expands x_array
+  for (let i = 0; i < x_array.length; i++) {
+    if (x_array[i] !== undefined) {   //undefined means x_array[i]=empty
+      console.log(i);
+    }
+  }
 
-  //let found = false;
-  //let search = 5;
-  //let x = [1, 3, 5, 3, 5, 6, 7];
-  //for (let i = 0; i < x.length; i++) {
-  //  if (x[i] === search) {
-  //    //found
-  //    console.log(x[i] + ' at ' + i);
-  //    found = true;
-  //  }
-  //}
+  let found = false;
+  let search = 5;
+  x = [1, 3, 5, 3, 5, 6, 7];
+  for (let i = 0; i < x.length; i++) {
+    if (x[i] === search) {
+      //found
+      console.log(x[i] + ' at ' + i);
+      found = true;
+    }
+  }
 
-  //let grades = [];
-  //while (true) {
-  //  let input = prompt("Add a grade");
-  //  if (input === 'q' || input===null) { break;}  //null = Esc key
-  //  grades.push(Number(input));  //assign input to the next empty element
-  //  console.log(grades);
-  //}
+  grades = [];
+  while (true) {
+    let input = prompt("Add a grade");
+    if (input === 'q' || input===null) { break;}  //null = Esc key
+    grades.push(Number(input));  //assign input to the next empty element
+    console.log(grades);
+  }
 
-  //let x = [1, 2, 3];
-  //console.log(x);
-  //x.push(5);
-  //console.log(x);
-  //console.log(x.length);
-  //console.log(x.pop() + " at Pop 1");  //remove one from the last
-  //console.log(x.pop() + " at Pop 2");
-  //console.log(x);  // shows x=[1,2] after the 2 pops
-  //x.unshift(40); //insert 40 to the first position of x and 
-  //console.log(x); // x=[40,1,2]
-  //x.shift(50);
-  //console.log(x);  //x=[1,2] ?
-  //x.push(3, 4, 5);
-  //console.log(x);  //x=[1,2,3,4,5]
-  //x.splice(2, 3);  //remove 3 elements starting from 2 index
-  //console.log(x);  //x=[1,2]
-  //x.splice(1, 0, 7, 8, 9); //insert 7,8,9 from index 1; 0: delete nothing
-  //console.log(x);  //x=[1,7,8,9,2]
-  //x.splice(1, 2, 0, 0, 0, 0); //delete 7,8 and insert 0,0,0,0 at index 1
-  //console.log(x); //x=[1,0,0,0,0,9,2]
+  x_array = [1, 2, 3];
+  console.log(x_array);
+  x_array.push(5);
+  console.log(x_array);
+  console.log(x_array.length);
+  console.log(x_array.pop() + " at Pop 1");  //remove one from the last
+  console.log(x_array.pop() + " at Pop 2");
+  console.log(x_array);  // shows x_array=[1,2] after the 2 pops
+  x_array.unshift(40); //insert 40 to the first position of x_array and 
+  console.log(x_array); // x_array=[40,1,2]
+  x_array.shift();   // x_array=[1,2]  // .shift removes the first item of an array
+  console.log(x_array);  //x_array=[1,2] ?
+  x_array.push(3, 4, 5);
+  console.log(x_array);  //x_array=[1,2,3,4,5]
+  x_array.splice(2, 3);  //remove 3 elements starting from 2 index
+  console.log(x_array);  //x_array=[1,2]
+  x_array.splice(1, 0, 7, 8, 9); //insert 7,8,9 from index 1; 0: delete nothing
+  console.log(x_array);  //x_array=[1,7,8,9,2]
+  x_array.splice(1, 2, 0, 0, 0, 0); //delete 7,8 and insert 0,0,0,0 at index 1
+  console.log(x_array); //x_array=[1,0,0,0,0,9,2]
 
-  //let x = [1, 3, 10, 4, 8, 2, 3];
-  //console.log(x);
-  //x.reverse();
-  //console.log(x);
-  //x.sort(); //alphbatic by default
-  //console.log(x);
-  //x.sort(function (a, b) { return a - b });
-  //console.log(x);
-  //x.reverse();
-  //console.log(x);
-  //x.fill(-1, 0, x.length); //change everything with -1 in x
-  //console.log(x);
+  x_array = [1, 3, 10, 4, 8, 2, 3];
+  console.log(x_array);
+  x_array.reverse();
+  console.log(x_array);
+  x_array.sort(); //alphbatic by default
+  console.log(x_array);
+  x_array.sort(function (a, b) { return a - b });  // sort x_array elements numerically
+  console.log(x_array);
+  x_array.reverse();
+  console.log(x_array);
+  x_array.fill(-1, 0, x_array.length); //replace everything with -1 in x_array
+  console.log(x_array);
 
-  //let x = [1, 2, 3];
-  //let y = [2, 4, 6];
-  //x.concat(y);
-  //console.log(x);
-  //let z = x.concat(y);
-  //console.log(z);
-  //console.log(z.includes(4) + ' at index ' +z.indexOf(4));
-  //console.log(x.join());
-  //console.log(x.join('|'));
+  x_array = [1, 2, 3];
+  y_array = [2, 4, 6];
+  x_array.concat(y_array);   //  .concat does not change x_array while many like .sort etc change x_array
+  console.log(x_array);
+  let z_array = x_array.concat(y_array);
+  console.log(z_array);
+  console.log(z_array.includes(4) + ' at index ' + z_array.indexOf(4));   // .includes(x): check if z_array has a member with a value of x
+  console.log(x_array.join());  // 1,2,3 - join members together separated by commma be default
+  console.log(x_array.join('|'));  // 1|2|3
 
-  //let x = [2, 4, 6, 1, 3, , 4,];
-  ////call back function:
-  //x.forEach(function (a,i,array) { console.log(a + " at index "+i +'. Its array is ' + array) });  //a will not be null
+  x_array = [2, 4, 6, 1, 3, , 4,];
+  //call back function:
+  x_array.forEach(function (x, i, array) { console.log(x + " at index " + i + '. Its array is ' + array) });  // skip x with null
 
-  //let x = [
-  //  [1, 3, 5, 2, ],
-  //  [3, 2, 4, 5, 7, 8],
-  //];
+  x_array = [
+    [1, 3, 5, 2,],
+    [3, 2, 4, 5, 7, 8],
+  ];
 
-  //for (let i = 0; i < x.length; i++) {
-  //  for (let k = 0; k < x[i].length;k++) {
-  //    console.log(i, k,x[i][k]);
-  //  };
-  //  console.log('~~~~~');
-  //}
+  for (let i = 0; i < x_array.length; i++) {
+    for (let k = 0; k < x_array[i].length; k++) {
+      console.log(i, k, x_array[i][k]);
+    };
+    console.log('~~~~~');
+  }
 
-  //x.forEach(
-  //  function (r) {
-  //    //console.log(r);
-  //    r.forEach(function (col) {
-  //      console.log(r, col);
-  //    });
-  //  });
+  x_array.forEach(
+    function (r) {
+      //console.log(r);
+      r.forEach(function (col) {
+        console.log(r, col);   // r = the first array and the second array, and col = each element of each array
+      });
+    });
 
-  //for (let i = 0; i < x.length; i++) {
-  //  for (let k = 0; k < x[i].length;k++) {
-  //    console.log(i, k, x[i][k]);
-  //    if (x[i][k] === 7) { console.log('found' + x[i][k]);break };
-  //  };
-  //  console.log('~~~~~');
-  //}
+  for (let i = 0; i < x_array.length; i++) {
+    for (let k = 0; k < x_array[i].length; k++) {
+      console.log(i, k, x_array[i][k]);
+      if (x_array[i][k] === 7) { console.log('found' + x_array[i][k]); break };
+    };
+    console.log('~~~~~');
+  }
 
-  ////label a line for break and continue
-  //outerLoop: for (let i = 0; i < x.length; i++) {
-  //  for (let k = 0; k < x[i].length; k++) {
-  //    console.log(i, k, x[i][k]);
-  //    if (x[i][k] === 3) {
-  //      console.log('found' + x[i][k] +', so jump to outerLoop');
-  //      continue outerLoop;  // = break; (except below note) which means break here from this loop and continue from its outer loop if available.
-  //      //break;  //it differs 'continue outerloop' - see the below
-  //      //break outerLoop;  //just finish/stop outerloop from here
-  //    };
-  //  };
-  //  console.log('~~~~~');  //this code is ignored with continue outerloop but not ignored with break;
 
-  //}
+  //label a line for break and continue
+  outerLoop: for (let i = 0; i < x_array.length; i++) {
+    for (let k = 0; k < x_array[i].length; k++) {
+      console.log(i, k, x_array[i][k]);
+      if (x_array[i][k] === 3) {
+        console.log('found' + x_array[i][k] +', so jump to outerLoop');
+        continue outerLoop;  // = break; (except below note) which means break here from this loop and continue from its outer loop if available.
+        //break;  //it differs 'continue outerloop' - see the below
+        //break outerLoop;  //just finish/stop outerloop from here
+      };
+    };
+    console.log('~~~~~');  //this code is ignored with continue outerloop but not ignored with break;
 
-//  //date: Unix Epoch: start from Jan 1 1970
-//  var dat = new Date();
-//  console.log(dat); //Fri Sep 02 2022 08:37:55 GMT-0600 (Mountain Daylight Time)
-//  console.log(Date.now());  //1662129317018, which milliseconds
-//  dat = new Date(1999, 2, 1);  //month always 0-based, so it's 19990301
-//  console.log(dat); //Mon Mar 01 1999 00:00:00 GMT-0700 (Mountain Standard Time)
-//  console.log(new Date(0)); //0 = milliseconds, it shows Wed Dec 31 1969 17:00:00 GMT-0700 (Mountain Standard Time)
-//  console.log(new Date(2000, 12)); // 20010101 = 2000 + 13 months
+  }
 
-//  let sdate = Date.now();
-//  for (let i = 0; i < 1000000; i++) { let k =Math.log(1); };
-//  let edate = Date.now();
-//  console.log(sdate);  //1662130414939
-//  console.log(edate);  //1662130414941
-//  console.log(`Elapsed ${edate - sdate}` + ' milliseconds');  //Elapsed 2 milliseconds
+  //date: Unix Epoch: start from Jan 1 1970
+  var dat = new Date();
+  console.log(dat); //Fri Sep 02 2022 08:37:55 GMT-0600 (Mountain Daylight Time)
+  console.log(Date.now());  //1662129317018, which milliseconds
+  dat = new Date(1999, 2, 1);  //month always 0-based, so it's 19990301
+  console.log(dat); //Mon Mar 01 1999 00:00:00 GMT-0700 (Mountain Standard Time)
+  console.log(new Date(0)); //0 = milliseconds, it shows Wed Dec 31 1969 17:00:00 GMT-0700 (Mountain Standard Time)
+  console.log(new Date(2000, 12)); // 20010101 = 2000 + 13 months
 
-  //let d1 = new Date(2000, 0, 1);
-  //let d2 = new Date(2000, 0, 3);
-  //console.log(d2 - d1); //172800000
-  //let oneDayFactor = 1000 * 60 * 60 * 24;
-  //console.log(`Days: ${(d2 - d1) / oneDayFactor}`);  //Days: 2
+  let sdate = Date.now();
+  for (let i = 0; i < 1000000; i++) { let k =Math.log(1); };
+  let edate = Date.now();
+  console.log(sdate);  //1662130414939
+  console.log(edate);  //1662130414941
+  console.log(`Elapsed ${edate - sdate}` + ' milliseconds');  //Elapsed 2 milliseconds
 
-  //console.log(Date.parse('2000 01 02 00:01:01 GMT'));
-  //console.log(new Date('2000 01 02 00:01:01 GMT'));
-  //console.log(new Date('2000-01-02'));
+  let d1 = new Date(2000, 0, 1);
+  let d2 = new Date(2000, 0, 3);
+  console.log(d2 - d1); //172800000
+  let oneDayFactor = 1000 * 60 * 60 * 24;
+  console.log(`Days: ${(d2 - d1) / oneDayFactor}`);  //Days: 2
+
+  console.log(Date.parse('2000 01 02 00:01:01 GMT'));
+  console.log(new Date('2000 01 02 00:01:01 GMT'));
+  console.log(new Date('2000-01-02'));
 
   //let d1 = new Date(2000, 1, 1, 23, 59, 59); 
   //console.log(d1);//Tue Feb 01 2000 23:59:59 GMT-0700 (Mountain Standard Time)
@@ -509,10 +527,10 @@ console.log(typeof (ageValue));
   //console.log(d1.getTimezoneOffset()/60);  //7: hours off from UTC
   //console.log(d1.getFullYear());
 
-  //function p(x, y) {  //= let p=function (x, y) {
+  //function p(x_array, y_array) {  //= let p=function (x_array, y_array) {
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  return total;
   //}
@@ -520,18 +538,18 @@ console.log(typeof (ageValue));
   //let myFunc = p;
   //console.log(myFunc(3, 3));
 
-  //let pow= function (x, y) {
+  //let pow= function (x_array, y_array) {
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  return total;
   //}
   //console.log(pow(3, 3));
 
-  //var x;
-  //consolel(x);
-  //x = 10;
+  //var x_array;
+  //consolel(x_array);
+  //x_array = 10;
 
   //dostuff();  //h - working code
   //function dostuff(){  //call function declaration
@@ -545,19 +563,19 @@ console.log(typeof (ageValue));
 
   ////JS function is first class citezien - 6 types of ways of using it
   //// ... as var, as expression, as object, as callback or argument, as array element ....
-  //let pizza= function p(x, y) {  //= let p=function (x, y) {
+  //let pizza= function p(x_array, y_array) {  //= let p=function (x_array, y_array) {
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  return total;
   //}
   //console.log(pizza(3, 3));
 
-  //function p(x, y) {  //= let p=function (x, y) {
+  //function p(x_array, y_array) {  //= let p=function (x_array, y_array) {
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  return total;
   //}
@@ -570,8 +588,8 @@ console.log(typeof (ageValue));
   //p.description = "p's desc property";
   //console.log(p.description);  //p's desc property
 
-  //function callbackExample(x) {
-  //  return x(3, 2);
+  //function callbackExample(x_array) {
+  //  return x_array(3, 2);
   //};
   //console.log(callbackExample(p)); //9
 
@@ -581,10 +599,10 @@ console.log(typeof (ageValue));
   //console.log(returnAFunc()(2, 3)); //8
 
   //p.calculated = [];
-  //function p(x, y) {  //= let p=function (x, y) {
+  //function p(x_array, y_array) {  //= let p=function (x_array, y_array) {
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  p.calculated.push(total);
   //  return total;
@@ -596,16 +614,16 @@ console.log(typeof (ageValue));
 
   ////memorization by storing key-value to improve performance.
   //p.calculated = {};
-  //function p(x, y) {  //= let p=function (x, y) {
-  //  let inputKeys = x + '^' + y;
+  //function p(x_array, y_array) {  //= let p=function (x_array, y_array) {
+  //  let inputKeys = x_array + '^' + y_array;
 
   //  if (inputKeys in p.calculated) {  //don't repeat calculations
   //    return p.calculated[inputKeys];
   //  }
 
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  p.calculated[inputKeys]=total;
   //  return total;
@@ -616,10 +634,10 @@ console.log(typeof (ageValue));
   //console.log(p.calculated); //{3^3: 27} - this time without doing calculation
 
   ////function arguments
-  //function p(x, y) {  //= let p=function (x, y) {
+  //function p(x_array, y_array) {  //= let p=function (x_array, y_array) {
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  return total;
   //}
@@ -628,22 +646,22 @@ console.log(typeof (ageValue));
   //console.log( p(2, 2, 3, "r")); //=4   pass more than default arguments
 
   ////extra parameters
-  //function p(x, y = 2, ...extra) {  //y=2: y's default=2
+  //function p(x_array, y_array = 2, ...extra) {  //y_array=2: y_array's default=2
   //  console.log(extra);
-  //  if (y == undefined) { y = 2 };  //same as y=2 above
-  //  y = typeof y === 'undefined' ? 2:y ;  //same as above
+  //  if (y_array == undefined) { y_array = 2 };  //same as y_array=2 above
+  //  y_array = typeof y_array === 'undefined' ? 2:y_array ;  //same as above
 
   //  let total = 1;
-  //  for (let i = 0; i < y; i++) {
-  //    total *= x;
+  //  for (let i = 0; i < y_array; i++) {
+  //    total *= x_array;
   //  }
   //  return total;
   //}
   //console.log(p(3)); //=9   less than default arguments
   //console.log(p(3, 3, 12, 123));  //extra arguments
 
-  //function x1_extra(x, ...extra) {
-  //  let largest = x;
+  //function x1_extra(x_array, ...extra) {
+  //  let largest = x_array;
   //  for (let i = 0; i < extra.length; i++) {
   //    if (largest < extra[i]) largest = extra[i];
   //  };
@@ -689,34 +707,34 @@ console.log(typeof (ageValue));
   //console.log(p1);  //Person {} - constructor
 
   ////apply and call, and  bind for this
-  //function dostuff(x,y) {
-  //  console.log(x,y);
+  //function dostuff(x_array,y_array) {
+  //  console.log(x_array,y_array);
   //  console.log(this);
   //}
   //dostuff.call("hello", 5, 10);  //5 10   String {'hello'}
   //dostuff.apply("apply", [5, 10]); //String {'apply'} - argument = array for apply
   //let newDoStuff = dostuff.bind("bind", 5, 10); //bind
-  //console.log(newDoStuff);  //ƒ dostuff(x,y) {
-  //                            //  console.log(x, y);
+  //console.log(newDoStuff);  //ƒ dostuff(x_array,y_array) {
+  //                            //  console.log(x_array, y_array);
   //                            //  console.log(this);
   //                            //}
   //newDoStuff(); //5 10  String {'bind'}
   //let me = { name: 'Caleb' };
   //dostuff.call(me, 5, 10); /5 10   {name: 'Caleb'}
 
-  //// arrow function: ()=>expression or x=>expression
-  //function f1(x) {
-  //  return x * x;
+  //// arrow function: ()=>expression or x_array=>expression
+  //function f1(x_array) {
+  //  return x_array * x_array;
   //}
-  //let f1Arrow = x => x * x;
+  //let f1Arrow = x_array => x_array * x_array;
   //console.log(f1Arrow(5));  //25
-  //f1Arrow = x => { return x * x }; //with {}
+  //f1Arrow = x_array => { return x_array * x_array }; //with {}
   //console.log(f1Arrow(2));  //4
   //let f2Arrow = () => 4 * 5;
   //console.log(f2Arrow(5));  //20
-  //let f3Arrow = (x, y) => {
+  //let f3Arrow = (x_array, y_array) => {
   //  name: 'f3Arrow';
-  //  return x * y;
+  //  return x_array * y_array;
   //}
   //console.log(f3Arrow(3, 5));
   //console.log(f3Arrow.name);
@@ -749,9 +767,9 @@ console.log(typeof (ageValue));
   //console.log(newFunc());   //String {'hello'}  - not retur window obejct but string object
 
   ////js debug
-  //function p(x) { 
+  //function p(x_array) { 
   //  let total = 1;
-  //  for (let i = x; i > 1; i--) {
+  //  for (let i = x_array; i > 1; i--) {
   //    console.log(total); //one of debugging skills here
   //    total *= i;
   //  }
