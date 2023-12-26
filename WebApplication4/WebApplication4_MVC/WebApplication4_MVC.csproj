@@ -184,6 +184,7 @@
     <Content Include="Views\People\Index.cshtml" />
     <Content Include="Views\People\ListPeople.cshtml" />
     <Content Include="Views\SignUp\SignUp.cshtml" />
+    <Content Include="Views\SignUp\ViewEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -214,6 +215,16 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataLibrary\DataLibrary.csproj">
+      <Project>{e904ce55-3e3d-4d9d-a416-3ed58674c930}</Project>
+      <Name>DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVC_Database\MVC_Database.sqlproj">
+      <Project>{3a68fe21-62c4-40f2-9ea0-50448ae618b9}</Project>
+      <Name>MVC_Database</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
