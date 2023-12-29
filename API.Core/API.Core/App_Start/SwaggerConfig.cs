@@ -2,8 +2,9 @@ using System.Web.Http;
 using WebActivatorEx;
 using API.Core;
 using Swashbuckle.Application;
+using API.Core.App_Start;
 
-[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
+[assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")] // BingDu: comment this line out to turn off swagger
 
 namespace API.Core
 {
@@ -16,6 +17,7 @@ namespace API.Core
             GlobalConfiguration.Configuration
                 .EnableSwagger(c =>
                     {
+                      c.DocumentFilter<AuthTokenOperation>();   // BingDu
                         // By default, the service root url is inferred from the request used to access the docs.
                         // However, there may be situations (e.g. proxy and load-balanced environments) where this does not
                         // resolve correctly. You can workaround this by providing your own code to determine the root URL.
@@ -32,7 +34,7 @@ namespace API.Core
                         // hold additional metadata for an API. Version and title are required but you can also provide
                         // additional fields by chaining methods off SingleApiVersion.
                         //
-                        c.SingleApiVersion("v1", "API.Core");
+                        c.SingleApiVersion("v1", "Bing Dy API");  // BingDu
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
