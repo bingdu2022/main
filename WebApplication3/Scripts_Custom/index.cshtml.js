@@ -14,8 +14,14 @@
     .controller('DIController', DIController)   //no ending ; because we have the below filter attribute (.filter(..);)
 
     //register a custom filter. processFilterFunc can be any name. However, when the registered 'process' is used in a controller, must add Filter to the end of the registered i.e. processFilter
-    .filter('process', processFilterFunc)  //register a custom filter. processFilterFunc can be any name. However, when the registered 'process' is used in a controller, must add Filter to the end of the registered i.e. processFilter
+    .filter('process', processFilterFunc)  //register a custom filter. processFilterFunc can be any name and is used in this js file. However, when the registered 'process' is used in a controller, must add Filter to the end of the registered i.e. processFilter
     .filter('multiParams', multiParamsFilter)  //must regiester here but no need inject it to the below controller since it's used inside HTML.
+    // Summary: 1. create processFilterFunc(), which is a  custom filter function and needs to return another function
+    //          2. regester it as 'process'
+    //          3. use it by the name of 'processFilter', which is not preceded with $. As comparison, '$scope' etc. is AngularJS built-in object/function.
+    //          4. map the value of the processFilter() to the html (index.cshtml) of the js file (index.cshtml.js)
+
+
 
     // Register multi controllers in the same model 'myApp':
     .controller("ParentController", ParentController)  //more controllers under the same module
@@ -65,7 +71,7 @@
     ; // end of Registers of an app module
 
 
-  DIController.$inject = ['$scope', '$filter', 'processFilter', '$timeout'];  //for doing minification
+  DIController.$inject = ['$scope', '$filter', 'processFilter', '$timeout'];  //for doing minification, which removes all unnecessary characters like space etc to reduce the size of the code
   function DIController($scope, $filter, processFilter, $timeout) {       //function DIController(){..}; as the last element for doing minification
     //var vm = this;
     $scope.name = "Yak";
@@ -89,7 +95,7 @@
     };
 
     //Use a custom filter inside js. Note that $scope.detail() is a function()
-    $scope.fromCustomFilter = processFilter($scope.detail());
+    $scope.fromCustomFilter = processFilter($scope.detail());  // fromCustomFilter is used in the js UI: index.cshtml
 
     //Use ng-click 
     $scope.counts = 0;
