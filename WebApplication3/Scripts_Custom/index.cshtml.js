@@ -15,8 +15,8 @@
 
     //register a custom filter. processFilterFunc can be any name. However, when the registered 'process' is used in a controller, must add Filter to the end of the registered i.e. processFilter
     .filter('process', processFilterFunc)  //register a custom filter. processFilterFunc can be any name and is used in this js file. However, when the registered 'process' is used in a controller, must add Filter to the end of the registered i.e. processFilter
-    .filter('multiParams', multiParamsFilter)  //must regiester here but no need inject it to the below controller since it's used inside HTML.
-    // Summary: 1. create processFilterFunc(), which is a  custom filter function and needs to return another function
+    .filter('multiParams', multiParamsFilter)  //must regiester here but no need inject it to the below controller since it's used inside HTML by the name of multiParams.
+    // Summary: 1. create a filter function: processFilterFunc(), which is a  custom filter function and needs to return another function
     //          2. regester it as 'process'
     //          3. use it by the name of 'processFilter', which is not preceded with $. As comparison, '$scope' etc. is AngularJS built-in object/function.
     //          4. map the value of the processFilter() to the html (index.cshtml) of the js file (index.cshtml.js)
@@ -128,7 +128,7 @@
     //it can't catch/report errors inside setTimeout(...) 
     $scope.counter2 = 0;
     $scope.counterSetTimeOut = function () {
-      setTimeout(function () {
+      setTimeout(function () {  // this is not ng related function, so the below $scope.counter2++ will not reflect in HTML unless we use $digest or $apply
         $scope.counter2++;
         console.log("Counter2 incremented after a moment waiting!"); //it fires after waiting
         $scope.$digest(); //it manually triggers updating $scope.counter2 or {{counter2}} in HTML after waiting
@@ -189,7 +189,7 @@
 
     //filter: create a native js filter
     var numberArray = [1, 2, 3, 4, 5];
-    var numberArrayFilter = numberArray.filter(function (value) {
+    var numberArrayFilter = numberArray.filter(function (value) {  // create a new array from an array
       return value > 3;
     });
     console.log("filtered: ", numberArrayFilter);
@@ -203,7 +203,7 @@
     console.log("filtered string array:",stringArray.filter( containsMeInValue));
     // = filtered string array: Array["b", "abc"]
 
-    //inheritance:
+    //inheritance: prototypal inheritance
     var parent = {
       value: "parentValue",
       obj: {
@@ -231,7 +231,7 @@
     console.log("child.value === parent.value ? ", child.value === parent.value); //= False
 
     //Use function constructor
-    function Dog(name) {
+    function Dog(name) {   // the function first letter is upcase which reminds us that it's a function constructor and not a regular function
       this.name = name;
       console.log("'this' is: ", this);
     }
@@ -314,6 +314,7 @@
       ShoppingListService.addItem(vm.itemName, vm.itemQuantity);
     };
   }
+
   ShoppingListShowController.$inject = ['ShoppingListService'];
   function ShoppingListShowController(ShoppingListService) {
     var vm = this;

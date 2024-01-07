@@ -91,6 +91,7 @@
     @* right-click on the UI of one item1 and select inspect to review how the loop works *@
     A simple list of strings ng-repeat loop:
     <li ng-repeat="item1 in list1"> {{ item1 }}</li>
+
     A list of objects ng-repeat loops and index:
     <li ng-repeat="item2 in list2 ">{{$index}} - Name: {{ item2.name }}   Quantity: {{ item2.quantity}}: </li>
   </ul>
@@ -136,6 +137,8 @@
 </div>
 
 <div ng-controller="ShoppingListAddController as itemAdder">
+  <br />
+  ShoppingListAddController as itemAdder + ShoppingListShowController as showList
   <br />
   <input type="text" ng-model="itemAdder.itemName" placeholder="item name" />
   <input type="text" ng-model="itemAdder.itemQuantity" placeholder="quantity" />
