@@ -87,10 +87,17 @@
       vm.title = originalTitle + " (" + vm.items.length + " items)";
     };
 
+    vm.items2 = ShoppingListService.getItems2();
+    vm.itemName2 = "";
+    vm.addItem2 = function () {
+      ShoppingListService.addItem2(vm.itemName2); // Try modern promise syntax
+      var currentItems = ShoppingListService.getItems2().length + 1; //+1: because ShoppingListService.addItem mimics 'deferred' or is a promise, here is slow one step
+      vm.title = originalTitle + " (" + currentItems + " items)";  // it's first used by the DDO of the 'Shopping List 3'
+    };
   }; //ShoppingListController end
 
-  ShoppingListService.$inject = ['$q', 'WeightLossFilterService'];
-  function ShoppingListService($q, WeightLossFilterService) {
+  ShoppingListService.$inject = ['$q', 'WeightLossFilterService', '$timeout'];
+  function ShoppingListService($q, WeightLossFilterService, $timeout) {
     var vm = this;
     // List of shopping items
     var items = [];
@@ -134,11 +141,11 @@
     //check 2 items in paralell: total time = the needed longest time of the 2 checkings
     //check quantity doesnot have to wait for a result of checkName in terms of rejected 
     vm.addItem = function (name, quantity) {
-      var namePromise = WeightLossFilterService.checkName(name);
+      var namePromise3 = WeightLossFilterService.checkName(name);
       var quantityPromise = WeightLossFilterService.checkQuantity(quantity);
 
       //check 2 items in paralell
-      $q.all([namePromise, quantityPromise])
+      $q.all([namePromise3, quantityPromise])
         .then(function (response) {  //only come here if both namePromise and quantityPromise get deferred.resolved results.
           var item = {
             name: name,
@@ -157,6 +164,45 @@
       items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
     }
 
+    var items2 = [];
+
+    vm.addItem2 = function (name) {
+      fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then(
+          response => response.json()   // Response {type: 'cors', url: 'https://jsonplaceholder.typicode.com/todos/1', redirected: false, status: 200, ok: true, …}
+        )
+        .then(
+          data => {
+            // Process the API response:
+            console.log('API response:', data);  // data = {userId: 1, id: 1, title: 'delectus aut autem', completed: false}
+
+            // the above line ending with; and then
+            // Process other things, e.g. add an item to the items array
+            var item2 = {
+              name: name,
+            };
+            items2.push(item2);
+
+            // Issue: why <li ng-repeat="item in ctrl.items"> in html shows the item right after <button ng-click="ctrl.addItem();">Add Item</button> 
+            // but < li ng - repeat="item in ctrl.items2" > does not show the item after < button ng - click="ctrl.addItem2();" > Add Item 2</button >
+            // Cause: it seems like there might be a timing issue or a missing trigger for updating the view associated with items2. Unlike the addItem method, which uses promises and $q.all() to handle asynchronous operations in a controlled way, the addItem2 method relies on the asynchronous nature of the fetch API.
+            // since the fetch API is asynchronous, the view might not be updated immediately after items2.push(item2) because the asynchronous operation might not have completed by the time the view is rendered.
+            // To resolve this, you can use Angular's $apply() or $timeout() to ensure that the changes to items2 trigger a digest cycle and update the view
+
+            // Use $timeout to trigger a digest cycle and update the view
+            $timeout(function () {
+              // No need to explicitly pass $scope, as $timeout automatically triggers a digest cycle on the root scope
+            });
+          })
+        .catch(
+          error => console.error('Error fetching data:', error)
+        );
+    }
+
+    vm.getItems2 = function () {
+      return items2;
+    };
+
   }
 
   WeightLossFilterService.$inject = ['$q', '$timeout']; //$timeout - ng function, so you don't have to call $apply or $digest in using js native setTimeOut
@@ -168,7 +214,7 @@
       var deferred = $q.defer(); //set up async environment
 
       var result = {
-        message: ""
+        message: "correct result."
       };
 
       //below $timeout mimics async behavior
@@ -202,6 +248,7 @@
     };
   }
 
+ 
 // Ajax with $http Service
   //Syntax: $http({method: "GET", url: "http://...", params: {param1: "value1"} ... }).then( function success(response){.. // do something with response.data .. }, function error(response){.. //do something with error message ..} );
   //url is required. If no method, default is GET

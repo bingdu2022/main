@@ -10,7 +10,6 @@
   <input type="text" ng-model="ctrl.itemQuantity" placeholder="quantity" />
   boxes
   <button ng-click="ctrl.addItem();">Add Item</button>
-
   <div ng-show="ctrl.response.errorMessage" class="error">Error: </div>  @* it doesn't work with Shopping List 1 here because the ctrl itself (or vm.) doesn't have a ctrl.response' *@
   @* ShoppingListController > ShoppingListService handles promise in console where we can see either 'Stay away from cookies, Bing' or 'That's too much, Bing!' *@
   @* As comparison, ShoppingList2Controller has its own errorMessage variable and its ng-if (similar to ng-show) works there*@
@@ -23,6 +22,18 @@
       @* It will simply return a DDO or '{{item.quantity}} boxes of {{item.name}}' from function ListItemDesc() of js (AdvancedAngularJS.cshtml.js)  '*@
 
       <button ng-click="ctrl.removeItem($index);">Remove</button>
+    </li>
+  </ol>
+
+  <br /> {{ctrl.title}}
+  <br />
+  <input type="text" ng-model="ctrl.itemName2" placeholder="item name2" />
+  boxes
+  <button ng-click="ctrl.addItem2();">Add Item 2</button>
+
+  <ol>
+    <li ng-repeat="item in ctrl.items2">
+      <list-item-desc></list-item-desc> 
     </li>
   </ol>
 

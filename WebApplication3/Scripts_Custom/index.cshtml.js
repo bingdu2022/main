@@ -367,10 +367,10 @@
     }
   };
   function ShoppingList2Factory() {
-    var factory = function (maxItems) {
-      return new ShoppingList2Service(maxItems);
+    var factory = function (maxItems) {  // define a function
+      return new ShoppingList2Service(maxItems);  // always gets a new instance
     };
-    return factory;
+    return factory;  // points to a function with a pass-in argument and the function contains a new instance of a service 
   }
 
   //Use service factory - by ShoppingList1Controller
@@ -379,7 +379,7 @@
     var vm = this;
 
     // Use factory to create new shopping list service
-    var shoppingList = ShoppingList2Factory();  //define an instance of ShoppingList2Service
+    var shoppingList = ShoppingList2Factory();  //points to the factory function which is an instance of ShoppingList2Service without argument
 
     vm.items = shoppingList.getItems();
 
@@ -399,8 +399,8 @@
   function ShoppingList2Controller(ShoppingList2Factory) {
     var vm = this;
 
-    // Use factory to create new shopping list service
-    var shoppingList = ShoppingList2Factory(3);
+    // Use factory to create new shopping list service and pass in an argument
+    var shoppingList = ShoppingList2Factory(3);     //points to the factory function which is an instance of ShoppingList2Service with an argument
 
     vm.items = shoppingList.getItems();
 
@@ -411,14 +411,14 @@
       //try {.;} catch (error) {.};
       try {
         shoppingList.addItem(vm.itemName, vm.itemQuantity);
-      } catch (error) { vm.errorMessage = error.message; };
+      } catch (error) { vm.errorMessage = error.message; };  // the error will be thrown by the new ShoppingList2Service(maxItems);
     };
 
     vm.removeItem = function (itemIndex) { shoppingList.removeItem(itemIndex); };
 
   }
 
-  //Provider function (need to pair with Config) to customize a Service
+  //Provider function (can be pair with Config) to customize a Service
   // .provider('name',nameProvider); //name is injected and matters and nameProvider doesn't matter
   // it has:
   //...1. .config = {..};
@@ -428,7 +428,7 @@
   //Config has default, don't have to do config
   // .provider() - most verbose, but most flexible
   // ...Config is created at app bootstrapping
-  // ...       can't inject it with regular components
+  // ...       can't inject it with regular components (?because it just configures some initial attributes)
   // ...       CAN inject the provider of service with nameProvider
 
   //Use service provider - by ShoppingList3Controller
