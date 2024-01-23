@@ -141,11 +141,11 @@
     //check 2 items in paralell: total time = the needed longest time of the 2 checkings
     //check quantity doesnot have to wait for a result of checkName in terms of rejected 
     vm.addItem = function (name, quantity) {
-      var namePromise3 = WeightLossFilterService.checkName(name);
+      var namePromise = WeightLossFilterService.checkName(name);
       var quantityPromise = WeightLossFilterService.checkQuantity(quantity);
 
       //check 2 items in paralell
-      $q.all([namePromise3, quantityPromise])
+      $q.all([namePromise, quantityPromise])
         .then(function (response) {  //only come here if both namePromise and quantityPromise get deferred.resolved results.
           var item = {
             name: name,
@@ -164,6 +164,7 @@
       items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
     }
 
+    // Modern promise API: for http/https call
     var items2 = [];
 
     vm.addItem2 = function (name) {
@@ -183,11 +184,12 @@
             };
             items2.push(item2);
 
-            // Issue: why <li ng-repeat="item in ctrl.items"> in html shows the item right after <button ng-click="ctrl.addItem();">Add Item</button> 
-            // but < li ng - repeat="item in ctrl.items2" > does not show the item after < button ng - click="ctrl.addItem2();" > Add Item 2</button >
-            // Cause: it seems like there might be a timing issue or a missing trigger for updating the view associated with items2. Unlike the addItem method, which uses promises and $q.all() to handle asynchronous operations in a controlled way, the addItem2 method relies on the asynchronous nature of the fetch API.
+            // Issue: after the above line, < li ng - repeat="item in ctrl.items2" > does not show the item after < button ng - click="ctrl.addItem2();" > Add Item 2</button >
+            //        Note that <li ng-repeat="item in ctrl.items"> in html shows the item right after <button ng-click="ctrl.addItem();">Add Item</button>
+            // Cause: it seems like there might be a timing issue or a missing trigger for updating the view associated with items2. Unlike the addItem method,
+            //        which uses promises and $q.all() to handle asynchronous operations in a controlled way, the addItem2 method relies on the asynchronous nature of the fetch API.
             // since the fetch API is asynchronous, the view might not be updated immediately after items2.push(item2) because the asynchronous operation might not have completed by the time the view is rendered.
-            // To resolve this, you can use Angular's $apply() or $timeout() to ensure that the changes to items2 trigger a digest cycle and update the view
+            // To resolve this, we use Angular's $apply() or $timeout() to ensure that the changes to items2 trigger a digest cycle and update the view
 
             // Use $timeout to trigger a digest cycle and update the view
             $timeout(function () {
@@ -288,6 +290,7 @@
       var response = $http({
         method: "GET",
         url: ("/api/Shopping") //(or "https://localhost:44374/api/Shopping") Note 1: () can be removed if just a string. Note 2: ../api/... generates a result of List: [{id:x, name:y, quantity:z}, {...}] from ShoppingController API
+                               // /api/Shopping is created in ..\WebApplication3\Controllers\ShoppingController.cs
       });
       return response;  //response is a promise response, so the caller will use promise.then(...) to handle its result.
     }
@@ -335,7 +338,8 @@
   function ShoppingList() {
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItemWithIsolate.html'  //note can't use /Views/Home/ because customized staff is not allowed to save under it due to security reasons
-      , scope: {ctrl: '=myCtrl', title: '@title', title2: '@title2'}  //DOM attribute value binding @ always results in directive property being a string
+      , scope: { ctrl: '=myCtrl', title: '@title', title2: '@title2' }  //DOM attribute value binding @ always results in directive property being a string
+              // ctrl, title and title2 are the local variables used in templateUrl and mapped to ctrl1 (over my-ctrl), ctrl1.title and ' ShoppingListController.title' in AdvancedAngularJS.cshtml
     };
     return ddo;
   }
@@ -495,7 +499,7 @@
       //the above shows errors instantly and the below shows errors slowlly
 
       //If jQuery included before Angular
-      var warningElem2 = element.find("div.error3");
+      var warningElem2 = element.find("div.error3");   // note element refers to the elements inside templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_link.html'
       warningElem2.slideDown(1900) //900 mini seconds
 
     }
