@@ -4,7 +4,7 @@
 <p class="class_green_bolder">--------------------ShoppingListController with promise calls (mimiced with $q.defer), and warning cookie or too many in console:</p>
 
 <div id="di1" ng-controller="ShoppingListController as ctrl">
-  <h3>Shopping List 1</h3>
+  <h3>Shopping List 1</h3> - code $q.all(promise1, promise2) promise call
   @* below up to next 5 Lines (to div ng-show..) can be replaced with <input-Item></input-Item>  *@
   <input type="text" ng-model="ctrl.itemName" placeholder="item name" />
   <input type="text" ng-model="ctrl.itemQuantity" placeholder="quantity" />
@@ -25,12 +25,10 @@
     </li>
   </ol>
 
-  <br /> {{ctrl.title}}
+  <br /> {{ctrl.title}} - placing the below input-addItem inside a fetch('https:.') promise call
   <br />
   <input type="text" ng-model="ctrl.itemName2" placeholder="item name2" />
-  boxes
   <button ng-click="ctrl.addItem2();">Add Item 2</button>
-
   <ol>
     <li ng-repeat="item in ctrl.items2">
       <list-item-desc></list-item-desc> 
@@ -86,7 +84,7 @@
 @* .directive(..) Attribute Isolate = or @ *@
 
 <br />
-<p class="class_green_bolder">--------------------Use DDO (shopping-list) with its own html and isolated scope variables</p>
+<p class="class_green_bolder">--------------------Use DDO (shopping-list) with its own html and isolated scope variables which are mapped to the ctrl1, title etc. used in the DDO's parent html over my-ctrl, title and title2'</p>
 <div id="di3" ng-controller="ShoppingListController as ctrl1">
   @*<h3>Shopping List 3</h3>*@
   <input type="text" ng-model="ctrl1.itemName" placeholder="item name" />
@@ -106,7 +104,7 @@
 
 <br />
 <p class="class_green_bolder">
-  --------------------The DDOs same to the above under ShoppingList2Controller with ShoppingList2Service
+  --------------------The DDOs same to the above but under ShoppingList2Controller with ShoppingList2Service
   and ng-if to show Max items errors:
 </p>
 <br />
