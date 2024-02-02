@@ -5,7 +5,7 @@
 // ..... ListComponentController's $ctrl.$doCheck() acts like an event listener of #1
 // ...2. inserts/renders ListEvent.html into AngularJS_Basics.cshtml by mimicing server calls with promise response.
 // ..... SpinnerController acts like an event listener of #2 and uses $rootScope.$on(.) to listen a message caused by users' operations and shows/hides the spinner occordingly
-// ..... SpinnerController can be called as a common helper or tool of the AngularJS_Basics.cshtml.js 
+// ..... SpinnerController can be called as a common helper or tool of the AngularJS_Basics.cshtml.js
 //                         because its member $rootScope is a global variable and can work with all other components of the entire myApp.
 //                         That's why it's even created in its own module (angular.module('Spinner',[])) in ShoppingModuleComponentsAngularJS.cshtml
 //                However, it seems we just need one module and the module has a tree of components.
@@ -46,7 +46,7 @@
 // ..... var defer = $q.defer();
 // ..... $http.get('options.json').success(function (result) {defer.resolve(result)});
 // ..... return defer.promise;
-//   The right method is:  
+//   The right method is:
 // ..... return $http.get('options.json').then(function (response) {return response.data});
 //   You don’t need defer to change the value of a promise:
 // ..... var defer;
@@ -60,13 +60,13 @@
 
 // ..... AngularJS Deferred & Promises- Basic Understanding: (including callbacks, $.ajax(.) and $http.get(.) or $http(.))
 // ..... https://www.tothenew.com/blog/angularjs-deferred-promises-basic-understanding/
-//       Since $http is an abstraction over $q, it has different callbacks. Instead of .then and .catch, 
+//       Since $http is an abstraction over $q, it has different callbacks. Instead of .then and .catch,
 //       it’s .success and .error and the arguments you get are different.
 
 
 
 // This js is a (function(){...})();, which contains several (instead of one) .components for the purpose of comparisons and learning
-// .. it consists of 
+// .. it consists of
 //....On the client side or front-end:
 // ...1. SinglePage_MainController. It renders <div id="listComponentArea"..>
 // ...2. listComponent with List.html and its ListComponentController. It renders <list-component...> which is part of <div id="listComponentArea"..>
@@ -96,11 +96,25 @@
 //    templateUrl: 'template.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.prop1}} ...
 //    controller: CompController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
 //    bingdings: {
-//      prop1: '<',   //one-way or pass-in prop1, which is assigned in <list-component ... prop1="..."}
-//      prop2: '@x',    // it means prop2 is at the address of x which is assigned in <list-component ... x={{...}}
+//      prop1: '<',    //- Binds the items property to a one-way (input) binding. Changes to items in the parent component will be reflected in this component.
+//      prop2: '@x',     //  Binds the prop2 property of the templateUrl html as a string. It's a one-way binding where the value of x attribute in the parent component is passed as a string. // it means prop2 is at the address of x which is assigned in <list-component ... x={{...}}
 //      onAction: '&'  //reference function: callback to the function of its parent controller after getting/passing-in the parameter of the parent controller, assigned in <list-component ...on-action="...".
 //    }
 //  })
+
+        // Example: use of a .component() and its templateUrl: 
+        // component's register (shoppingList) and its bindings MUST be 'instantiated' as in the parent html (ShoppingModuleComponentsAngularJS.cshtml): <list-component items="ctrl.items" title="{{ctrl.title}}" on-remove="ctrl.removeItem(index)"></list-component>
+        // Note that 'angularJS naming convension' asks you write title={{ctrl.title}} for myTitle: '@title'. Otherwise, if you define myOwnTitle: '@title', the parent html must have my-own-title = {{ctrl.title}}
+
+        //  items: '<'
+        //         This binding is for the items property.In the ListComponentController, you would expect to see logic related to handling or manipulating the items data.
+        //         In the template file('/src/shopping/shopping-list.component.html'), you would expect to see how the items are displayed or utilized in the HTML.
+        //  myTitle: '@title'
+        //         This binding is for the myTitle property.In the ListComponentController, you would find logic related to handling or using the myTitle value.
+        //         In the template file, you would use {{ myTitle }} or similar syntax to display the value in the HTML.
+        //    onRemove: '&'
+        //         This binding is for the onRemove property, which is a callback function. In the ListComponentController, you would define the actual function that gets executed when the onRemove callback is invoked.
+        //         In the template file, you would likely find an element or event that triggers the execution of this callback.
 
 //How to share data between components:
 //Publishing an Event: 1. $scope.$emit - up scope chain; 2. $scope.$broadcast - down scope chain
@@ -264,7 +278,7 @@
         var item = { name: itemName, quantity: quantity };
         items.push(item);
       } else {
-        throw new Error("Max items (" + maxItems + ") reached!");
+        throw new Error("Max items (" + maxItems + ") reached!");  // Console: Error: Max items (3) reached!
       }
     };
 

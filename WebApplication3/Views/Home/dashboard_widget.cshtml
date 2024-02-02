@@ -1,0 +1,58 @@
+﻿<!-- dashboard_widget.cshtml -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View 1</title>
+  <link rel="stylesheet" href="~/Content_Custom/dashboard.css">
+</head>
+
+  <div ng-controller="dashboardWidgetController">
+    <div class="overlay" ng-class="{ 'visible': isAllDashboardsOpen }" ng-style="{ 'background-color': 'rgba(0, 0, 0, ' + overlayAlpha + ')' }">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div class="left">
+          <span>Main</span>
+          <!-- Add logo here -->
+        </div>
+        <div class="center">
+          <span ng-if="!showExplorerWidget">{{ viewTitle }}</span>
+
+        </div>
+        <div class="right">
+          <button ng-click="openAllDashboards()">
+            @*Add icon or image here*@
+            <span data-tooltip="Choose all dashboards">Icon</span>
+          </button>
+        </div>
+      </div>
+
+      Widget Container
+      <!-- Widget Container -->
+      <div class="widget-container">
+        <!-- Include the directive conditionally based on whether all dashboards are open -->
+        <all-dashboard-widget ng-if="isAllDashboardsOpen">
+          <!-- Transcluded content for all-dashboard goes here -->
+          <p>Contents of all-dashboard go here</p>
+        </all-dashboard-widget>
+
+        <explorer-widget ng-if="isEexplorerWidgetOpen"></explorer-widget>
+        <ezview-widget ng-if="isEexplorerWidgetOpen"></ezview-widget>
+
+      </div>
+
+      <!-- Bottom Container -->
+      <div class="bottom-container">
+        <p>Here is the bottom of View 1</p>
+      </div>
+
+    </div>
+
+</div>
+@section scripts {
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="~/Widgets/dashboard_widget.cshtml.js"></script>
+  <script src="~/Widgets/AllDashboard/alldashboard.widget.js"></script>
+
+}

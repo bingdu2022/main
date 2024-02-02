@@ -81,5 +81,11 @@ namespace WebApplication3.Controllers
       ViewBag.Quantity = fc["Quantity"];
       return RedirectToAction("Index");
     }
+
+    public ActionResult dashboard_widget()
+    {
+      ViewBag.Title = "Dashboard-Widget";
+      return View();
+    }
   }
 }

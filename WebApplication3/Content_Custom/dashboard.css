@@ -1,0 +1,95 @@
+﻿/* dashboard.css */
+
+/* Top Bar Styling */
+.top-bar {
+  background-color: #333; /* Dark background color */
+  color: #fff; /* Text color */
+  padding-top: 80px; /* Top padding */
+  padding-right: 20px; /* Right padding */
+  padding-bottom: 10px; /* Bottom padding */
+  padding-left: 20px; /* Left padding */
+  /*padding: 100px;*/ /* Padding around content */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+  /* Top Bar Button Styling */
+  .top-bar button {
+    background-color: #007bff; /* Blue color for the button */
+    color: #fff; /* Text color for the button */
+    border: none;
+    padding: 8px 16px; /* Padding inside the button */
+    cursor: pointer;
+    z-index: 1002; /* Adjust the z-index as needed */
+  }
+
+/* Widget Container Styling */
+/*.widget-container {
+  padding: 20px;*/ /* Padding around the widget container */
+/*}*/
+
+/* Dashboard Grid Styling */
+.dashboard-grid {
+  margin-top: 20px; /* Margin above the grid */
+}
+
+  /* Dashboard Grid Table Styling */
+  .dashboard-grid table {
+    width: 100%; /* Full width of the table */
+    border-collapse: collapse; /* Collapse table borders */
+  }
+
+  /* Dashboard Grid Table Header Styling */
+  .dashboard-grid th {
+    background-color: #f2f2f2; /* Light background color for headers */
+    padding: 10px; /* Padding inside headers */
+  }
+
+  /* Dashboard Grid Table Row Styling */
+  .dashboard-grid tr {
+    background-color: #ffffff; /* Light white background color for rows */
+    cursor: pointer;
+  }
+
+    /* Selected Row Styling */
+    .dashboard-grid tr.selected {
+      background-color: #cce5ff; /* Light blue color for selected row */
+    }
+
+/* Add this to your stylesheets or in a style tag in the head of your HTML */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Adjust the last value for transparency. adjust the alpha value (last parameter) to control the transparency level. Higher values make it more opaque, while lower values make it more transparent. z-index: 1000; /* Make sure the overlay is above other elements */
+  z-index: 1000; /* Make sure the overlay is above other elements */
+  /*display: none;*/ /* Initially hide the overlay */
+  /*transition: opacity 0.3s ease; */ /* Add a smooth transition for opacity changes */
+}
+
+  /* Make overlay visible when isAllDashboardsOpen is true */
+  .overlay.visible {
+    display: block; /* Show the overlay when it has the "visible" class */
+  }
+
+/* Adjust the styles for the widget container as needed */
+.widget-container {
+  /*position: fixed; */ /* Change to fixed to overlay entire screen */
+  /*top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;*/ /* Make sure the widget container is above the overlay */
+  /*padding: 20px;*/ /* Adjust padding as needed */
+  position: absolute;
+  top: 150px; /* Adjust this value to match the height of your top bar */
+  left: 0;
+  right: 0;
+  bottom: 1in; /* Specify the height you want, for example, 1 inch */
+  margin: auto;
+  z-index: 1001;
+  overflow-y: auto; /* Add scrollbar if content exceeds the container height */
+  padding: 20px; /* Padding around the widget container */
+}

@@ -1,0 +1,28 @@
+﻿<!-- allsahboard.widget.html -->
+<div> all dashboard</div>
+<div class="dashboard-grid" ng-controller="allDashboardWidgetController">
+  <table>
+    <!-- Table headers -->
+    <thead>
+      <tr>
+        <th>Icon</th>
+        <th>Object Name</th>
+        <th>Attributes</th>
+        <th>Remark</th>
+      </tr>
+    </thead>
+    <!-- Table rows (dashboard options) -->
+    <tbody>
+      <tr ng-repeat="dashboard in dashboardOptions" 
+          ng-mouseover="selectDashboard(dashboard)" 
+          ng-mouseout="deselectDashboard()" 
+          ng-click="selectdashboard(dashboard)" 
+          ng-class="{ 'selected': dashboard.isSelected }">
+        <td>{{ dashboard.icon }}</td>
+        <td>{{ dashboard.objectName }}</td>
+        <td>Attributes for {{ dashboard.objectName }}</td>
+        <td>Remark for {{ dashboard.objectName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
