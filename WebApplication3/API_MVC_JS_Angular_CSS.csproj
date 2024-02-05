@@ -170,6 +170,7 @@
     <Content Include="Components\ListEvent.html" />
     <Content Include="Components\List.html" />
     <Content Include="Components\spinner.html" />
+    <Content Include="Content\_layout.css" />
     <Content Include="Content_Custom\dashboard.css" />
     <Content Include="Scripts\angular-ui-router.min.js" />
     <Content Include="Scripts_Custom\AngularJS_Basics.cshtml.js" />

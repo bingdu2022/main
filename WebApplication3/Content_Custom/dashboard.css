@@ -1,14 +1,8 @@
-﻿/* dashboard.css */
-
-/* Top Bar Styling */
+﻿/* Top Bar Styling */
 .top-bar {
-  background-color: #333; /* Dark background color */
-  color: #fff; /* Text color */
-  padding-top: 80px; /* Top padding */
-  padding-right: 20px; /* Right padding */
-  padding-bottom: 10px; /* Bottom padding */
-  padding-left: 20px; /* Left padding */
-  /*padding: 100px;*/ /* Padding around content */
+  background-color: #333;
+  color: #fff;
+  padding: 80px 20px 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,80 +10,94 @@
 
   /* Top Bar Button Styling */
   .top-bar button {
-    background-color: #007bff; /* Blue color for the button */
-    color: #fff; /* Text color for the button */
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    padding: 8px 16px; /* Padding inside the button */
+    padding: 8px 16px;
     cursor: pointer;
-    z-index: 1002; /* Adjust the z-index as needed */
+    z-index: 1002;
   }
 
-/* Widget Container Styling */
-/*.widget-container {
-  padding: 20px;*/ /* Padding around the widget container */
-/*}*/
-
-/* Dashboard Grid Styling */
-.dashboard-grid {
-  margin-top: 20px; /* Margin above the grid */
-}
-
-  /* Dashboard Grid Table Styling */
-  .dashboard-grid table {
-    width: 100%; /* Full width of the table */
-    border-collapse: collapse; /* Collapse table borders */
-  }
-
-  /* Dashboard Grid Table Header Styling */
-  .dashboard-grid th {
-    background-color: #f2f2f2; /* Light background color for headers */
-    padding: 10px; /* Padding inside headers */
-  }
-
-  /* Dashboard Grid Table Row Styling */
-  .dashboard-grid tr {
-    background-color: #ffffff; /* Light white background color for rows */
-    cursor: pointer;
-  }
-
-    /* Selected Row Styling */
-    .dashboard-grid tr.selected {
-      background-color: #cce5ff; /* Light blue color for selected row */
-    }
-
-/* Add this to your stylesheets or in a style tag in the head of your HTML */
+/* Overlay Styling */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0); /* Adjust the last value for transparency. adjust the alpha value (last parameter) to control the transparency level. Higher values make it more opaque, while lower values make it more transparent. z-index: 1000; /* Make sure the overlay is above other elements */
-  z-index: 1000; /* Make sure the overlay is above other elements */
-  /*display: none;*/ /* Initially hide the overlay */
-  /*transition: opacity 0.3s ease; */ /* Add a smooth transition for opacity changes */
+  background-color: rgba(0, 0, 0, 0);
+  z-index: 1000;
+  transition: opacity 0.3s ease;
 }
 
-  /* Make overlay visible when isAllDashboardsOpen is true */
   .overlay.visible {
-    display: block; /* Show the overlay when it has the "visible" class */
+    display: block;
   }
 
-/* Adjust the styles for the widget container as needed */
+/* Widget Container Styling */
 .widget-container {
-  /*position: fixed; */ /* Change to fixed to overlay entire screen */
-  /*top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1001;*/ /* Make sure the widget container is above the overlay */
-  /*padding: 20px;*/ /* Adjust padding as needed */
   position: absolute;
-  top: 150px; /* Adjust this value to match the height of your top bar */
+  top: 10px;
   left: 0;
   right: 0;
-  bottom: 1in; /* Specify the height you want, for example, 1 inch */
+  bottom: 1in;
   margin: auto;
   z-index: 1001;
-  overflow-y: auto; /* Add scrollbar if content exceeds the container height */
-  padding: 20px; /* Padding around the widget container */
+  overflow-y: auto;
+  padding: 20px;
+  height: 400px;
 }
+
+/* Spacer Styling */
+.spacer {
+  flex-grow: 1;
+}
+
+/* Bottom Container Styling */
+.bottom-container {
+  position: absolute;
+  bottom: 19px;
+  left: 0;
+  right: 0;
+  background-color: #f2f2f2;
+  display: flex;
+  height: 2.5vh;
+}
+
+/* Footer Styling */
+.container.body-content footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #f2f2f2;
+  padding-top: 2px;
+  padding-right: 5px;
+  text-align: right;
+  font-size: 11px;
+  margin: 0;
+}
+
+/* Dashboard Grid Styling */
+.dashboard-grid {
+  margin-top: 10px;
+}
+
+  .dashboard-grid table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .dashboard-grid th {
+    background-color: #f2f2f2;
+    padding: 10px;
+  }
+
+  .dashboard-grid tr {
+    background-color: #ffffff;
+    cursor: pointer;
+  }
+
+    .dashboard-grid tr.selected {
+      background-color: #cce5ff;
+    }
