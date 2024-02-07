@@ -79,3 +79,4 @@ angular.module('myApp').controller('allDashboardWidgetController', function ($sc
   //};
 
 });
+

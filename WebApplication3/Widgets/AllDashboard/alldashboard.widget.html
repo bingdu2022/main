@@ -6,7 +6,6 @@
   - ng-click: Triggered when a dashboard row is clicked, executing the selectDashboard function.
   - ng-class: Applies the 'selected' class to the row if it is currently selected.
 -->
-
 <!--Note  that `ng-mouseenter` and `ng-mouseover` are similar, and `ng-mouseleave` and `ng-mouseout` are also similar. However, there is a subtle difference between them:
 - `ng-mouseenter`: This directive triggers an event when the mouse enters an element.
 - `ng-mouseover`: This directive triggers an event when the mouse enters an element or any of its descendants. It continues to trigger the event as long as the mouse is over the element or its descendants.
@@ -19,7 +18,7 @@ So, `ng-mouseover` and `ng-mouseout` are broader in scope, including events for 
 <div class="dashboard-grid" ng-controller="allDashboardWidgetController">
   <table>
     <!-- Table headers -->
-    <thead>
+    <thead dynamic-tooltip tooltip-content="I am in table header row">
       <tr>
         <th>Icon</th>
         <th>Object Name</th>
@@ -42,4 +41,8 @@ So, `ng-mouseover` and `ng-mouseout` are broader in scope, including events for 
       </tr>
     </tbody>
   </table>
+</div>
+
+<div class="bind-d" dynamic-tooltip tooltip-content="the tooltip of 'I am in table header row'">
+  <p>I am not a table here.</p>
 </div>

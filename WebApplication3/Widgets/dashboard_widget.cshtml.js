@@ -18,9 +18,10 @@ angular.module('myApp', []).controller('dashboardWidgetController', function ($s
   $document.on('click', function (event) {
     if (isListening) {
       // Check if the clicked element is the button that opens the dashboard
-      const isDashboardButton = angular.element(event.target).hasClass('dashboard-open-button');
+      const isDashboardButton = angular.element(event.target).is('button');  //.hasClass('dashboard-open-button');
+      var isImage = angular.element(event.target).is('img');
 
-      if (!isDashboardButton) {
+      if (!isDashboardButton && !isImage) {
         // Check if the clicked element is outside the dashboard grid
         const isOutsideDashboardGrid = !angular.element(event.target).closest('.dashboard-grid').length;
 
@@ -85,4 +86,37 @@ angular.module('myApp', []).controller('dashboardWidgetController', function ($s
       $scope.viewTitle = "Ezview.Widget.html";
     }
   };
+
+  // Initialize tooltips when the document is ready
+  $(document).ready(function () {
+    $('.dashboard-open-button').tooltipster({
+      content: 'Open a list of dashboards',
+    // Other configuration options
+    theme: 'tooltipster-default', // Use a default theme
+      side: 'top', // Position the tooltip on top of the element
+      animation: 'fade', // Use fade animation
+    });
+  });
+
 });
+
+angular.module('myApp')
+  .directive('dynamicTooltip', function () {
+    return {
+      priority: 1000, // Adjust the priority as needed
+     restrict: 'A',
+      scope: {
+        tooltipContent: '@',
+      },
+      link: function (scope, element) {
+        // Initialize Tooltipster
+        $(element).tooltipster({
+          content: scope.tooltipContent || 'Default tooltip content',
+          theme: 'tooltipster-default',
+          side: 'top',
+          animation: 'fade',
+        });
+      },
+    };
+  });
+

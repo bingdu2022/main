@@ -270,9 +270,9 @@
     <Content Include="Widgets\AllDashboard\alldashboard.widget.js" />
     <Content Include="Widgets\dashboard_widget.cshtml.js" />
     <Content Include="Widgets\Explorer\explorer.widget.html" />
-    <Content Include="Widgets\EZView\EZView.Widget.html" />
-    <Content Include="Widgets\EZView\EZView.Widget.js" />
-    <Content Include="Widgets\Explorer\Explorer.Widget.js" />
+    <Content Include="Widgets\EZView\ezview.widget.html" />
+    <Content Include="Widgets\EZView\ezview.widget.js" />
+    <Content Include="Widgets\Explorer\explorer.widget.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />

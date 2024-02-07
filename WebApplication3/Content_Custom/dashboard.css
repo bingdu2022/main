@@ -8,12 +8,12 @@
   align-items: center;
 }
 
-  /* Top Bar Button Styling */
+  /* Top Bar Button Styling #007bff*/
   .top-bar button {
-    background-color: #007bff;
+    background-color: #fff ;
     color: #fff;
     border: none;
-    padding: 8px 16px;
+    padding: 8px 8px;
     cursor: pointer;
     z-index: 1002;
   }
@@ -101,3 +101,9 @@
     .dashboard-grid tr.selected {
       background-color: #cce5ff;
     }
+.bind-d {
+  margin-top: 10px;
+  font-size: 11px;
+  color: brown;
+  background-color: lightyellow; /* Add a background color for visibility */
+}
