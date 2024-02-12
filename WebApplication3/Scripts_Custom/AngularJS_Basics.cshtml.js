@@ -102,15 +102,15 @@
 //    }
 //  })
 
-        // Example: use of a .component() and its templateUrl: 
+        // Example: use of a .component() and its templateUrl:
         // component's register (shoppingList) and its bindings MUST be 'instantiated' as in the parent html (ShoppingModuleComponentsAngularJS.cshtml): <list-component items="ctrl.items" title="{{ctrl.title}}" on-remove="ctrl.removeItem(index)"></list-component>
         // Note that 'angularJS naming convension' asks you write title={{ctrl.title}} for myTitle: '@title'. Otherwise, if you define myOwnTitle: '@title', the parent html must have my-own-title = {{ctrl.title}}
 
         //  items: '<'
-        //         This binding is for the items property.In the ListComponentController, you would expect to see logic related to handling or manipulating the items data.
+        //         One-way pass-in reference binding. In the ListComponentController, you would expect to see logic related to handling or manipulating the items data.
         //         In the template file('/src/shopping/shopping-list.component.html'), you would expect to see how the items are displayed or utilized in the HTML.
         //  myTitle: '@title'
-        //         This binding is for the myTitle property.In the ListComponentController, you would find logic related to handling or using the myTitle value.
+        //         One-way pass-in value binding with a one-time initial value assignment. This binding is for the myTitle property.In the ListComponentController, you would find logic related to handling or using the myTitle value.
         //         In the template file, you would use {{ myTitle }} or similar syntax to display the value in the HTML.
         //    onRemove: '&'
         //         This binding is for the onRemove property, which is a callback function. In the ListComponentController, you would define the actual function that gets executed when the onRemove callback is invoked.
@@ -128,7 +128,7 @@
 
 (function () {
   'use strict';
-  angular.module('myApp', [])
+  angular.module('myApp', [])  // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
 
     ////////////////////////listComponent register start
     .controller('SinglePage_MainController', SinglePage_MainController)
@@ -150,8 +150,8 @@
       controller: ListComponentController,  //not required or an empty function is auto-provided, and always defaults to an alias of '$ctrl'
       // the below things of bindings belong to ListComponentController
       bindings: {  //below parameters and onActions are bound to ListComponentController (defauled a label of '$ctrl') and bound to templateUrl
-        items: '<',  //one-way or pass-in: ListComponentController uses items which is passed in from <list-component..items=.>
-        myTitle: '@title',  // it's {{$ctrl.myTitle}} of List.html (but it's no where in ListComponentController) and means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}, and is used by {{$ctrl.myTitle}} of List.html
+        items: '<',  //One-way pass-in reference binding: ListComponentController uses items which is passed in from <list-component..items=.>
+        myTitle: '@title',  // One-way pass-in value binding with a one-time initial value assignment. it's {{$ctrl.myTitle}} of List.html (but it's no where in ListComponentController) and means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}, and is used by {{$ctrl.myTitle}} of List.html
         onRemove: '&'  //reference function (with func parameters ? ):  callback to the function of its parent controller 
                        //after getting/passing-in the parameter of the parent controller over <list-component ..on-remove="ctrl.removeItem(index)".. .
                        //and it's used by ng-click="$ctrl.removeItem($index) of List.html, and "$ctrl.removeItem($index)" then calls ListComponentController.removeItem().
@@ -172,7 +172,7 @@
       templateUrl: '/Components/ListEvent.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
       controller: ListEventController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
       bindings: {  //below parameters and onActions belong to ListEventController (defaulted to a label of '$ctrl') and are bound to templateUrl
-        items: '<',  
+        items: '<',  // One-way pass-in reference binding
         myTitle: '@title',  // ListEventController's myTitle is mapped to the address of title which is assigned in <list-event ... title={{xxx}}
         onRemove: '&'  // reference function:  callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
       }
@@ -338,7 +338,8 @@
     })
 
     // As comparison, $scope.$on will be auto-deregitered after the view or method of using it is closed.
-    // But here, we MUST deregister $rootScope.$on(.) after using it so that we won't have memory leak  
+    // But here, we MUST deregister $rootScope.$on(.) after using it so that we won't have memory leak
+    // when the below is executed: when the js-associated html, templateUrl: '/Components/spinner.html', is closed.
     $ctrl.$onDestroy = function () {
       cancelListener();
     }

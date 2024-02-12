@@ -1,7 +1,7 @@
 ﻿
 (function () {
   'use strict';
-  angular.module('myApp', [])
+  angular.module('myApp', [])  // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
 
 
   //Promise API - a part of New NES6 API
@@ -405,8 +405,8 @@
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_controller.html',
       scope: {
-        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
-        title: '@'  // for passing in a string
+        items: '<', // '<': One-way pass-in reference binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // One-way pass-in value binding with a one-time initial value assignment. for passing in a string
       },
 
       controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.
@@ -454,8 +454,8 @@
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_link.html',
       scope: {
-        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
-        title: '@'  // for a passing-in string
+        items: '<', // '<': One-way pass-in reference binding.  (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // One-way value binding with a one-time initial value assignment. for a passing-in string
       },
 
       controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.
@@ -537,8 +537,8 @@
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_transclude.html',
       scope: {
-        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
-        title: '@'  // for a passing-in string
+        items: '<', // '<': One-way pass-in reference binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // One-way value binding with a one-time initial value assignment. for a passing-in string
       },
 
       controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.

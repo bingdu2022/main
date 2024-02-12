@@ -18,7 +18,7 @@
 //.....$onDestroy - when scope is about to be destroyed or unloaded from memory
 //..4. Application is a tree of components
 //Coding structure example:
-//angular.module('myApp', [])
+//angular.module('myApp', [])  // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
 //  .component('myComponent', {  //1. myComponent will match <my-component ...prop1="val.." prop2="@.." on-action="parentFunction(myArg)"> ... </my-component> of the main HTML; 2. {.}: a simple config object and NOT a function.
 //    templateUrl: 'template.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.prop1}} ...
 //    controller: CompController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'

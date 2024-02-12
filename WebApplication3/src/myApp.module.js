@@ -17,7 +17,7 @@
 
   //angular.module('myApp', ['Spinner','shopping','ui.router','urApp']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' etc. modules
 
-  angular.module('myApp', []); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 
+  angular.module('myApp', []); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ;   // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
   //2. 'myApp' module will be replaced by the 'myApp' of other independent cshtml web pages under Views/Home folder
   //3. this module can be ignored based on #2.
   //4. It implies the main module name of all the web pages under View/Home folder should be 'myApp'.

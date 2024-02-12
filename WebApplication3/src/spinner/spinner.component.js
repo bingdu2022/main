@@ -31,7 +31,7 @@
     })
 
     // As comparison, $scope.$on will be auto-deregitered after the view or method of using it is closed.
-    // Must deregister $rootScope.$on(.) after using it so that we won't have memory leak  
+    // But, $rootScope.$on is NOT autoderegistered and Must be deregistered after using it so that we won't have memory leak
     $ctrl.$onDestroy = function () {
       cancelListener();
     }

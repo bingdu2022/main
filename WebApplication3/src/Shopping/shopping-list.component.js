@@ -19,8 +19,8 @@
       templateUrl: '/src/shopping/shopping-list.component.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
       controller: ListComponentController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
       bindings: {  //below parameters and onActions are bound to ListComponentController (defauled a label of '$ctrl') and bound to templateUrl
-        items: '<',  //- Binds the items property to a one-way (input) binding. Changes to items in the parent component will be reflected in this component.
-        myTitle: '@title',  //  Binds the myTitle property of the templateUrl html as a string. It's a one-way binding where the value of title attribute in the parent component is passed as a string.
+        items: '<',  //- One-way pass-in reference binding. Binds the items property to a one-way (input) binding. Changes to items in the parent component will be reflected in this component.
+        myTitle: '@title',  // One-way value binding with a one-time initial value assignment. Binds the myTitle property of the templateUrl html as a string. It's a one-way binding where the value of title attribute in the parent component is passed as a string.
         onRemove: '&'  //reference function: callback to the function of its parent controller after getting/passing-in the parameter of the parent controller, assigned in <list-component ...on-action="...".  // Binds the onRemove property to a callback function in the parent component. This allows the child component to call a function in the parent component.
 
         // component's register (shoppingList) and its bindings MUST be 'instantiated' as in the parent html (ShoppingModuleComponentsAngularJS.cshtml): <list-component items="ctrl.items" title="{{ctrl.title}}" on-remove="ctrl.removeItem(index)"></list-component>

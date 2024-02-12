@@ -1,7 +1,7 @@
 ﻿
 (function () {
   'use strict';
-  angular.module('myApp', [])
+  angular.module('myApp', [])  // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
 
     //Register a controller
 
