@@ -18,6 +18,14 @@
     z-index: 1002;
   }
 
+/*  .top-bar button:hover {
+    cursor: pointer;
+    color:  aquamarine ;
+    border: none;
+    padding: 9px 8px;
+    z-index: 1002;
+  }*/
+
 /* Overlay Styling */
 .overlay {
   position: fixed;

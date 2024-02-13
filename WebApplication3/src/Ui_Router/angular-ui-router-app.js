@@ -17,10 +17,14 @@
         url: '/tab1',
         template: '<div> This is Tab 1 content </div>'
       })
-
+ 
       // equivalent to: Tab key = tab2 with content of html-table.html. Note the caption of tab2 will be named in the main html which is Views/Home/AngularUiRouterApp.cshtml
       // as if you type in a browser: https://localhost:44374/Home/AngularUiRouterApp#!/tab2
-      .state('tab2', {url: '/tab2',templateUrl: '/src/Ui_Router/html-table.html'})
-    ;
+      .state('tab2', {
+        url: '/tab2'
+        , templateUrl: '/src/Ui_Router/html-table.html'
+      })
+      ;
+
   }
 })();
