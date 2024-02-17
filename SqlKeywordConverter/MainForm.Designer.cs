@@ -30,6 +30,7 @@
     {
       this.SqlCodeTextBox = new System.Windows.Forms.TextBox();
       this.ConvertButton = new System.Windows.Forms.Button();
+      this.messageLabel = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // SqlCodeTextBox
@@ -51,12 +52,23 @@
       this.ConvertButton.UseVisualStyleBackColor = true;
       this.ConvertButton.Click += new System.EventHandler(this.ConvertButton_Click);
       // 
+      // messageLabel
+      // 
+      this.messageLabel.AutoSize = true;
+      this.messageLabel.Location = new System.Drawing.Point(83, 11);
+      this.messageLabel.Name = "messageLabel";
+      this.messageLabel.Size = new System.Drawing.Size(35, 13);
+      this.messageLabel.TabIndex = 2;
+      this.messageLabel.Text = "label1";
+      // 
       // MainForm
       // 
+      this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.AutoSize = true;
       this.ClientSize = new System.Drawing.Size(800, 450);
+      this.Controls.Add(this.messageLabel);
       this.Controls.Add(this.ConvertButton);
       this.Controls.Add(this.SqlCodeTextBox);
       this.Name = "MainForm";
@@ -70,6 +82,7 @@
 
     private System.Windows.Forms.TextBox SqlCodeTextBox;
     private System.Windows.Forms.Button ConvertButton;
+    private System.Windows.Forms.Label messageLabel;
   }
 }
 

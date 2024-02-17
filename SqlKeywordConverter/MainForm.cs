@@ -25,9 +25,15 @@ namespace SqlKeywordConverter
       // Attach event handlers for drag and drop
       SqlCodeTextBox.DragEnter += SqlCodeTextBox_DragEnter;
       SqlCodeTextBox.DragDrop += SqlCodeTextBox_DragDrop;
+
+      messageLabel.Visible = false;
+
+      //// Attach the Shown event handler
+      //Shown += MainForm_Shown;
+
     }
 
-    private void ConvertButton_Click(object sender, EventArgs e)
+    private async void ConvertButton_Click(object sender, EventArgs e)
     {
       string sqlCode = SqlCodeTextBox.Text;
 
@@ -35,7 +41,7 @@ namespace SqlKeywordConverter
       sqlCode = ExcludeComments(sqlCode);
 
       // Convert SQL keywords to uppercase using a regular expression
-      string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
+      string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN|ON|COALESCE|ABS|AVG|COUNT|MAX|MIN|SUM|ROUND|CEIL|FLOOR|POWER|SQRT|EXP|LOG|LOG10|RAND|RANDN|MOD|CONCAT|LENGTH|SUBSTRING|LEFT|RIGHT|TRIM|LTRIM|RTRIM|LOWER|UPPER|INITCAP|REPLACE|TRANSLATE|TO_NUMBER|TO_CHAR|TO_DATE|NVL|CASE|DECODE|IFNULL|NULLIF|CAST|CONVERT|GETDATE|CURRENT_TIMESTAMP|CURRENT_DATE|CURRENT_TIME|DATEDIFF|DATEADD|YEAR|MONTH|DAY|HOUR|MINUTE|SECOND)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
 
       // Update the textbox with the modified SQL code
       SqlCodeTextBox.Text = convertedSqlCode;
@@ -43,9 +49,30 @@ namespace SqlKeywordConverter
       // Copy the converted text to the clipboard
       Clipboard.SetText(convertedSqlCode);
 
-      // Optionally, you can show a message to indicate that the text has been copied
-      MessageBox.Show("Converted text has been copied to the clipboard.", "Conversion Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+      //// Optionally, you can show a message to indicate that the text has been copied
+      //MessageBox.Show("Converted text has been copied to the clipboard.", "Conversion Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+      // Show the message label
+      ShowMessageLabel("Converted text has been copied to the clipboard.");
+
+      // hide the label after a certain delay
+      //System.Threading.Tasks.Task.Delay(3000).ContinueWith(t => HideMessageLabel());
+
+      // Set conversionDone flag to true
+      bool conversionDone = true;
+
+      // Optionally, you can set a delay before hiding the message label
+      await Task.Delay(3000); // 3000 milliseconds (3 seconds)
+
+      // If conversionDone is still true, hide the message label
+      if (conversionDone)
+      {
+        // Use Invoke to perform UI updates on the UI thread
+        Invoke(new Action(() => HideMessageLabel()));
+
+        // Reset the conversionDone flag
+        conversionDone = false;
+      }
     }
 
     private string ExcludeComments(string code)
@@ -105,7 +132,27 @@ namespace SqlKeywordConverter
         SqlCodeTextBox.Text = sqlCode;
       }
     }
-     
-  }
+
+    private void ShowMessageLabel(string message)
+    {
+      messageLabel.Text = message;
+      messageLabel.Visible = true;
+    }
+
+    private void HideMessageLabel()
+    {
+      messageLabel.Visible = false;
+    }
+
+  //private async void MainForm_Shown(object sender, EventArgs e)
+  //{
+  //  // Optionally, you can set a delay before hiding the message label
+  //  await Task.Delay(3000); // 3000 milliseconds (3 seconds)
+
+  //  // Hide the message label
+  //  HideMessageLabel();
+  //}
+
+}
 
 }
