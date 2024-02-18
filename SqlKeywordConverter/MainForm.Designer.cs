@@ -28,38 +28,52 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.SqlCodeTextBox = new System.Windows.Forms.TextBox();
-      this.ConvertButton = new System.Windows.Forms.Button();
-      this.messageLabel = new System.Windows.Forms.Label();
+      this.TxtSqlCode = new System.Windows.Forms.TextBox();
+      this.BtnConvert = new System.Windows.Forms.Button();
+      this.LblMessagel = new System.Windows.Forms.Label();
+      this.BtnClear = new System.Windows.Forms.Button();
       this.SuspendLayout();
       // 
-      // SqlCodeTextBox
+      // TxtSqlCode
       // 
-      this.SqlCodeTextBox.AllowDrop = true;
-      this.SqlCodeTextBox.Location = new System.Drawing.Point(2, 38);
-      this.SqlCodeTextBox.Multiline = true;
-      this.SqlCodeTextBox.Name = "SqlCodeTextBox";
-      this.SqlCodeTextBox.Size = new System.Drawing.Size(797, 400);
-      this.SqlCodeTextBox.TabIndex = 0;
+      this.TxtSqlCode.AllowDrop = true;
+      this.TxtSqlCode.Location = new System.Drawing.Point(2, 38);
+      this.TxtSqlCode.Multiline = true;
+      this.TxtSqlCode.Name = "TxtSqlCode";
+      this.TxtSqlCode.Size = new System.Drawing.Size(797, 400);
+      this.TxtSqlCode.TabIndex = 0;
       // 
-      // ConvertButton
+      // BtnConvert
       // 
-      this.ConvertButton.Location = new System.Drawing.Point(2, 3);
-      this.ConvertButton.Name = "ConvertButton";
-      this.ConvertButton.Size = new System.Drawing.Size(75, 29);
-      this.ConvertButton.TabIndex = 1;
-      this.ConvertButton.Text = "Convert";
-      this.ConvertButton.UseVisualStyleBackColor = true;
-      this.ConvertButton.Click += new System.EventHandler(this.ConvertButton_Click);
+      this.BtnConvert.Location = new System.Drawing.Point(2, 3);
+      this.BtnConvert.Name = "BtnConvert";
+      this.BtnConvert.Size = new System.Drawing.Size(75, 29);
+      this.BtnConvert.TabIndex = 1;
+      this.BtnConvert.Text = "Convert";
+      this.BtnConvert.UseVisualStyleBackColor = true;
+      this.BtnConvert.Click += new System.EventHandler(this.ConvertButton_Click);
       // 
-      // messageLabel
+      // LblMessagel
       // 
-      this.messageLabel.AutoSize = true;
-      this.messageLabel.Location = new System.Drawing.Point(83, 11);
-      this.messageLabel.Name = "messageLabel";
-      this.messageLabel.Size = new System.Drawing.Size(131, 13);
-      this.messageLabel.TabIndex = 2;
-      this.messageLabel.Text = "CopyToClipboardMessage";
+      this.LblMessagel.AutoSize = true;
+      this.LblMessagel.BackColor = System.Drawing.SystemColors.Info;
+      this.LblMessagel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.LblMessagel.Location = new System.Drawing.Point(83, 11);
+      this.LblMessagel.Name = "LblMessagel";
+      this.LblMessagel.Size = new System.Drawing.Size(121, 13);
+      this.LblMessagel.TabIndex = 2;
+      this.LblMessagel.Text = "Copied to clipboard!";
+      this.LblMessagel.Visible = false;
+      // 
+      // BtnClear
+      // 
+      this.BtnClear.Location = new System.Drawing.Point(726, 4);
+      this.BtnClear.Name = "BtnClear";
+      this.BtnClear.Size = new System.Drawing.Size(73, 28);
+      this.BtnClear.TabIndex = 3;
+      this.BtnClear.Text = "Clear";
+      this.BtnClear.UseVisualStyleBackColor = true;
+      this.BtnClear.Click += new System.EventHandler(this.BtnClear_Click);
       // 
       // MainForm
       // 
@@ -67,9 +81,10 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.AutoSize = true;
       this.ClientSize = new System.Drawing.Size(800, 450);
-      this.Controls.Add(this.messageLabel);
-      this.Controls.Add(this.ConvertButton);
-      this.Controls.Add(this.SqlCodeTextBox);
+      this.Controls.Add(this.BtnClear);
+      this.Controls.Add(this.LblMessagel);
+      this.Controls.Add(this.BtnConvert);
+      this.Controls.Add(this.TxtSqlCode);
       this.Name = "MainForm";
       this.Text = "SqlKeywordConverter";
       this.ResumeLayout(false);
@@ -79,9 +94,10 @@
 
     #endregion
 
-    private System.Windows.Forms.TextBox SqlCodeTextBox;
-    private System.Windows.Forms.Button ConvertButton;
-    private System.Windows.Forms.Label messageLabel;
+    private System.Windows.Forms.TextBox TxtSqlCode;
+    private System.Windows.Forms.Button BtnConvert;
+    private System.Windows.Forms.Label LblMessagel;
+    private System.Windows.Forms.Button BtnClear;
   }
 }
 

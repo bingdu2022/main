@@ -19,16 +19,17 @@ namespace SqlKeywordConverter
     {
       InitializeComponent();
 
-      // Enable drag and drop for the TextBox
-      SqlCodeTextBox.AllowDrop = true;
+      // Enable drag and drop for the TextBox. Below can be configured in Properties UI
+      TxtSqlCode.AllowDrop = true;
 
       // Attach event handlers for drag and drop
-      SqlCodeTextBox.DragEnter += SqlCodeTextBox_DragEnter;
-      SqlCodeTextBox.DragDrop += SqlCodeTextBox_DragDrop;
+      TxtSqlCode.DragEnter += SqlCodeTextBox_DragEnter;
+      TxtSqlCode.DragDrop += SqlCodeTextBox_DragDrop;
 
-      messageLabel.Visible = false;
-      messageLabel.BackColor = Color.Yellow;
-      messageLabel.Font = new System.Drawing.Font(messageLabel.Font, System.Drawing.FontStyle.Bold);
+      // below are configured in Properties UI. If not, can code them below
+      //messageLabel.Visible = false;
+      //messageLabel.BackColor = Color.Yellow;
+      //messageLabel.Font = new System.Drawing.Font(messageLabel.Font, System.Drawing.FontStyle.Bold);
 
       //// Attach the Shown event handler
       //Shown += MainForm_Shown;
@@ -39,7 +40,7 @@ namespace SqlKeywordConverter
     {
       try
       {
-        string sqlCode = SqlCodeTextBox.Text;
+        string sqlCode = TxtSqlCode.Text;
 
         // Exclude comments before converting SQL keywords to uppercase
         sqlCode = ExcludeComments(sqlCode);
@@ -48,7 +49,7 @@ namespace SqlKeywordConverter
         string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN|ON|COALESCE|ABS|AVG|COUNT|MAX|MIN|SUM|ROUND|CEIL|FLOOR|POWER|SQRT|EXP|LOG|LOG10|RAND|RANDN|MOD|CONCAT|LENGTH|SUBSTRING|LEFT|RIGHT|TRIM|LTRIM|RTRIM|LOWER|UPPER|INITCAP|REPLACE|TRANSLATE|TO_NUMBER|TO_CHAR|TO_DATE|NVL|CASE|DECODE|IFNULL|NULLIF|CAST|CONVERT|GETDATE|CURRENT_TIMESTAMP|CURRENT_DATE|CURRENT_TIME|DATEDIFF|DATEADD|YEAR|MONTH|DAY|HOUR|MINUTE|SECOND)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
 
         // Update the textbox with the modified SQL code
-        SqlCodeTextBox.Text = convertedSqlCode;
+        TxtSqlCode.Text = convertedSqlCode;
 
         // Copy the converted text to the clipboard
         Clipboard.SetText(convertedSqlCode);
@@ -79,8 +80,10 @@ namespace SqlKeywordConverter
       }
       catch (Exception ex)
       {
-        // Handle exceptions (e.g., display an error message)
-        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        // Handle exceptions (e.g., display an error message or add error to textbox  )
+        //MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        TxtSqlCode.Text = $"An error occurred: {ex.Message}.\r\n **************\r\n" + TxtSqlCode.Text;
+
       }
     }
 
@@ -138,19 +141,24 @@ namespace SqlKeywordConverter
         string sqlCode = File.ReadAllText(files[0]);
 
         // Update the TextBox
-        SqlCodeTextBox.Text = sqlCode;
+        TxtSqlCode.Text = sqlCode;
       }
     }
 
     private async void ShowAndHideMessageLabel(string message, int howManySeconds)
     {
       // show message
-      messageLabel.Text = message;
-      messageLabel.Visible = true;
+      LblMessagel.Text = message;
+      LblMessagel.Visible = true;
 
       // hide the message label after a certain time
       await Task.Delay(howManySeconds * 1000); 
-      messageLabel.Visible = false;
+      LblMessagel.Visible = false;
+    }
+
+    private void BtnClear_Click(object sender, EventArgs e)
+    {
+      TxtSqlCode.Text = string.Empty;
     }
 
     //private async void MainForm_Shown(object sender, EventArgs e)
