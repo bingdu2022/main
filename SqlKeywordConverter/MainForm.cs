@@ -27,51 +27,60 @@ namespace SqlKeywordConverter
       SqlCodeTextBox.DragDrop += SqlCodeTextBox_DragDrop;
 
       messageLabel.Visible = false;
+      messageLabel.BackColor = Color.Yellow;
+      messageLabel.Font = new System.Drawing.Font(messageLabel.Font, System.Drawing.FontStyle.Bold);
 
       //// Attach the Shown event handler
       //Shown += MainForm_Shown;
 
     }
 
-    private async void ConvertButton_Click(object sender, EventArgs e)
+    private void ConvertButton_Click(object sender, EventArgs e)
     {
-      string sqlCode = SqlCodeTextBox.Text;
-
-      // Exclude comments before converting SQL keywords to uppercase
-      sqlCode = ExcludeComments(sqlCode);
-
-      // Convert SQL keywords to uppercase using a regular expression
-      string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN|ON|COALESCE|ABS|AVG|COUNT|MAX|MIN|SUM|ROUND|CEIL|FLOOR|POWER|SQRT|EXP|LOG|LOG10|RAND|RANDN|MOD|CONCAT|LENGTH|SUBSTRING|LEFT|RIGHT|TRIM|LTRIM|RTRIM|LOWER|UPPER|INITCAP|REPLACE|TRANSLATE|TO_NUMBER|TO_CHAR|TO_DATE|NVL|CASE|DECODE|IFNULL|NULLIF|CAST|CONVERT|GETDATE|CURRENT_TIMESTAMP|CURRENT_DATE|CURRENT_TIME|DATEDIFF|DATEADD|YEAR|MONTH|DAY|HOUR|MINUTE|SECOND)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
-
-      // Update the textbox with the modified SQL code
-      SqlCodeTextBox.Text = convertedSqlCode;
-
-      // Copy the converted text to the clipboard
-      Clipboard.SetText(convertedSqlCode);
-
-      //// Optionally, you can show a message to indicate that the text has been copied
-      //MessageBox.Show("Converted text has been copied to the clipboard.", "Conversion Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-      // Show the message label
-      ShowMessageLabel("Converted text has been copied to the clipboard.");
-
-      // hide the label after a certain delay
-      //System.Threading.Tasks.Task.Delay(3000).ContinueWith(t => HideMessageLabel());
-
-      // Set conversionDone flag to true
-      bool conversionDone = true;
-
-      // Optionally, you can set a delay before hiding the message label
-      await Task.Delay(3000); // 3000 milliseconds (3 seconds)
-
-      // If conversionDone is still true, hide the message label
-      if (conversionDone)
+      try
       {
-        // Use Invoke to perform UI updates on the UI thread
-        Invoke(new Action(() => HideMessageLabel()));
+        string sqlCode = SqlCodeTextBox.Text;
 
-        // Reset the conversionDone flag
-        conversionDone = false;
+        // Exclude comments before converting SQL keywords to uppercase
+        sqlCode = ExcludeComments(sqlCode);
+
+        // Convert SQL keywords to uppercase using a regular expression
+        string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN|ON|COALESCE|ABS|AVG|COUNT|MAX|MIN|SUM|ROUND|CEIL|FLOOR|POWER|SQRT|EXP|LOG|LOG10|RAND|RANDN|MOD|CONCAT|LENGTH|SUBSTRING|LEFT|RIGHT|TRIM|LTRIM|RTRIM|LOWER|UPPER|INITCAP|REPLACE|TRANSLATE|TO_NUMBER|TO_CHAR|TO_DATE|NVL|CASE|DECODE|IFNULL|NULLIF|CAST|CONVERT|GETDATE|CURRENT_TIMESTAMP|CURRENT_DATE|CURRENT_TIME|DATEDIFF|DATEADD|YEAR|MONTH|DAY|HOUR|MINUTE|SECOND)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
+
+        // Update the textbox with the modified SQL code
+        SqlCodeTextBox.Text = convertedSqlCode;
+
+        // Copy the converted text to the clipboard
+        Clipboard.SetText(convertedSqlCode);
+
+        //// Show a message to indicate that the text has been copied by using a popup
+        //MessageBox.Show("Converted text has been copied to the clipboard.", "Conversion Complete", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        // Show the message label
+        ShowAndHideMessageLabel("Copied to the clipboard!",3);
+
+        // the below work too: hide the label after a certain delay
+        //System.Threading.Tasks.Task.Delay(3000).ContinueWith(t => DelayedHideMessageLabel());
+        //private void DelayedHideMessageLabel()
+        //{
+        //  // Use Invoke to perform UI updates on the UI thread
+        //  if (this.InvokeRequired)
+        //  {
+        //    this.Invoke(new Action(DelayedHideMessageLabel));
+        //  }
+        //  else
+        //  {
+        //    // Hide the message label
+        //    messageLabel.Visible = false;
+        //  }
+        //}
+
+
+      }
+      catch (Exception ex)
+      {
+        // Handle exceptions (e.g., display an error message)
+        MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
     }
 
@@ -133,26 +142,26 @@ namespace SqlKeywordConverter
       }
     }
 
-    private void ShowMessageLabel(string message)
+    private async void ShowAndHideMessageLabel(string message, int howManySeconds)
     {
+      // show message
       messageLabel.Text = message;
       messageLabel.Visible = true;
-    }
 
-    private void HideMessageLabel()
-    {
+      // hide the message label after a certain time
+      await Task.Delay(howManySeconds * 1000); 
       messageLabel.Visible = false;
     }
 
-  //private async void MainForm_Shown(object sender, EventArgs e)
-  //{
-  //  // Optionally, you can set a delay before hiding the message label
-  //  await Task.Delay(3000); // 3000 milliseconds (3 seconds)
+    //private async void MainForm_Shown(object sender, EventArgs e)
+    //{
+    //  // Optionally, you can set a delay before hiding the message label
+    //  await Task.Delay(3000); // 3000 milliseconds (3 seconds)
 
-  //  // Hide the message label
-  //  HideMessageLabel();
-  //}
+    //  // Hide the message label
+    //  DelayedHideMessageLabel();
+    //}
 
-}
+  }
 
 }

@@ -57,13 +57,12 @@
       this.messageLabel.AutoSize = true;
       this.messageLabel.Location = new System.Drawing.Point(83, 11);
       this.messageLabel.Name = "messageLabel";
-      this.messageLabel.Size = new System.Drawing.Size(35, 13);
+      this.messageLabel.Size = new System.Drawing.Size(131, 13);
       this.messageLabel.TabIndex = 2;
-      this.messageLabel.Text = "label1";
+      this.messageLabel.Text = "CopyToClipboardMessage";
       // 
       // MainForm
       // 
-      this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.AutoSize = true;
@@ -72,7 +71,7 @@
       this.Controls.Add(this.ConvertButton);
       this.Controls.Add(this.SqlCodeTextBox);
       this.Name = "MainForm";
-      this.Text = "Form1";
+      this.Text = "SqlKeywordConverter";
       this.ResumeLayout(false);
       this.PerformLayout();
 
