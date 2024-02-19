@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace SqlKeywordConverter
 {
@@ -40,13 +41,15 @@ namespace SqlKeywordConverter
     {
       try
       {
-        string sqlCode = TxtSqlCode.Text;
+        string sqlCode = TxtSqlCode.Text;  // it holds multiple lines
 
-        // Exclude comments before converting SQL keywords to uppercase
-        sqlCode = ExcludeComments(sqlCode);
+        // Extract comments before converting SQL keywords to uppercase
+        var comments = ExtractAndReplaceComments(ref sqlCode);
 
-        // Convert SQL keywords to uppercase using a regular expression
+        // Convert SQL keywords to uppercase using a regular expression: find each of them with ignoring case (e.g. Select, selEct) and make it uppercase
         string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN|ON|COALESCE|ABS|AVG|COUNT|MAX|MIN|SUM|ROUND|CEIL|FLOOR|POWER|SQRT|EXP|LOG|LOG10|RAND|RANDN|MOD|CONCAT|LENGTH|SUBSTRING|LEFT|RIGHT|TRIM|LTRIM|RTRIM|LOWER|UPPER|INITCAP|REPLACE|TRANSLATE|TO_NUMBER|TO_CHAR|TO_DATE|NVL|CASE|DECODE|IFNULL|NULLIF|CAST|CONVERT|GETDATE|CURRENT_TIMESTAMP|CURRENT_DATE|CURRENT_TIME|DATEDIFF|DATEADD|YEAR|MONTH|DAY|HOUR|MINUTE|SECOND)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
+
+        convertedSqlCode = ReplaceCommentsBack(convertedSqlCode, comments);
 
         // Update the textbox with the modified SQL code
         TxtSqlCode.Text = convertedSqlCode;
@@ -87,24 +90,49 @@ namespace SqlKeywordConverter
       }
     }
 
-    private string ExcludeComments(string code)
+    private List<string> ExtractAndReplaceComments(ref string sqlCode)
     {
-      // Exclude single-line comments (--)
-      int singleLineCommentIndex = code.IndexOf("--");
-      if (singleLineCommentIndex != -1)
-      {
-        code = code.Substring(0, singleLineCommentIndex);
-      }
+      var comments = new System.Collections.Generic.List<string>();
 
-      // Exclude multiline comments (/* ... */)
-      int multiLineCommentStartIndex = code.IndexOf("/*");
-      int multiLineCommentEndIndex = code.IndexOf("*/");
-      if (multiLineCommentStartIndex != -1 && multiLineCommentEndIndex != -1 && multiLineCommentEndIndex > multiLineCommentStartIndex)
-      {
-        code = code.Remove(multiLineCommentStartIndex, multiLineCommentEndIndex - multiLineCommentStartIndex + 2);
-      }
+      var commentRegex = new Regex(@"--.*?$|/\*(.*?\*/|.*$)", RegexOptions.Singleline | RegexOptions.Multiline);
+      //  --.*?$:
+      //    --: Matches the double hyphen indicating the start of a single-line comment.
+      //    .*?: Matches any character(except for a newline) zero or more times, but as few times as possible (non - greedy).
+      //    $: Asserts position at the end of a line.
+      //  This part matches single-line comments from --to the end of the line.
 
-      return code;
+      //  |: (the first |)
+      //    Acts as a logical OR, allowing the expression to match either -- or /* ... */
+
+      //  /\*(.*?\*/|.*$):
+      //    /\*: Matches the opening of a multi-line comment.
+      //    (.*?\*/|.*$): This is a group that matches either:
+      //      .*?\*/: Any character(including newline) zero or more times, but as few times as possible, followed by the closing of a multi - line comment */.
+      //      .*$: Any character(including newline) zero or more times until the end of the string.
+      //  This part matches multi-line comments enclosed between /* and */, as well as any content until the end of the string if the closing */ is not found.
+
+      //  RegexOptions.Singleline | RegexOptions.Multiline:
+      //    RegexOptions.Singleline: Treats the entire input string as a single line, allowing the.to match newline characters.
+      //    RegexOptions.Multiline: Allows the ^and $ anchors to match the start and end of each line within the input string rather than the start and end of the entire string.
+
+      //  Together, the regular expression captures both single-line and multi-line comments in SQL code, including cases where multi - line comments span multiple lines.
+
+      sqlCode = commentRegex.Replace(sqlCode, match =>  // it has 2 actions: 1. find a match and add it to comments; 2. replace each match with __COMMENT_0, 1 ...
+      {
+        comments.Add(match.Value);
+        return $"__COMMENT_{comments.Count - 1}__";   // replace the first match with __COMMENT_0, the second with __COMMENT_1 ... until the last match
+      });
+
+      return comments;
+    }
+
+    private string ReplaceCommentsBack(string sqlCode, List<string> comments)
+    {
+      for (int i = 0; i < comments.Count; i++)
+      {
+        sqlCode = sqlCode.Replace($"__COMMENT_{i}__", comments[i]);
+      }
+      return sqlCode;
     }
 
     private void SqlCodeTextBox_DragEnter(object sender, DragEventArgs e)
