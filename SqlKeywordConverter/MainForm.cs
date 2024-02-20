@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using static System.Net.WebRequestMethods;
 
 namespace SqlKeywordConverter
 {
@@ -91,7 +92,7 @@ namespace SqlKeywordConverter
 
       }
     }
-
+     
     private List<string> ExtractAndReplaceComments(ref string sqlCode)
     {
       var comments = new System.Collections.Generic.List<string>();
@@ -162,16 +163,32 @@ namespace SqlKeywordConverter
 
     private void SqlCodeTextBox_DragDrop(object sender, DragEventArgs e)
     {
-      // Get the file(s) dropped onto the TextBox
-      string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-      if (files.Length > 0)
+      if (e.Data.GetDataPresent(DataFormats.FileDrop))
       {
-        // Read the content of the first file and set it as the TextBox text
-        string sqlCode = File.ReadAllText(files[0]);
-
-        // Update the TextBox
+        // Get the file(s) dropped onto the TextBox
+        string[] filesOrFolders = (string[])e.Data.GetData(DataFormats.FileDrop);
+        string sqlCode = "";
+        ProcessFilesOrFolders(ref sqlCode, filesOrFolders);
         TxtSqlCode.Text = sqlCode;
+      }
+    }
+
+    private void ProcessFilesOrFolders(ref string sqlCode, string[] filesOrFolders)
+    {
+      foreach (string path in filesOrFolders)
+      {
+        if (System.IO.File.Exists(path))
+        {
+          // Read the content of the first file and set it as the TextBox text
+          sqlCode += $"\r\n--Beginning Of File: {path}--\r\n";
+          sqlCode += System.IO.File.ReadAllText(path);
+          sqlCode += $"\r\n--End Of File: {path}--\r\n";
+        }
+        else if (Directory.Exists(path))
+        {
+          string[] childFilesOrFolders = Directory.GetFileSystemEntries(path);
+          ProcessFilesOrFolders(ref sqlCode, childFilesOrFolders);
+        }
       }
     }
 
