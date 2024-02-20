@@ -11,7 +11,6 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
-using static System.Net.WebRequestMethods;
 
 namespace SqlKeywordConverter
 {
@@ -160,37 +159,45 @@ namespace SqlKeywordConverter
       }
     }
 
-
     private void SqlCodeTextBox_DragDrop(object sender, DragEventArgs e)
     {
       if (e.Data.GetDataPresent(DataFormats.FileDrop))
       {
-        // Get the file(s) dropped onto the TextBox
         string[] filesOrFolders = (string[])e.Data.GetData(DataFormats.FileDrop);
-        string sqlCode = "";
-        ProcessFilesOrFolders(ref sqlCode, filesOrFolders);
-        TxtSqlCode.Text = sqlCode;
+        StringBuilder sqlCodeBuilder = new StringBuilder();
+
+        try
+        {
+          ProcessFilesOrFolders(sqlCodeBuilder, filesOrFolders);
+          TxtSqlCode.Text = sqlCodeBuilder.ToString();
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
       }
     }
 
-    private void ProcessFilesOrFolders(ref string sqlCode, string[] filesOrFolders)
+    private void ProcessFilesOrFolders(StringBuilder sqlCodeBuilder, string[] filesOrFolders)
     {
       foreach (string path in filesOrFolders)
       {
-        if (System.IO.File.Exists(path))
+        if (File.Exists(path))
         {
-          // Read the content of the first file and set it as the TextBox text
-          sqlCode += $"\r\n--Beginning Of File: {path}--\r\n";
-          sqlCode += System.IO.File.ReadAllText(path);
-          sqlCode += $"\r\n--End Of File: {path}--\r\n";
+          // Read the content of the file and append it to the StringBuilder
+          sqlCodeBuilder.AppendLine($"--Beginning Of File: {path}--");
+          sqlCodeBuilder.AppendLine(File.ReadAllText(path));
+          sqlCodeBuilder.AppendLine($"--End Of File: {path}--");
         }
         else if (Directory.Exists(path))
         {
           string[] childFilesOrFolders = Directory.GetFileSystemEntries(path);
-          ProcessFilesOrFolders(ref sqlCode, childFilesOrFolders);
+          ProcessFilesOrFolders(sqlCodeBuilder, childFilesOrFolders); // Recursive call
         }
+        // Optionally handle cases where neither a file nor a directory exists
       }
     }
+
 
     private async void ShowAndHideMessageLabel(string message, int howManySeconds)
     {
