@@ -20,6 +20,8 @@ namespace SqlKeywordConverter
     {
       InitializeComponent();
 
+      // Important: Set AutoSize to false and set AutoSizeMode to GrowOnly (be default)  of the MainForm window:  Drag the edge of a window (winform .net framework) to increase or decrease the size of the window
+
       // Enable drag and drop for the TextBox. Below can be configured in Properties UI
       TxtSqlCode.AllowDrop = true;
 
