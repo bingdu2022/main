@@ -44,7 +44,7 @@
       this.TxtSqlCode.Location = new System.Drawing.Point(2, 38);
       this.TxtSqlCode.Multiline = true;
       this.TxtSqlCode.Name = "TxtSqlCode";
-      this.TxtSqlCode.Size = new System.Drawing.Size(722, 472);
+      this.TxtSqlCode.Size = new System.Drawing.Size(593, 428);
       this.TxtSqlCode.TabIndex = 0;
       // 
       // BtnConvert
@@ -74,7 +74,7 @@
       // 
       this.BtnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
       this.BtnClear.AutoSize = true;
-      this.BtnClear.Location = new System.Drawing.Point(651, 4);
+      this.BtnClear.Location = new System.Drawing.Point(522, 4);
       this.BtnClear.Name = "BtnClear";
       this.BtnClear.Size = new System.Drawing.Size(73, 28);
       this.BtnClear.TabIndex = 3;
@@ -86,11 +86,12 @@
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(725, 522);
+      this.ClientSize = new System.Drawing.Size(596, 478);
       this.Controls.Add(this.BtnClear);
       this.Controls.Add(this.LblMessagel);
       this.Controls.Add(this.BtnConvert);
       this.Controls.Add(this.TxtSqlCode);
+      this.MinimumSize = new System.Drawing.Size(448, 371);
       this.Name = "MainForm";
       this.Text = "SqlKeywordConverter";
       this.ResumeLayout(false);
