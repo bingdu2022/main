@@ -20,6 +20,9 @@
         <span>{{ viewTitle }}</span>
 
       </div>
+      <div class="email">
+        <button id="sendEmailButton">Send Email</button>
+      </div>
       <div class="right">
         <button ng-click="openAllDashboards()" dynamic-tooltip tooltip-content="Click to open a list of dashboards">
           <img src="~/images/Dashboard_explorer_icon.png" alt="pic of openAlldashboard" />
@@ -54,6 +57,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/js/jquery.tooltipster.min.js"></script>
 
+  @*<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>*@
   <script src="~/Widgets/dashboard_widget.cshtml.js"></script>
   <script src="~/Widgets/AllDashboard/alldashboard.widget.js"></script>
   <script src="~/Widgets/EZView/EZView.Widget.js"></script>

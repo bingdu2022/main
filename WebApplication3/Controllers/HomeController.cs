@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication3.Server;
 
 namespace WebApplication3.Controllers
 {
@@ -86,6 +88,22 @@ namespace WebApplication3.Controllers
     {
       ViewBag.Title = "Dashboard-Widget";
       return View();
+    }
+
+    [HttpPost]
+    public async Task<ActionResult> SendEmail()
+    {
+      try
+      {
+        // Your email sending logic using SendGridService
+        await SendGridService.SendEmailAsync3();
+
+        return Json(new { success = true, message = "Email sent successfully" });
+      }
+      catch (Exception ex)
+      {
+        return Json(new { success = false, message = $"Error sending email: {ex.Message}" });
+      }
     }
   }
 }

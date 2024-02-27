@@ -98,6 +98,43 @@ angular.module('myApp', []).controller('dashboardWidgetController', function ($s
     });
   });
 
+  // how to send email by clicking a button: from frontend clicking to backend physically sending an email:
+  // 1. frontend: dashboard_widget.cshtml > creae a button with id="sendEmailButton"
+  // 2. frontend: dashboard_widget.cshtml.js > get the button and add addEventListener having async call as shown below
+  // 3. backend: HomeController.cs >  [HttpPost]
+  //                                  public async Task < ActionResult > SendEmail()
+  // 4. backend: server.cs > SendGridService.SendEmailAsync3()
+
+  document.getElementById('sendEmailButton').addEventListener('click', async () => {
+    try {
+      const response = await fetch('/Home/SendEmail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // Include any data you might need on the server, if necessary
+        }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success) {
+          console.info("Successfully sent the email.");
+        } else {
+          console.error(result.message);
+        }
+
+      } else {
+        console.error('Error sending email request:', await response.text());
+      }
+    } catch (error) {
+      console.error('Error sending email request:', error.message);
+    }
+  });
+
+
+
 });
 
 angular.module('myApp')
