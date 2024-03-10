@@ -105,5 +105,7 @@ namespace WebApplication3.Controllers
         return Json(new { success = false, message = $"Error sending email: {ex.Message}" });
       }
     }
+
+
   }
 }

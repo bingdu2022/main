@@ -20,8 +20,9 @@ namespace WebApplication3.Server
 {
   public class SendGridService
   {
-    private const string SendGridApiKey = "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"; // "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"; //   "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";
+    private string SendGridApiKey = Environment.GetEnvironmentVariable("bd_apikey");
     private const string SendGridApiUrl = "https://api.sendgrid.com/v3/mail/send";
+    private string HotmailPassword = Environment.GetEnvironmentVariable("bd_hotmail_password");
 
     // all the below SendEmailAsync, SendEmailAsync2, SendEmailAsync3 work but the SendEmailAsync3 is the best since it's simple, straightforward and free.
 
@@ -35,7 +36,7 @@ namespace WebApplication3.Server
 
       using (var httpClient = new HttpClient())
       {
-        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {SendGridApiKey}");
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer { new SendGridService().SendGridApiKey}");
 
         var emailData = new
         {
@@ -86,7 +87,7 @@ namespace WebApplication3.Server
 
     public static async Task SendEmailAsync2()
     {
-      // the below of using apikey is not good way since the app stuck in getting the apiKey from the location computer
+      // the below of using apikey may not be a good way since the app stuck in getting the apiKey from the location computer
       //var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY1"); // NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
 
       //foreach (KeyValuePair<string,string> variable in Environment.GetEnvironmentVariables())
@@ -94,7 +95,7 @@ namespace WebApplication3.Server
       //  Console.WriteLine($"{variable.Key}: {variable.Value}");
       //}
 
-      var client = new SendGridClient(SendGridApiKey);
+      var client = new SendGridClient(new SendGridService().SendGridApiKey);
       var from = new EmailAddress("bingduus2023@hotmail.com", "Example User");
       var subject = "Sending with SendGrid is Fun";
       var to = new EmailAddress("bingduus@hotmail.com", "Example User");
@@ -128,11 +129,11 @@ namespace WebApplication3.Server
       string smtpServer = "smtp.office365.com";
       int smtpPort = 587; // Use the appropriate port for your SMTP server
       string smtpUsername = "bingduus@hotmail.com";
-      string smtpPassword = "D197311j";
+      string smtpPassword = new SendGridService().HotmailPassword;
 
       // Set sender and recipient email addresses
-      string senderEmail = "bingduus@hotmail.com";   //"noreply@hotmail.com"; Note that using noreply@hotmail.com can test Error sending email: ...
-      string recipientEmail = "bingduus2023@hotmail.com";
+      string senderEmail = "bingduus@hotmail.com";   //"bingduus@hotmail.com"; Note that using noreply@hotmail.com can test Error sending email: ...
+      string recipientEmail = "bingduus@gmail.com";  // "bingduus2023@hotmail.com"
 
       // Create a MailMessage object
       System.Net.Mail.MailMessage mailMessage = new System.Net.Mail.MailMessage(senderEmail, recipientEmail)
@@ -140,8 +141,8 @@ namespace WebApplication3.Server
         Subject = "Test Email",
         Body = "This is a test email."
       };
-            System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment("path",MediaTypeNames.Application.Zip);
-      mailMessage.Attachments.Add(attachment);
+      //      System.Net.Mail.Attachment attachment = new System.Net.Mail.Attachment("path",MediaTypeNames.Application.Zip);
+      //mailMessage.Attachments.Add(attachment);
 
       // Create a SmtpClient object
       SmtpClient smtpClient = new SmtpClient(smtpServer, smtpPort)

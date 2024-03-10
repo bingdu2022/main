@@ -1,7 +1,7 @@
 // dashboard_widget.js
 
 // Controller for the main dashboard widget
-angular.module('myApp', []).controller('dashboardWidgetController', function ($scope, $document, $timeout) {
+angular.module('myApp', []).controller('dashboardWidgetController', function ($scope, $document, $timeout, $http) {
   // Default view title
   $scope.viewTitle = "dashboard_widget";
   // State variables
@@ -133,7 +133,20 @@ angular.module('myApp', []).controller('dashboardWidgetController', function ($s
     }
   });
 
-
+  $scope.sendEmail = function () {
+    $http.post('/home/sendEmail')
+      .then(function (response) {
+        if (response.success) {
+          console.log('Successfully sent the email.');
+        } else {
+          console.log(response.data);
+          alert(response.data.message);
+        }
+      })
+      .catch(function (error) {
+        console.error(error.data);
+      });
+  };
 
 });
 
