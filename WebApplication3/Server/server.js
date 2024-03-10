@@ -8,7 +8,7 @@ const port = 3000; // Choose a port number
 app.use(bodyParser.json());
 
 app.post('/send-email', async (req, res) => {
-  const sendGridApiKey = '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';
+  let sendGridApiKey = Environment.GetEnvironmentVariable("bd_apikey");
   const sendGridApiUrl = 'https://api.sendgrid.com/v3/mail/send';
 
   const headers = {
