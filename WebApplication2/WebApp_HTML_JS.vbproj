@@ -96,7 +96,7 @@
     <Content Include="Html_CSS.html" />
     <Content Include="index.html" />
     <Content Include="JS\JS_forCSS.js" />
-    <Content Include="JS\youtube.js" />
+    <Content Include="JS\Learning JavaScript.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

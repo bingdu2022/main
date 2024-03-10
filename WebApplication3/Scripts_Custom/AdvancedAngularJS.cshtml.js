@@ -1,7 +1,7 @@
 ﻿
 (function () {
   'use strict';
-  angular.module('myApp', [])
+  angular.module('myApp', [])  // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
 
 
   //Promise API - a part of New NES6 API
@@ -87,10 +87,17 @@
       vm.title = originalTitle + " (" + vm.items.length + " items)";
     };
 
+    vm.items2 = ShoppingListService.getItems2();
+    vm.itemName2 = "";
+    vm.addItem2 = function () {
+      ShoppingListService.addItem2(vm.itemName2); // Try modern promise syntax
+      var currentItems = ShoppingListService.getItems2().length + 1; //+1: because ShoppingListService.addItem mimics 'deferred' or is a promise, here is slow one step
+      vm.title = originalTitle + " (" + currentItems + " items)";  // it's first used by the DDO of the 'Shopping List 3'
+    };
   }; //ShoppingListController end
 
-  ShoppingListService.$inject = ['$q', 'WeightLossFilterService'];
-  function ShoppingListService($q, WeightLossFilterService) {
+  ShoppingListService.$inject = ['$q', 'WeightLossFilterService', '$timeout'];
+  function ShoppingListService($q, WeightLossFilterService, $timeout) {
     var vm = this;
     // List of shopping items
     var items = [];
@@ -157,6 +164,47 @@
       items.splice(itemIndex, 1); //splice: remove 1 item starting from itemIndex position
     }
 
+    // Modern promise API: for http/https call
+    var items2 = [];
+
+    vm.addItem2 = function (name) {
+      fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then(
+          response => response.json()   // Response {type: 'cors', url: 'https://jsonplaceholder.typicode.com/todos/1', redirected: false, status: 200, ok: true, …}
+        )
+        .then(
+          data => {
+            // Process the API response:
+            console.log('API response:', data);  // data = {userId: 1, id: 1, title: 'delectus aut autem', completed: false}
+
+            // the above line ending with; and then
+            // Process other things, e.g. add an item to the items array
+            var item2 = {
+              name: name,
+            };
+            items2.push(item2);
+
+            // Issue: after the above line, < li ng - repeat="item in ctrl.items2" > does not show the item after < button ng - click="ctrl.addItem2();" > Add Item 2</button >
+            //        Note that <li ng-repeat="item in ctrl.items"> in html shows the item right after <button ng-click="ctrl.addItem();">Add Item</button>
+            // Cause: it seems like there might be a timing issue or a missing trigger for updating the view associated with items2. Unlike the addItem method,
+            //        which uses promises and $q.all() to handle asynchronous operations in a controlled way, the addItem2 method relies on the asynchronous nature of the fetch API.
+            // since the fetch API is asynchronous, the view might not be updated immediately after items2.push(item2) because the asynchronous operation might not have completed by the time the view is rendered.
+            // To resolve this, we use Angular's $apply() or $timeout() to ensure that the changes to items2 trigger a digest cycle and update the view
+
+            // Use $timeout to trigger a digest cycle and update the view
+            $timeout(function () {
+              // No need to explicitly pass $scope, as $timeout automatically triggers a digest cycle on the root scope
+            });
+          })
+        .catch(
+          error => console.error('Error fetching data:', error)
+        );
+    }
+
+    vm.getItems2 = function () {
+      return items2;
+    };
+
   }
 
   WeightLossFilterService.$inject = ['$q', '$timeout']; //$timeout - ng function, so you don't have to call $apply or $digest in using js native setTimeOut
@@ -168,7 +216,7 @@
       var deferred = $q.defer(); //set up async environment
 
       var result = {
-        message: ""
+        message: "correct result."
       };
 
       //below $timeout mimics async behavior
@@ -202,6 +250,7 @@
     };
   }
 
+ 
 // Ajax with $http Service
   //Syntax: $http({method: "GET", url: "http://...", params: {param1: "value1"} ... }).then( function success(response){.. // do something with response.data .. }, function error(response){.. //do something with error message ..} );
   //url is required. If no method, default is GET
@@ -241,6 +290,7 @@
       var response = $http({
         method: "GET",
         url: ("/api/Shopping") //(or "https://localhost:44374/api/Shopping") Note 1: () can be removed if just a string. Note 2: ../api/... generates a result of List: [{id:x, name:y, quantity:z}, {...}] from ShoppingController API
+                               // /api/Shopping is created in ..\WebApplication3\Controllers\ShoppingController.cs
       });
       return response;  //response is a promise response, so the caller will use promise.then(...) to handle its result.
     }
@@ -288,7 +338,8 @@
   function ShoppingList() {
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItemWithIsolate.html'  //note can't use /Views/Home/ because customized staff is not allowed to save under it due to security reasons
-      , scope: {ctrl: '=myCtrl', title: '@title', title2: '@title2'}  //DOM attribute value binding @ always results in directive property being a string
+      , scope: { ctrl: '=myCtrl', title: '@title', title2: '@title2' }  //DOM attribute value binding @ always results in directive property being a string
+              // ctrl, title and title2 are the local variables used in templateUrl and mapped to ctrl1 (over my-ctrl), ctrl1.title and ' ShoppingListController.title' in AdvancedAngularJS.cshtml
     };
     return ddo;
   }
@@ -354,8 +405,8 @@
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_controller.html',
       scope: {
-        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
-        title: '@'  // for passing in a string
+        items: '<', // '<': One-way pass-in reference binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // One-way pass-in value binding with a one-time initial value assignment. for passing in a string
       },
 
       controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.
@@ -403,8 +454,8 @@
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_link.html',
       scope: {
-        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
-        title: '@'  // for a passing-in string
+        items: '<', // '<': One-way pass-in reference binding.  (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // One-way value binding with a one-time initial value assignment. for a passing-in string
       },
 
       controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.
@@ -448,7 +499,7 @@
       //the above shows errors instantly and the below shows errors slowlly
 
       //If jQuery included before Angular
-      var warningElem2 = element.find("div.error3");
+      var warningElem2 = element.find("div.error3");   // note element refers to the elements inside templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_link.html'
       warningElem2.slideDown(1900) //900 mini seconds
 
     }
@@ -486,8 +537,8 @@
     var ddo = {
       templateUrl: '/Scripts_Custom/AdvancedAngularJS_InputItem_transclude.html',
       scope: {
-        items: '<', // '<': one way binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
-        title: '@'  // for a passing-in string
+        items: '<', // '<': One-way pass-in reference binding (save resources or run faster) - inside-directive changes won't affect outside items (but not objects which are address-reference type)
+        title: '@'  // One-way value binding with a one-time initial value assignment. for a passing-in string
       },
 
       controller: ShoppingList3DirectiveController,  //this is to declare/register a controller just like doing it under module.

@@ -1,0 +1,10 @@
+﻿/* layout.css */
+
+.container.body-content footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: dimgrey;
+  padding: 2px;
+}

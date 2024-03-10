@@ -29,6 +29,7 @@
                 <li>@Html.ActionLink("Advanced AngularJS", "AdvancedAngularJS", "Home", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("AngularJS Basics", "AngularJS_Basics", "Home", new { area = "" }, null)</li>
                 <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                <li>@Html.ActionLink("Dashboard-Widget", "dashboard_widget", "Home", new { area = "" }, null)</li>
               </ul>
             </div>
         </div>
@@ -37,10 +38,9 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            &copy; @DateTime.Now.Year - My ASP.NET Application
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

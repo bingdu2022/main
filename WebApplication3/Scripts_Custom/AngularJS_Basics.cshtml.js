@@ -5,7 +5,7 @@
 // ..... ListComponentController's $ctrl.$doCheck() acts like an event listener of #1
 // ...2. inserts/renders ListEvent.html into AngularJS_Basics.cshtml by mimicing server calls with promise response.
 // ..... SpinnerController acts like an event listener of #2 and uses $rootScope.$on(.) to listen a message caused by users' operations and shows/hides the spinner occordingly
-// ..... SpinnerController can be called as a common helper or tool of the AngularJS_Basics.cshtml.js 
+// ..... SpinnerController can be called as a common helper or tool of the AngularJS_Basics.cshtml.js
 //                         because its member $rootScope is a global variable and can work with all other components of the entire myApp.
 //                         That's why it's even created in its own module (angular.module('Spinner',[])) in ShoppingModuleComponentsAngularJS.cshtml
 //                However, it seems we just need one module and the module has a tree of components.
@@ -46,7 +46,7 @@
 // ..... var defer = $q.defer();
 // ..... $http.get('options.json').success(function (result) {defer.resolve(result)});
 // ..... return defer.promise;
-//   The right method is:  
+//   The right method is:
 // ..... return $http.get('options.json').then(function (response) {return response.data});
 //   You don’t need defer to change the value of a promise:
 // ..... var defer;
@@ -60,13 +60,13 @@
 
 // ..... AngularJS Deferred & Promises- Basic Understanding: (including callbacks, $.ajax(.) and $http.get(.) or $http(.))
 // ..... https://www.tothenew.com/blog/angularjs-deferred-promises-basic-understanding/
-//       Since $http is an abstraction over $q, it has different callbacks. Instead of .then and .catch, 
+//       Since $http is an abstraction over $q, it has different callbacks. Instead of .then and .catch,
 //       it’s .success and .error and the arguments you get are different.
 
 
 
 // This js is a (function(){...})();, which contains several (instead of one) .components for the purpose of comparisons and learning
-// .. it consists of 
+// .. it consists of
 //....On the client side or front-end:
 // ...1. SinglePage_MainController. It renders <div id="listComponentArea"..>
 // ...2. listComponent with List.html and its ListComponentController. It renders <list-component...> which is part of <div id="listComponentArea"..>
@@ -96,11 +96,25 @@
 //    templateUrl: 'template.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.prop1}} ...
 //    controller: CompController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
 //    bingdings: {
-//      prop1: '<',   //one-way or pass-in prop1, which is assigned in <list-component ... prop1="..."}
-//      prop2: '@x',    // it means prop2 is at the address of x which is assigned in <list-component ... x={{...}}
+//      prop1: '<',    //- Binds the items property to a one-way (input) binding. Changes to items in the parent component will be reflected in this component.
+//      prop2: '@x',     //  Binds the prop2 property of the templateUrl html as a string. It's a one-way binding where the value of x attribute in the parent component is passed as a string. // it means prop2 is at the address of x which is assigned in <list-component ... x={{...}}
 //      onAction: '&'  //reference function: callback to the function of its parent controller after getting/passing-in the parameter of the parent controller, assigned in <list-component ...on-action="...".
 //    }
 //  })
+
+        // Example: use of a .component() and its templateUrl:
+        // component's register (shoppingList) and its bindings MUST be 'instantiated' as in the parent html (ShoppingModuleComponentsAngularJS.cshtml): <list-component items="ctrl.items" title="{{ctrl.title}}" on-remove="ctrl.removeItem(index)"></list-component>
+        // Note that 'angularJS naming convension' asks you write title={{ctrl.title}} for myTitle: '@title'. Otherwise, if you define myOwnTitle: '@title', the parent html must have my-own-title = {{ctrl.title}}
+
+        //  items: '<'
+        //         One-way pass-in reference binding. In the ListComponentController, you would expect to see logic related to handling or manipulating the items data.
+        //         In the template file('/src/shopping/shopping-list.component.html'), you would expect to see how the items are displayed or utilized in the HTML.
+        //  myTitle: '@title'
+        //         One-way pass-in value binding with a one-time initial value assignment. This binding is for the myTitle property.In the ListComponentController, you would find logic related to handling or using the myTitle value.
+        //         In the template file, you would use {{ myTitle }} or similar syntax to display the value in the HTML.
+        //    onRemove: '&'
+        //         This binding is for the onRemove property, which is a callback function. In the ListComponentController, you would define the actual function that gets executed when the onRemove callback is invoked.
+        //         In the template file, you would likely find an element or event that triggers the execution of this callback.
 
 //How to share data between components:
 //Publishing an Event: 1. $scope.$emit - up scope chain; 2. $scope.$broadcast - down scope chain
@@ -114,7 +128,7 @@
 
 (function () {
   'use strict';
-  angular.module('myApp', [])
+  angular.module('myApp', [])  // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
 
     ////////////////////////listComponent register start
     .controller('SinglePage_MainController', SinglePage_MainController)
@@ -136,8 +150,8 @@
       controller: ListComponentController,  //not required or an empty function is auto-provided, and always defaults to an alias of '$ctrl'
       // the below things of bindings belong to ListComponentController
       bindings: {  //below parameters and onActions are bound to ListComponentController (defauled a label of '$ctrl') and bound to templateUrl
-        items: '<',  //one-way or pass-in: ListComponentController uses items which is passed in from <list-component..items=.>
-        myTitle: '@title',  // it's {{$ctrl.myTitle}} of List.html (but it's no where in ListComponentController) and means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}, and is used by {{$ctrl.myTitle}} of List.html
+        items: '<',  //One-way pass-in reference binding: ListComponentController uses items which is passed in from <list-component..items=.>
+        myTitle: '@title',  // One-way pass-in value binding with a one-time initial value assignment. it's {{$ctrl.myTitle}} of List.html (but it's no where in ListComponentController) and means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}, and is used by {{$ctrl.myTitle}} of List.html
         onRemove: '&'  //reference function (with func parameters ? ):  callback to the function of its parent controller 
                        //after getting/passing-in the parameter of the parent controller over <list-component ..on-remove="ctrl.removeItem(index)".. .
                        //and it's used by ng-click="$ctrl.removeItem($index) of List.html, and "$ctrl.removeItem($index)" then calls ListComponentController.removeItem().
@@ -158,7 +172,7 @@
       templateUrl: '/Components/ListEvent.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
       controller: ListEventController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
       bindings: {  //below parameters and onActions belong to ListEventController (defaulted to a label of '$ctrl') and are bound to templateUrl
-        items: '<',  
+        items: '<',  // One-way pass-in reference binding
         myTitle: '@title',  // ListEventController's myTitle is mapped to the address of title which is assigned in <list-event ... title={{xxx}}
         onRemove: '&'  // reference function:  callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
       }
@@ -264,7 +278,7 @@
         var item = { name: itemName, quantity: quantity };
         items.push(item);
       } else {
-        throw new Error("Max items (" + maxItems + ") reached!");
+        throw new Error("Max items (" + maxItems + ") reached!");  // Console: Error: Max items (3) reached!
       }
     };
 
@@ -324,7 +338,8 @@
     })
 
     // As comparison, $scope.$on will be auto-deregitered after the view or method of using it is closed.
-    // But here, we MUST deregister $rootScope.$on(.) after using it so that we won't have memory leak  
+    // But here, we MUST deregister $rootScope.$on(.) after using it so that we won't have memory leak
+    // when the below is executed: when the js-associated html, templateUrl: '/Components/spinner.html', is closed.
     $ctrl.$onDestroy = function () {
       cancelListener();
     }

@@ -10,7 +10,7 @@
   'use strict';
 
     ////below works but commented out - search //Multi-Dependencies of the sln. to see reasons
-  //angular.module('shopping', []); // an independent module
+  //angular.module('shopping', []); // an independent module  // angular.modeul takes 2 args to CREATE a module. If the secodng arg ', []' is omitted, the angular.module('myApp') retrieves or uses the previously created module.
 
   angular.module('myApp', ['Spinner']); // 1. registers an 'myApp' module: 'myApp' which is used in the MVC main web page: _Layout.cshtml ; 2. 'myApp' module depends on 'Spinner' module
 })();   //the last () is to invoke (function(){...}) 

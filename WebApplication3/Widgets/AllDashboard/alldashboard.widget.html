@@ -1,0 +1,48 @@
+﻿<!-- allsahboard.widget.html -->
+<!--
+  This table displays dashboard options with the following interactions:
+  - ng-mouseenter: Triggered when the mouse enters a dashboard row, highlighting the row.
+  - ng-mouseleave: Triggered when the mouse leaves a dashboard row, resetting the row's color.
+  - ng-click: Triggered when a dashboard row is clicked, executing the selectDashboard function.
+  - ng-class: Applies the 'selected' class to the row if it is currently selected.
+-->
+<!--Note  that `ng-mouseenter` and `ng-mouseover` are similar, and `ng-mouseleave` and `ng-mouseout` are also similar. However, there is a subtle difference between them:
+- `ng-mouseenter`: This directive triggers an event when the mouse enters an element.
+- `ng-mouseover`: This directive triggers an event when the mouse enters an element or any of its descendants. It continues to trigger the event as long as the mouse is over the element or its descendants.
+Similarly:
+- `ng-mouseleave`: This directive triggers an event when the mouse leaves an element.
+- `ng-mouseout`: This directive triggers an event when the mouse leaves an element or any of its descendants. It continues to trigger the event as long as the mouse is outside the element and its descendants.
+So, `ng-mouseover` and `ng-mouseout` are broader in scope, including events for descendants, while `ng-mouseenter` and `ng-mouseleave` are specific to the element itself.
+-->
+
+<div class="dashboard-grid" ng-controller="allDashboardWidgetController">
+  <table>
+    <!-- Table headers -->
+    <thead dynamic-tooltip tooltip-content="I am in table header row">
+      <tr>
+        <th>Icon</th>
+        <th>Object Name</th>
+        <th>Attributes</th>
+        <th>Remark</th>
+      </tr>
+    </thead>
+    <!-- Table rows (dashboard options) -->
+    <tbody>
+      <!-- Use consistent event handler naming -->
+      <tr ng-repeat="dashboard in dashboardOptions"
+          ng-mouseenter="mouseOnDashboard(dashboard)"
+          ng-mouseleave="mouseOffDashboard()"
+          ng-click="selectDashboard(dashboard)"
+          ng-class="{ 'selected': dashboard.isSelected }">
+        <td>{{ dashboard.icon }}</td>
+        <td>{{ dashboard.objectName }}</td>
+        <td>Attributes for {{ dashboard.objectName }}</td>
+        <td>Remark for {{ dashboard.objectName }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="bind-d" dynamic-tooltip tooltip-content="the tooltip of 'I am in table header row'">
+  <p>I am not a table here.</p>
+</div>

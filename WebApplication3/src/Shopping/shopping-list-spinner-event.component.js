@@ -9,8 +9,8 @@
       templateUrl: '/src/shopping/shopping-list-spinner-event.component.html', // may have ng-click="$ctrl.onAction({myArg:'val'})", {{$ctrl.items}} ...
       controller: shoppingListSpinnerController,  //not required. Empty function auto-provided and placed on scope with label '$ctrl'
       bindings: {  //below parameters and onActions are bound to ListComponentController (defauled a label of '$ctrl') and bound to templateUrl
-        items: '<',  //one-way or pass-in
-        myTitle: '@title',  // it means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}
+        items: '<',  // One-way pass-in reference binding
+        myTitle: '@title',  // One-way value binding with a one-time initial value assignment. it means myTitle is at the address of title which is assigned in <list-component ... title={{xxx}}
         onRemove: '&'  //reference function (with func parameters ? ):  callback to the function of its parent controller after getting/passing-in the parameter of the parent controller.
       }
     })
