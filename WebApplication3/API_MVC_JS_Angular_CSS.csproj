@@ -162,6 +162,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AngularJSController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ShoppingController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -173,6 +174,8 @@
     <Compile Include="Server\Server.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AngularJSTemplateUrl\angular-js-stylesheet1.css" />
+    <Content Include="AngularJSTemplateUrl\dialog.template.html" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Components\ListEvent.html" />
     <Content Include="Components\List.html" />
@@ -1071,6 +1074,7 @@
     <Content Include="src\JS_DynamicViews\view100s-json-data-on-server.json" />
     <Content Include="src\JS_DynamicViews\view200s-json-data-on-server.json" />
     <Content Include="Views\Home\AngularJS_Basics.cshtml" />
+    <Content Include="Views\AngularJS\MdDialog.cshtml" />
     <None Include="Views\Home\dashboard_widget.cshtml" />
   </ItemGroup>
   <ItemGroup>

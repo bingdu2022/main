@@ -1,0 +1,11 @@
+﻿.custom-mdbutton {
+  margin-top: 50px; /* Adjust the padding value as needed */
+  font-size: 10px; /* Adjust the font size as needed */
+  padding: 0px 2px; /* Adjust the padding as needed */
+}
+
+.md-toolbar-tools {
+  font-size: 12px;
+  /*height: 20px;*/
+}
+

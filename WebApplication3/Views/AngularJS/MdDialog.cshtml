@@ -1,0 +1,53 @@
+﻿
+<head>
+  <meta charset="UTF-8">
+  <title>Dialog Example</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.12/angular-material.min.css">
+  <link rel="stylesheet" href="~/AngularJSTemplateUrl/angular-js-stylesheet1.css" />
+</head>
+
+<div ng-controller="MyController">
+
+  <md-content layout-padding>
+    <md-button class="md-raised md-primary custom-mdbutton" ng-click="showDialog($event)">Open Dialog</md-button>
+  </md-content>
+</div>
+
+@section scripts {
+  <!-- Angular Material Dependencies -->
+  <script src="~/Scripts/angular.min.js"></script>
+  <script src="~/Scripts/angular-animate.min.js"></script>
+  <script src="~/Scripts/angular-aria.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.1.12/angular-material.min.js"></script>
+
+  <!-- Angular Application and Controller -->
+  <script>
+    angular.module('myApp', ['ngMaterial'])
+      .controller('MyController', function ($scope, $mdDialog) {
+
+        $scope.showDialog = function (ev) {
+          var dialogOptions = {
+            controller: DialogController,
+            templateUrl: '/AngularJSTemplateUrl/dialog.template.html',
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true,
+            fullscreen: false // Only for -xs, -sm breakpoints.
+          };
+
+          $mdDialog.show(dialogOptions)
+            .then(function (answer) {
+              // Do something with the answer
+            }, function () {
+              // Dialog was cancelled
+            });
+        };
+
+        function DialogController($scope, $mdDialog) {
+          $scope.closeDialog = function () {
+            $mdDialog.cancel();
+          };
+        }
+      });
+  </script>
+  }
