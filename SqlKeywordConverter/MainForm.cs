@@ -11,6 +11,12 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using System.Data.SqlTypes;
+using System.Reflection.Emit;
+using System.Reflection;
+using System.Security.Cryptography;
 
 namespace SqlKeywordConverter
 {
@@ -49,7 +55,7 @@ namespace SqlKeywordConverter
         var comments = ExtractAndReplaceComments(ref sqlCode);
 
         // Convert SQL keywords to uppercase using a regular expression: find each of them with ignoring case (e.g. Select, selEct) and make it uppercase
-        string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|FROM|WHERE|AND|OR|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN|ON|COALESCE|ABS|AVG|COUNT|MAX|MIN|SUM|ROUND|CEIL|FLOOR|POWER|SQRT|EXP|LOG|LOG10|RAND|RANDN|MOD|CONCAT|LENGTH|SUBSTRING|LEFT|RIGHT|TRIM|LTRIM|RTRIM|LOWER|UPPER|INITCAP|REPLACE|TRANSLATE|TO_NUMBER|TO_CHAR|TO_DATE|NVL|CASE|DECODE|IFNULL|NULLIF|CAST|CONVERT|GETDATE|CURRENT_TIMESTAMP|CURRENT_DATE|CURRENT_TIME|DATEDIFF|DATEADD|YEAR|MONTH|DAY|HOUR|MINUTE|SECOND)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
+        string convertedSqlCode = Regex.Replace(sqlCode, @"\b(SELECT|DISTINCT|TOP|FROM|WHERE|AND|OR|AS|WHEN|THEN|ELSE|END|INNER|PIVOT|INSERT|UPDATE|DELETE|CREATE|TABLE|INDEX|ALTER|DROP|JOIN|ON|CONCAT_WS|LEN|COALESCE|ABS|AVG|COUNT|MAX|MIN|SUM|ROUND|CEIL|FLOOR|POWER|SQRT|EXP|LOG|LOG10|RAND|RANDN|MOD|CONCAT|LENGTH|SUBSTRING|LEFT|RIGHT|TRIM|LTRIM|RTRIM|LOWER|UPPER|INITCAP|REPLACE|TRANSLATE|TO_NUMBER|TO_CHAR|TO_DATE|NVL|CASE|DECODE|IFNULL|NULLIF|CAST|CONVERT|GETDATE|CURRENT_TIMESTAMP|CURRENT_DATE|CURRENT_TIME|DATEDIFF|DATEADD|YEAR|MONTH|DAY|HOUR|MINUTE|SECOND|GROUP BY|HAVING|DISTINCTROW|EXISTS|NOT EXISTS|UNION|INTERSECT|EXCEPT|ORDER BY|ASC|DESC|FETCH|OFFSET|LIMIT|INTO)\b", match => match.Value.ToUpper(), RegexOptions.IgnoreCase);
 
         convertedSqlCode = ReplaceCommentsBack(convertedSqlCode, comments);
 
@@ -88,10 +94,8 @@ namespace SqlKeywordConverter
         // Handle exceptions (e.g., display an error message or add error to textbox  )
         //MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         TxtSqlCode.Text = $"An error occurred: {ex.Message}.\r\n **************\r\n" + TxtSqlCode.Text;
-
       }
     }
-     
     private List<string> ExtractAndReplaceComments(ref string sqlCode)
     {
       var comments = new System.Collections.Generic.List<string>();
