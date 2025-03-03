@@ -1,0 +1,260 @@
+WITH t0 as ( 
+select facility_id, facility_code 
+from dt_facility 
+where (facility_id = (select top 1 facility_id from dt_sample where ebatch = cast(26508165 as int))
+or facility_id = (select top 1 facility_id from dt_result where ebatch = cast(26508165 as int))
+)
+)
+,t1 AS (
+    SELECT
+		t0.facility_code,
+        dt_sample.facility_id,
+        dt_sample.sample_id,
+        dt_sample.sys_loc_code,
+        dt_sample.sys_sample_code,
+		sample_type_code,
+		sample_date,
+		parent_sample_code,
+		dt_sample.custom_field_1 [dt_sample.custom_field_1],
+		dt_sample.remark Comments,
+        dt_sample.ebatch AS se,
+        dt_test.ebatch AS te,
+		dt_test.test_id,
+		dt_test.analytic_method,
+		dt_test.custom_field_1 [dt_test.custom_field_1],
+ 		dt_test.analysis_date,
+        dt_result.ebatch AS re,
+        dt_result.cas_rn,
+        dt_result.detect_flag,
+		reporting_detection_limit,
+		detection_limit_unit,
+		dt_result.remark ResultComments,
+		counting_error,
+		result_text,
+		result_unit,
+		approval_code
+
+    FROM 
+        t0
+    INNER JOIN 
+        dt_sample ON t0.facility_id = dt_sample.facility_id
+    LEFT JOIN 
+        dt_test ON dt_sample.facility_id = dt_test.facility_id 
+                 AND dt_sample.sample_id = dt_test.sample_id
+    LEFT JOIN 
+        dt_result ON dt_test.facility_id = dt_result.facility_id 
+                    AND dt_test.test_id = dt_result.test_id
+
+	-- other joins
+
+    WHERE
+		sample_date >= @start_date
+		AND sample_date < DATEADD(DAY, 1, @end_date)
+		AND dt_sample.facility_id IS NOT NULL
+		AND 
+        --1. we always have dt_sample.ebatch = dt_result.ebatch if dt_sample/test/result are populated.
+        --2. If dt_sdwis_lab_sample.free_chlorine_residual Is populated, it means dt_sample Is populated but dt_test/result are Not populated.
+        --we want to make sure the d19863-appended new (or fixed) DT_TEST/DT_RESULT are not in the old samples
+       --{Scenario 1} ( DT_SAMPLE.EBATCH = 26508165 AND (DT_RESULT.EBATCH = 26508165 OR DT_TEST.EBATCH is null) )
+	       
+        --June 8 2022: d19863: dt_result.ebatch may not be the same to dt_sample.ebatch. When this happens, it has its own reporting rule.
+       (DT_RESULT.EBATCH = 26508165 AND DT_SAMPLE.EBATCH <> 26508165)
+
+      --{Scenario 3} (DT_SAMPLE.EBATCH = 26508165)
+
+  --{dynamic filters}
+
+)
+
+,t2 as (
+select t1.*
+,edd_file 
+,edd_date
+,cas_rn_var
+
+from t1      
+INNER JOIN 
+    st_edd_batch ON t1.se = st_edd_batch.ebatch
+    INNER JOIN 
+rt_analyte_var ON var_system = 'sdwis_Analyte_Code' 
+                         AND t1.cas_rn = rt_analyte_var.cas_rn
+)
+
+SELECT 
+--Submission:
+-- Submission_Id, --auto fill
+EDD_DATE submissionFileCreatedDate
+,edd_file submissionFileName
+,se submissionID   
+
+--LabReport:
+--,LabReport_Id      --make it = Submission_Id 
+--,Submission_Id     --match
+
+--LabIdentification:
+--,LabIdentification_Id     --make it = LabReport_Id
+--,LabReport_Id     --match
+
+--LabAccreditation:
+,laboratory_certification_id LabAccreditationIdentifier
+,'STATE' LabAccreditationAuthorityName
+--,LabIdentification_Id      --match
+--,LabAnalysisIdentification_Id       --match
+
+--Sample:
+--,RecordID      --auto fill, .AutoIncrement = True is added by equis	
+,t2.Sample_Id  -- mapped to dt_sample.sample_id
+--,LabReport_Id     --match
+
+--SampleIdentification:
+,lab_sample_num LabSampleIdentifier	
+,facility_code PWSIdentifier	
+,wsf_state_asgn_id PWSFacilityIdentifier	
+,case when (analyte_code = '1022' or analyte_code= '1030') AND sampling_point = 'LCR' then 'PB'
+      when analyte_code='Total Coliform' then 'TC'
+	  else 'GE' end
+	  SampleRuleCode	
+,sample_type_code SampleMonitoringTypeCode	
+--,'?' SampleCollectionTypeCode	-- see in the last query table
+,case when sample_type_code in ('FB','SP') then 'N' else 'Y' end ComplianceSampleIndicator	
+--,sampleidentification_id SampleIdentification_Id	--auto fill
+,format(sample_date,'yyyy-MM-dd') SampleCollectionEndDate	
+,format(sample_date,'HH:mm:ss') SampleCollectionEndTime	
+
+,case when COMPOSITE_YN = 'Y' then lab_composite_number else null end LabSampleCompositeNumber  
+,case when COMPOSITE_YN = 'Y' then format(composite_date,'yyyy-MM-dd') else null end LabSampleCompositeDate  
+--for sorting
+,composite_desc
+,PARENT_SAMPLE_CODE -- for excluding children results from SampleAnalysisResults 
+
+,format(lab_receipt_date,'yyyy-MM-dd') SampleLaboratoryReceiptDate	
+--,Sample_Id  -- match
+
+--SampleLocationIdentification:
+,sampling_point SampleLocationIdentifier	
+,[dt_sample.custom_field_1] SampleLocationCollectionAddress	--dt_sample.custom_field_1
+--,Sample_Id  -- match
+
+--SampleCollector:
+,collector_name IndividualFullName	
+--,SampleIdentification_Id  -- match
+
+--SampleComments:
+ ,Comments
+ ,ResultComments
+
+--,SampleIdentification_Id  -- match
+
+--SpecializedMeasurement: the report will process MeasurementValue,MeasurementUnit,MeasurementSignificantDigit,SpecializedMeasurementTypeCode,SampleIdentification_Id
+--obsolete,report_result_value  MeasurementValue	--original mapping: result_numeric :  --see it in --Result: 
+--obsolete,report_result_unit  MeasurementUnit	--original mapping: result_unit  --see it in --Result:
+--obsolete,equisignificant_figures_get(report_result_text) MeasurementSignificantDigit   --see it in --Result:
+--3. The section where Water_Temperature that currently pulls from the dt_sample/dt_test/dt_result tables should be commented out.
+--obsolete ... SpecializedMeasurementTypeCode
+,free_chlorine_residual 'FreeChlorineResidual'
+,total_chlorine_residual 'TotalChlorineResidual'
+,case when CHARINDEX('.', free_chlorine_residual)>0 then len(free_chlorine_residual)- CHARINDEX('.', free_chlorine_residual) else 0 end FreeChlorineResidual_s
+,case when CHARINDEX('.', total_chlorine_residual)>0 then len(total_chlorine_residual)- CHARINDEX('.', total_chlorine_residual) else 0 end TotalChlorineResidual_s
+--,SampleIdentification_Id  -- match
+
+--SampleAnalysisResults:
+,cast(t2.facility_id as varchar) + t2.sys_sample_code + cast(t2.test_id as varchar) + t2.cas_rn id
+,dt_sdwis_lab_result.record_id RecordID    --TODO: If empty, increment automatically from 1 and carry through from sample-test-result
+--,r.lab_sample_number LabSampleIdentifier: FK of lab_sample_num 
+--,ar.facility_code PWSIdentifier
+--,dt_sample.sample_date (date only) yyyy-MM-dd SampleCollectionEndDate   --the same to that of SampleIdentification
+--,SampleAnalysisResults_Id      --auto fill
+--,LabReport_Id     --match
+
+--SampleAnalyticalMethod:
+,t2.analytic_method MethodIdentifier
+--,LabAnalysisIdentification_Id     --match
+
+--LabAnalysisIdentification:
+--,LabAnalysisIdentification_Id     --auto fill
+,format(try_cast(analysis_date as datetime),'yyyy-MM-dd') AnalysisStartDate
+,format(try_cast(analysis_date as datetime),'HH:mm:ss') AnalysisStartTime
+,format(try_cast([dt_test.custom_field_1] as datetime) ,'yyyy-MM-dd')  AnalysisEndDate
+,format(try_cast([dt_test.custom_field_1] as datetime),'HH:mm:ss') AnalysisEndTime
+--,SampleAnalysisResults_Id      --match
+
+--AnalyteIdentification:
+,cas_rn_var AnalyteCode
+--,SampleAnalysisResults_Id      --match
+
+--DetectionLimit:
+,case when detect_flag ='LessThan' or rt_remap_detail.external_value='Y'  then 'Y' else 'N' end MeasurementQualifier
+--,reporting_detection_limit reporting_detection_limit -- need to report it for both detect and non-detect, also see it in --Result:
+--,detection_limit_unit  -- for MeasurementUnit     --see it in --Result:
+--,equisignificant_figures_get(reporting_detection_limit) MeasurementSignificantDigit  --see it in --Result:
+--,AnalysisResult_Id      --match
+
+--AnalysisResult:
+,case when (not param_code is null and reporting_detection_limit is not null) or reporting_detection_limit is not null then 'MRL' else '' end DetectionLimitTypeCode
+--, active_date, termination_date  --todo
+
+--,AnalysisResult_Id        -- auto fill
+--,SampleAnalysisResults_Id      --match
+,counting_error RadiologicalResultCountError
+
+--Result: 
+,case 
+      when free_chlorine_residual is not null or total_chlorine_residual is not null then 's' 
+      when detect_flag ='LessThan' or external_value='Y' then 'd' 
+      else 'r' end rds_filter   --for differing MeasurementValue in Result (r), DetectionLimit (nd) and SpecializedMeasurement (s)
+
+,result_text MeasurementValue  --for MeasurementValue of detect
+,result_unit MeasurementUnit    -- for MeasurementUnit of detect
+,case when result_text is null then null when CHARINDEX('.', result_text)>0 then len(result_text)- CHARINDEX('.', result_text) else 0 end  MeasurementSignificantDigit   -- for MeasurementUnit of detect
+
+,reporting_detection_limit MeasurementValue_nd  --for MeasurementValue of non-detect
+,detection_limit_unit MeasurementUnit_nd    -- for MeasurementUnit of non-detect
+,case when reporting_detection_limit is null then null when CHARINDEX('.', reporting_detection_limit)>0 then len(reporting_detection_limit)- CHARINDEX('.', reporting_detection_limit) else 0 end MeasurementSignificantDigit_nd  -- for MeasurementUnit of non-detect
+
+--,AnalysisResult_Id      --match
+
+--QAQCSummary:
+,'A' DataQualityCode
+,'' DataQualityRejectCode
+,case when approval_code = 'RL_to_MCL' then 't' else null end as flagCheck
+--,SampleAnalysisResults_Id      --match
+
+--SubmissionCertification:
+--This section can be left blank. Client's LTS system will populate this automatically after the file is submitted.
+
+,approval_code  --If dt_result.approval_code = RL_to_MCL, then EXCLUDE all the data associated with that sample, from the XML.
+
+,case when (analyte_code = '1022' or analyte_code= '1030') AND sampling_point = 'LCR' then 'FSD'
+	  else null end
+	  SampleCollectionTypeCode
+
+FROM 
+    t2
+LEFT JOIN 
+    dt_field_sample ON t2.facility_id = dt_field_sample.facility_id 
+                      AND t2.sample_id = dt_field_sample.sample_id
+LEFT JOIN 
+    rt_remap_detail ON remap_code LIKE '%sdwis%' 
+                      AND external_field = 'Less_Than_Indicator' 
+                      AND internal_value = t2.detect_flag
+LEFT JOIN 
+    dt_sdwis_lab_sample ON t2.facility_id = dt_sdwis_lab_sample.facility_id 
+                      AND dt_sdwis_lab_sample.sys_loc_code = t2.sys_loc_code 
+                      AND dt_sdwis_lab_sample.sys_sample_code = t2.sys_sample_code
+LEFT JOIN 
+    dt_sdwis_lab_result ON dt_sdwis_lab_sample.facility_id = dt_sdwis_lab_result.facility_id 
+                      AND dt_sdwis_lab_sample.sys_sample_code = dt_sdwis_lab_result.sys_sample_code 
+                      AND dt_sdwis_lab_sample.lab_sample_num = dt_sdwis_lab_result.lab_sample_number
+                      AND dt_sdwis_lab_result.analyte_code = cas_rn_var
+LEFT JOIN 
+	dt_sdwis_water_system ON dt_sdwis_water_system.equis_facility_id = t2.facility_id 
+						               AND dt_sdwis_water_system.equis_sys_loc_code = t2.sys_loc_code
+LEFT JOIN 
+    dt_action_level_parameter ON cas_rn_var = dt_action_level_parameter.param_code 
+                                   AND action_level_code = 'CA_ReportingLevel_Exception'
+where 
+		 (
+			(t2.cas_rn is not null) 
+			or
+			(free_chlorine_residual is not null or total_chlorine_residual is not null)
+			 )
